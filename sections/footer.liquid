@@ -1,0 +1,96 @@
+{%- liquid
+  assign anchor_prefix = routes.root_url
+  if template.name == 'index' or template.name == 'product'
+    assign anchor_prefix = ''
+  endif
+  assign menu_shop = section.settings.menu_shop
+  assign menu_help = section.settings.menu_help
+-%}
+<footer class="footer on-dark">
+  <div class="container">
+    <div class="footer__top">
+      <div class="footer__brand">
+        <a href="{{ routes.root_url }}" class="wordmark" style="text-decoration:none">{{ settings.wordmark | default: shop.name }}<span class="wordmark__dot">.</span></a>
+        {%- if section.settings.blurb != blank -%}<p>{{ section.settings.blurb }}</p>{%- endif -%}
+      </div>
+
+      <nav aria-labelledby="FooterShop">
+        <h2 class="footer__title" id="FooterShop">{{ section.settings.title_shop }}</h2>
+        <ul class="footer__links" role="list">
+          {%- if menu_shop != blank and menu_shop.links.size > 0 -%}
+            {%- for link in menu_shop.links -%}<li><a href="{{ link.url }}">{{ link.title }}</a></li>{%- endfor -%}
+          {%- else -%}
+            <li><a href="{{ anchor_prefix }}#comprar">{{ 'footer.buy' | t }}</a></li>
+            <li><a href="{{ anchor_prefix }}#beneficios">{{ 'header.nav_benefits' | t }}</a></li>
+            <li><a href="{{ anchor_prefix }}#como-funciona">{{ 'header.nav_how' | t }}</a></li>
+            <li><a href="{{ anchor_prefix }}#faq">{{ 'header.nav_faq' | t }}</a></li>
+          {%- endif -%}
+        </ul>
+      </nav>
+
+      <nav aria-labelledby="FooterHelp">
+        <h2 class="footer__title" id="FooterHelp">{{ section.settings.title_help }}</h2>
+        <ul class="footer__links" role="list">
+          {%- if menu_help != blank and menu_help.links.size > 0 -%}
+            {%- for link in menu_help.links -%}<li><a href="{{ link.url }}">{{ link.title }}</a></li>{%- endfor -%}
+          {%- else -%}
+            <li><a href="{{ shop.shipping_policy.url | default: '/policies/shipping-policy' }}">{{ 'footer.shipping' | t }}</a></li>
+            <li><a href="{{ shop.refund_policy.url | default: '/policies/refund-policy' }}">{{ 'footer.returns' | t }}</a></li>
+            <li><a href="{{ anchor_prefix }}#faq">{{ 'header.nav_faq' | t }}</a></li>
+            <li><a href="{{ routes.account_url }}">{{ 'footer.account' | t }}</a></li>
+          {%- endif -%}
+        </ul>
+      </nav>
+
+      <div>
+        <h2 class="footer__title">{{ section.settings.title_contact }}</h2>
+        <ul class="footer__links" role="list">
+          {%- if settings.contact_email != blank -%}
+            <li><a href="mailto:{{ settings.contact_email }}">{{ settings.contact_email }}</a></li>
+          {%- else -%}
+            <li><span class="placeholder-note">[Email de contacto]</span></li>
+          {%- endif -%}
+          {%- if section.settings.hours != blank -%}<li>{{ section.settings.hours }}</li>{%- endif -%}
+          {%- if settings.social_instagram != blank -%}<li><a href="{{ settings.social_instagram }}" rel="noopener" target="_blank">Instagram</a></li>{%- endif -%}
+          {%- if settings.social_tiktok != blank -%}<li><a href="{{ settings.social_tiktok }}" rel="noopener" target="_blank">TikTok</a></li>{%- endif -%}
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer__bottom">
+      <p>&copy; {{ 'now' | date: '%Y' }} {{ shop.name }}</p>
+      <ul class="footer__links" role="list" style="display:flex;flex-wrap:wrap;gap:8px 20px">
+        {%- if shop.policies.size > 0 -%}
+          {%- for policy in shop.policies -%}<li><a href="{{ policy.url }}">{{ policy.title }}</a></li>{%- endfor -%}
+        {%- else -%}
+          <li><a href="/policies/privacy-policy">{{ 'footer.privacy' | t }}</a></li>
+          <li><a href="/policies/terms-of-service">{{ 'footer.terms' | t }}</a></li>
+          <li><a href="/policies/legal-notice">{{ 'footer.legal' | t }}</a></li>
+        {%- endif -%}
+        <li><a href="{{ section.settings.cookies_url | default: '/pages/politica-de-cookies' }}">{{ 'footer.cookies' | t }}</a></li>
+      </ul>
+      {%- if shop.enabled_payment_types.size > 0 -%}
+        <ul class="payment-icons" role="list" aria-label="{{ 'general.payment_methods' | t }}">
+          {%- for type in shop.enabled_payment_types -%}<li>{{ type | payment_type_svg_tag }}</li>{%- endfor -%}
+        </ul>
+      {%- endif -%}
+    </div>
+  </div>
+</footer>
+
+{% schema %}
+{
+  "name": "Pie de página",
+  "tag": "div",
+  "settings": [
+    { "type": "textarea", "id": "blurb", "label": "Descripción de marca", "default": "Herramientas de peinado sin cables, pensadas para tu día a día." },
+    { "type": "text", "id": "title_shop", "label": "Título columna 1", "default": "Tienda" },
+    { "type": "link_list", "id": "menu_shop", "label": "Menú columna 1" },
+    { "type": "text", "id": "title_help", "label": "Título columna 2", "default": "Ayuda" },
+    { "type": "link_list", "id": "menu_help", "label": "Menú columna 2" },
+    { "type": "text", "id": "title_contact", "label": "Título columna 3", "default": "Contacto" },
+    { "type": "text", "id": "hours", "label": "Horario de atención", "info": "Ej.: L-V · 9:00-18:00" },
+    { "type": "url", "id": "cookies_url", "label": "Enlace a política de cookies", "info": "Crea una página «Política de cookies» y enlázala aquí." }
+  ]
+}
+{% endschema %}

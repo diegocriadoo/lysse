@@ -1,0 +1,276 @@
+{%- comment -%}
+  Carrusel de vídeos (UGC / en acción).
+  - Móvil: un vídeo por pantalla; el siguiente asoma por el borde y hay puntos debajo para que se vea que hay más.
+  - Escritorio: hasta 3 a la vez; si hay más, flechas para avanzar.
+  - Los vídeos se reproducen en silencio y solo cuando están a la vista; botón para activar el sonido.
+  - Solo se muestra a los clientes cuando hay al menos un vídeo subido.
+  Estilos y script incluidos aquí para no depender del CSS global.
+{%- endcomment -%}
+{%- liquid
+  assign videos = section.blocks | where: 'type', 'video'
+  assign ready = false
+  for b in videos
+    if b.settings.video != blank
+      assign ready = true
+    endif
+  endfor
+  case section.settings.format
+    when 'portrait'
+      assign ratio = '4 / 5'
+    when 'square'
+      assign ratio = '1 / 1'
+    else
+      assign ratio = '9 / 16'
+  endcase
+  case section.settings.scheme
+    when 'dark'
+      assign scheme_class = 'on-dark'
+    when 'mist'
+      assign scheme_class = 'section--mist'
+    else
+      assign scheme_class = ''
+  endcase
+-%}
+
+{%- if ready or request.design_mode -%}
+<section class="vr section {{ scheme_class }}" id="{{ section.settings.anchor | default: section.id }}" aria-labelledby="Heading-{{ section.id }}" style="--vr-ratio: {{ ratio }};">
+  <div class="container">
+    <header class="section-head" data-reveal>
+      {%- if section.settings.eyebrow != blank -%}<p class="eyebrow">{{ section.settings.eyebrow }}</p>{%- endif -%}
+      <h2 class="h2" id="Heading-{{ section.id }}">{{ section.settings.heading }}</h2>
+      {%- if section.settings.text != blank -%}<p class="lead">{{ section.settings.text }}</p>{%- endif -%}
+    </header>
+
+    <div class="vr__wrap" data-vr>
+      <ul class="vr__track" role="list" data-vr-track tabindex="0" aria-label="{{ section.settings.heading | strip_html | escape }}">
+        {%- for block in videos -%}
+          <li class="vr__card" data-vr-card {{ block.shopify_attributes }}>
+            {%- if block.settings.video != blank -%}
+              {{ block.settings.video | video_tag: class: 'vr__video', autoplay: false, loop: true, muted: true, playsinline: true, controls: false, preload: 'none', image_size: '720x' }}
+              <button type="button" class="vr__play" data-vr-toggle aria-label="Reproducir o pausar">
+                <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M8 5.5v13l11-6.5z" fill="currentColor"/></svg>
+              </button>
+              <button type="button" class="vr__sound" data-vr-sound aria-label="Activar sonido" aria-pressed="false">
+                <svg class="vr__icon-off" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 9v6h4l5 4V5L8 9H4z" fill="currentColor"/><path d="M16.5 9.5l5 5m0-5l-5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/></svg>
+                <svg class="vr__icon-on" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 9v6h4l5 4V5L8 9H4z" fill="currentColor"/><path d="M16 8.5a5 5 0 010 7M18.5 6a8.5 8.5 0 010 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/></svg>
+              </button>
+            {%- else -%}
+              <div class="vr__placeholder">
+                <strong>Vídeo {{ forloop.index }}</strong>
+                <span>Sube un vídeo en el panel de la izquierda</span>
+              </div>
+            {%- endif -%}
+            {%- if block.settings.caption != blank -%}
+              <p class="vr__caption">{{ block.settings.caption }}</p>
+            {%- endif -%}
+          </li>
+        {%- endfor -%}
+      </ul>
+
+      {%- if videos.size > 1 -%}
+        <button type="button" class="vr__arrow vr__arrow--prev" data-vr-prev aria-label="Vídeo anterior" hidden>{% render 'icon', name: 'arrow' %}</button>
+        <button type="button" class="vr__arrow vr__arrow--next" data-vr-next aria-label="Vídeo siguiente" hidden>{% render 'icon', name: 'arrow' %}</button>
+        <div class="vr__dots" data-vr-dots aria-hidden="true">
+          {%- for block in videos -%}<span class="vr__dot{% if forloop.first %} is-active{% endif %}"></span>{%- endfor -%}
+        </div>
+      {%- endif -%}
+    </div>
+
+    {%- if section.settings.note != blank -%}
+      <p class="vr__note">{{ section.settings.note }}</p>
+    {%- endif -%}
+  </div>
+</section>
+
+<style>
+  .vr__wrap { position: relative; max-width: 980px; margin: 0 auto; }
+  .vr__track {
+    display: grid; grid-auto-flow: column; gap: 12px; margin: 0; padding: 0 0 4px; list-style: none;
+    grid-auto-columns: 80%;
+    overflow-x: auto; scroll-snap-type: x mandatory; overscroll-behavior-x: contain; scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+  }
+  .vr__track::-webkit-scrollbar { display: none; }
+  /* En móvil el carrusel llega hasta el borde de la pantalla, así el siguiente vídeo asoma y se ve que hay más */
+  @media (max-width: 767px) {
+    .vr__track { margin-inline: calc(var(--gutter, 20px) * -1); padding-inline: var(--gutter, 20px); scroll-padding-inline: var(--gutter, 20px); }
+  }
+  @media (min-width: 768px) {
+    .vr__track { grid-auto-columns: calc((100% - 24px) / 3); gap: 12px; }
+  }
+  .vr__card {
+    position: relative; scroll-snap-align: start; aspect-ratio: var(--vr-ratio, 9 / 16); overflow: hidden;
+    border-radius: var(--radius-l, 28px); background: #0c0814; border: 1px solid var(--line-dark, rgba(255,255,255,.09));
+    box-shadow: 0 30px 60px -30px rgba(40, 20, 70, .45);
+  }
+  .vr__video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; }
+  .vr__play {
+    position: absolute; inset: 0; width: 100%; height: 100%; padding: 0; border: 0; background: transparent; cursor: pointer;
+    display: grid; place-items: center; color: #fff;
+  }
+  .vr__play svg {
+    width: 64px; height: 64px; padding: 18px; border-radius: 50%; background: rgba(12, 8, 20, .55);
+    -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px); transition: opacity .25s, transform .25s;
+  }
+  .vr__card.is-playing .vr__play svg { opacity: 0; transform: scale(.85); }
+  .vr__sound {
+    position: absolute; top: 12px; right: 12px; z-index: 2; width: 40px; height: 40px; padding: 0; border: 0; border-radius: 50%;
+    display: grid; place-items: center; color: #fff; background: rgba(12, 8, 20, .55);
+    -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px); cursor: pointer;
+  }
+  .vr__sound svg { width: 20px; height: 20px; }
+  .vr__sound .vr__icon-on, .vr__sound[aria-pressed="true"] .vr__icon-off { display: none; }
+  .vr__sound[aria-pressed="true"] .vr__icon-on { display: block; }
+  .vr__caption {
+    position: absolute; inset: auto 0 0 0; margin: 0; padding: 40px 18px 18px; pointer-events: none;
+    background: linear-gradient(to top, rgba(5, 3, 10, .9), rgba(5, 3, 10, 0));
+    color: #fff; font-weight: 700; font-size: var(--fs-sm, .875rem); line-height: 1.35;
+  }
+  .vr__placeholder {
+    position: absolute; inset: 0; display: grid; place-content: center; gap: 6px; padding: 20px; text-align: center;
+    color: var(--on-dark-muted, #b4aac4); border: 2px dashed color-mix(in srgb, var(--accent, #7c3aed) 45%, transparent);
+    border-radius: inherit; font-size: var(--fs-sm, .875rem);
+  }
+  .vr__placeholder strong { color: #fff; font-size: 1rem; }
+  .vr__dots { display: flex; justify-content: center; gap: 8px; margin-top: 18px; }
+  .vr__dot { width: 8px; height: 8px; border-radius: 999px; background: currentColor; opacity: .25; transition: width .25s, opacity .25s; }
+  .vr__dot.is-active { width: 22px; opacity: 1; background: var(--accent, #7c3aed); }
+  .on-dark .vr__dot.is-active { background: var(--accent-on-dark, #b794ff); }
+  .vr__arrow {
+    position: absolute; top: calc(50% - 38px); z-index: 3; width: 48px; height: 48px; padding: 0; border-radius: 50%;
+    display: grid; place-items: center; color: #fff; border: 1px solid rgba(255, 255, 255, .25);
+    background: rgba(20, 14, 30, .72); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px); cursor: pointer;
+  }
+  .vr__arrow[hidden] { display: none; }
+  .vr__arrow:hover { background: var(--accent, #7c3aed); }
+  .vr__arrow svg { width: 20px; height: 20px; }
+  .vr__arrow--prev { left: -18px; }
+  .vr__arrow--prev svg { transform: rotate(180deg); }
+  .vr__arrow--next { right: -18px; }
+  @media (hover: none), (max-width: 767px) { .vr__arrow { display: none !important; } }
+  .vr__note { max-width: 720px; margin: 16px auto 0; text-align: center; font-size: var(--fs-sm, .875rem); color: var(--muted, #5f566d); }
+  .on-dark .vr__note { color: var(--on-dark-muted, #b4aac4); }
+</style>
+
+<script>
+  (() => {
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const init = (root) => root.querySelectorAll('[data-vr]').forEach((wrap) => {
+      if (wrap.dataset.vrReady) return;
+      wrap.dataset.vrReady = '1';
+      const track = wrap.querySelector('[data-vr-track]');
+      const cards = [...wrap.querySelectorAll('[data-vr-card]')];
+      const dots = [...wrap.querySelectorAll('.vr__dot')];
+      const prev = wrap.querySelector('[data-vr-prev]');
+      const next = wrap.querySelector('[data-vr-next]');
+
+      const step = () => (cards[0] ? cards[0].getBoundingClientRect().width + (parseFloat(getComputedStyle(track).columnGap) || 12) : track.clientWidth);
+      const activeIndex = () => Math.round(track.scrollLeft / step());
+      const update = () => {
+        const i = Math.min(cards.length - 1, activeIndex());
+        dots.forEach((d, n) => d.classList.toggle('is-active', n === i));
+        const max = track.scrollWidth - track.clientWidth;
+        if (prev) prev.hidden = track.scrollLeft <= 4;
+        if (next) next.hidden = max <= 4 || track.scrollLeft >= max - 4;
+      };
+      const go = (dir) => track.scrollBy({ left: dir * step(), behavior: reduce ? 'auto' : 'smooth' });
+      prev?.addEventListener('click', () => go(-1));
+      next?.addEventListener('click', () => go(1));
+      track.addEventListener('scroll', update, { passive: true });
+      window.addEventListener('resize', update);
+      track.addEventListener('keydown', (e) => {
+        if (e.key === 'ArrowRight') { e.preventDefault(); go(1); }
+        if (e.key === 'ArrowLeft') { e.preventDefault(); go(-1); }
+      });
+      update();
+
+      // Reproducción: en silencio y solo el vídeo que está a la vista
+      cards.forEach((card) => {
+        const video = card.querySelector('video');
+        if (!video) return;
+        video.muted = true;
+        const setPlaying = () => card.classList.toggle('is-playing', !video.paused);
+        video.addEventListener('play', setPlaying);
+        video.addEventListener('pause', setPlaying);
+        card.querySelector('[data-vr-toggle]')?.addEventListener('click', () => {
+          card.dataset.userPaused = video.paused ? '' : '1';
+          if (video.paused) video.play().catch(() => {}); else video.pause();
+        });
+        const sound = card.querySelector('[data-vr-sound]');
+        sound?.addEventListener('click', () => {
+          const on = video.muted;
+          // Solo un vídeo con sonido a la vez
+          if (on) wrap.querySelectorAll('video').forEach((v) => { if (v !== video) v.muted = true; });
+          wrap.querySelectorAll('[data-vr-sound]').forEach((b) => { b.setAttribute('aria-pressed', 'false'); b.setAttribute('aria-label', 'Activar sonido'); });
+          video.muted = !on;
+          sound.setAttribute('aria-pressed', on ? 'true' : 'false');
+          sound.setAttribute('aria-label', on ? 'Silenciar' : 'Activar sonido');
+          if (on && video.paused) video.play().catch(() => {});
+        });
+      });
+
+      if ('IntersectionObserver' in window && !reduce) {
+        const io = new IntersectionObserver((entries) => {
+          entries.forEach((entry) => {
+            const video = entry.target.querySelector('video');
+            if (!video) return;
+            if (entry.isIntersecting && entry.intersectionRatio >= 0.6) {
+              if (!entry.target.dataset.userPaused) { video.preload = 'auto'; video.play().catch(() => {}); }
+            } else if (!video.paused) {
+              video.pause();
+            }
+          });
+        }, { threshold: [0, 0.6, 1] });
+        cards.forEach((c) => io.observe(c));
+      }
+    });
+    init(document);
+    document.addEventListener('shopify:section:load', (e) => init(e.target));
+  })();
+</script>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Vídeos",
+  "settings": [
+    { "type": "paragraph", "content": "Sube hasta 6 vídeos. En móvil se ve uno por pantalla y se desliza para ver el siguiente. La sección no se muestra a los clientes hasta que subas al menos un vídeo." },
+    { "type": "text", "id": "anchor", "label": "Ancla (id)", "default": "videos" },
+    { "type": "text", "id": "eyebrow", "label": "Antetítulo", "default": "En acción" },
+    { "type": "inline_richtext", "id": "heading", "label": "Título", "default": "Mira Aura <em>en acción</em>" },
+    { "type": "textarea", "id": "text", "label": "Texto", "default": "Sin cable, lista en unos 20 segundos y frente a cualquier espejo. Así se usa en el día a día." },
+    { "type": "select", "id": "format", "label": "Formato de los vídeos", "default": "vertical", "options": [
+      { "value": "vertical", "label": "Vertical 9:16 (móvil, Reels/TikTok)" },
+      { "value": "portrait", "label": "Retrato 4:5" },
+      { "value": "square", "label": "Cuadrado 1:1" }
+    ] },
+    { "type": "select", "id": "scheme", "label": "Fondo", "default": "dark", "options": [
+      { "value": "dark", "label": "Oscuro" },
+      { "value": "mist", "label": "Lavanda" },
+      { "value": "light", "label": "Blanco" }
+    ] },
+    { "type": "text", "id": "note", "label": "Nota bajo los vídeos", "default": "Toca un vídeo para pausarlo y el altavoz para activar el sonido." }
+  ],
+  "blocks": [
+    {
+      "type": "video",
+      "name": "Vídeo",
+      "limit": 6,
+      "settings": [
+        { "type": "video", "id": "video", "label": "Vídeo", "info": "MP4 o MOV. Mejor en vertical y de menos de 30 segundos." },
+        { "type": "text", "id": "caption", "label": "Texto sobre el vídeo (opcional)" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Vídeos",
+      "blocks": [
+        { "type": "video", "settings": { "caption": "Lista en unos 20 segundos" } },
+        { "type": "video", "settings": { "caption": "Sin cable, donde quieras" } },
+        { "type": "video", "settings": { "caption": "Peina y alisa a la vez" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

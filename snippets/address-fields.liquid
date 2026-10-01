@@ -1,0 +1,9 @@
+<div class="field"><label for="AddrFirst-{{ id }}">{{ 'customer.first_name' | t }}</label><input id="AddrFirst-{{ id }}" type="text" name="address[first_name]" value="{{ form.first_name }}" autocomplete="given-name"></div>
+<div class="field"><label for="AddrLast-{{ id }}">{{ 'customer.last_name' | t }}</label><input id="AddrLast-{{ id }}" type="text" name="address[last_name]" value="{{ form.last_name }}" autocomplete="family-name"></div>
+<div class="field"><label for="Addr1-{{ id }}">{{ 'customer.address1' | t }}</label><input id="Addr1-{{ id }}" type="text" name="address[address1]" value="{{ form.address1 }}" autocomplete="address-line1"></div>
+<div class="field"><label for="AddrCity-{{ id }}">{{ 'customer.city' | t }}</label><input id="AddrCity-{{ id }}" type="text" name="address[city]" value="{{ form.city }}" autocomplete="address-level2"></div>
+<div class="field"><label for="AddrZip-{{ id }}">{{ 'customer.zip' | t }}</label><input id="AddrZip-{{ id }}" type="text" name="address[zip]" value="{{ form.zip }}" autocomplete="postal-code"></div>
+<div class="field"><label for="AddrCountry-{{ id }}">{{ 'customer.country' | t }}</label><select id="AddrCountry-{{ id }}" name="address[country]" autocomplete="country">{{ all_country_option_tags }}</select></div>
+<div class="field"><label for="AddrProvince-{{ id }}">{{ 'customer.province' | t }}</label><input id="AddrProvince-{{ id }}" type="text" name="address[province]" value="{{ form.province }}" autocomplete="address-level1"></div>
+<div class="field"><label for="AddrPhone-{{ id }}">{{ 'customer.phone' | t }}</label><input id="AddrPhone-{{ id }}" type="tel" name="address[phone]" value="{{ form.phone }}" autocomplete="tel"></div>
+<label style="display:flex;gap:8px;align-items:center;margin-bottom:16px"><input type="checkbox" name="address[default]" value="1"{% if form.set_as_default_checkbox %} checked{% endif %}> {{ 'customer.default_address' | t }}</label>

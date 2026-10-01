@@ -1,0 +1,38 @@
+<section class="trust" aria-label="{{ section.settings.label | escape }}">
+  <div class="container">
+    <ul class="trust-grid" role="list">
+      {%- for block in section.blocks -%}
+        <li class="trust-item" data-reveal style="--reveal-delay: {{ forloop.index0 | times: 60 }}ms" {{ block.shopify_attributes }}>
+          <span class="trust-item__icon">{% render 'icon', name: block.settings.icon %}</span>
+          <div>
+            <h3>{{ block.settings.title }}</h3>
+            <p>{{ block.settings.text }}</p>
+          </div>
+        </li>
+      {%- endfor -%}
+    </ul>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Garantías de compra",
+  "settings": [ { "type": "text", "id": "label", "label": "Etiqueta accesible", "default": "Compra con tranquilidad" } ],
+  "blocks": [
+    {
+      "type": "item",
+      "name": "Elemento",
+      "limit": 4,
+      "settings": [
+        { "type": "select", "id": "icon", "label": "Icono", "default": "truck", "options": [
+          { "value": "truck", "label": "Envío" }, { "value": "return", "label": "Devolución" }, { "value": "lock", "label": "Candado" },
+          { "value": "mail", "label": "Correo" }, { "value": "shield", "label": "Escudo" }, { "value": "box", "label": "Caja" }
+        ] },
+        { "type": "text", "id": "title", "label": "Título", "default": "Título" },
+        { "type": "text", "id": "text", "label": "Texto", "default": "Texto breve" }
+      ]
+    }
+  ],
+  "presets": [ { "name": "Garantías de compra" } ]
+}
+{% endschema %}

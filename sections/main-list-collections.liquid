@@ -1,0 +1,21 @@
+<section class="section">
+  <div class="container">
+    <h1 class="h2 page-title">{{ page_title }}</h1>
+    <ul class="product-grid" role="list">
+      {%- for c in collections -%}
+        <li>
+          <a class="product-card" href="{{ c.url }}">
+            <div class="product-card__img">
+              {%- if c.featured_image -%}<img src="{{ c.featured_image | image_url: width: 600 }}" alt="{{ c.featured_image.alt | default: c.title | escape }}" loading="lazy" width="600" height="750">{%- endif -%}
+            </div>
+            <span class="product-card__title">{{ c.title }}</span>
+          </a>
+        </li>
+      {%- endfor -%}
+    </ul>
+  </div>
+</section>
+
+{% schema %}
+{ "name": "Lista de colecciones", "tag": "div", "settings": [] }
+{% endschema %}

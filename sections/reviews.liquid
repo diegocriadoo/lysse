@@ -1,0 +1,112 @@
+{%- liquid
+  assign reviews = section.blocks | where: 'type', 'review'
+  assign app_blocks = section.blocks | where: 'type', '@app'
+  assign total = 0
+  for r in reviews
+    assign total = total | plus: r.settings.rating
+  endfor
+  if reviews.size > 0
+    assign average = total | times: 1.0 | divided_by: reviews.size | round: 1
+  endif
+-%}
+<section class="section section--mist" id="{{ section.settings.anchor | default: section.id }}" aria-labelledby="Heading-{{ section.id }}">
+  <div class="container">
+    <div class="reviews-head" data-reveal>
+      <header class="section-head section-head--left" style="margin-bottom: 0">
+        <h2 class="h2" id="Heading-{{ section.id }}">{{ section.settings.heading }}</h2>
+      </header>
+    </div>
+
+    {%- for block in app_blocks -%}
+      <div {{ block.shopify_attributes }}>{% render block %}</div>
+    {%- endfor -%}
+
+    {%- if reviews.size > 0 -%}
+      <ul class="reviews-grid" role="list">
+        {%- for block in reviews -%}
+          <li class="review-card" data-reveal style="--reveal-delay: {{ forloop.index0 | modulo: 3 | times: 70 }}ms" {{ block.shopify_attributes }}>
+            {%- if block.settings.photo != blank -%}
+              {%- comment -%} Foto a todo el ancho de la tarjeta; al tocarla se abre en grande {%- endcomment -%}
+              <button type="button" class="review-card__photo" data-review-photo="{{ block.settings.photo | image_url: width: 1400 }}"
+                      aria-label="{{ 'reviews.photo_alt' | t: author: block.settings.author | escape }}">
+                <img src="{{ block.settings.photo | image_url: width: 700 }}"
+                     srcset="{{ block.settings.photo | image_url: width: 400 }} 400w, {{ block.settings.photo | image_url: width: 700 }} 700w"
+                     sizes="(min-width: 1024px) 33vw, (min-width: 700px) 50vw, 100vw"
+                     width="{{ block.settings.photo.width }}" height="{{ block.settings.photo.height }}" alt="" loading="lazy" decoding="async">
+              </button>
+            {%- endif -%}
+            {% render 'stars', rating: block.settings.rating %}
+            {%- if block.settings.title != blank -%}<h3 class="review-card__title">“{{ block.settings.title }}”</h3>{%- endif -%}
+            <blockquote>{{ block.settings.text }}</blockquote>
+            <div class="review-card__meta">
+              <span class="review-card__author">{{ block.settings.author }}</span>
+              {%- if block.settings.date != blank -%}<span class="muted">{{ block.settings.date }}</span>{%- endif -%}
+            </div>
+            {%- if block.settings.verified -%}<span class="review-card__verified">{{ 'reviews.verified' | t }}</span>{%- endif -%}
+          </li>
+        {%- endfor -%}
+      </ul>
+      {%- assign has_photo = false -%}
+      {%- for block in reviews -%}{%- if block.settings.photo != blank -%}{%- assign has_photo = true -%}{%- endif -%}{%- endfor -%}
+      {%- if has_photo -%}
+        <dialog class="review-lightbox" data-review-lightbox>
+          <button type="button" class="review-lightbox__close" data-review-lightbox-close aria-label="Cerrar">{% render 'icon', name: 'close' %}</button>
+        </dialog>
+      {%- endif -%}
+    {%- elsif app_blocks.size == 0 -%}
+      {%- if request.design_mode -%}
+        {%- comment -%} Solo visible en el editor: muestra cómo quedarán las opiniones. {%- endcomment -%}
+        <ul class="reviews-grid" role="list">
+          {%- for i in (1..3) -%}
+            <li class="review-card review-card--sample">
+              <span class="placeholder-note sample-tag">Ejemplo · solo visible en el editor</span>
+              {% render 'stars', rating: 5 %}
+              <blockquote>Aquí aparecerá el texto de una opinión real. Añade bloques «Opinión» en esta sección o conecta una app de reseñas.</blockquote>
+              <div class="review-card__meta"><span class="review-card__author">Nombre del cliente</span><span class="muted">Fecha</span></div>
+            </li>
+          {%- endfor -%}
+        </ul>
+      {%- else -%}
+        <div class="reviews-empty" data-reveal>
+          {% render 'stars', rating: 0 %}
+          <h3 class="h3">{{ section.settings.empty_title }}</h3>
+          <p>{{ section.settings.empty_text }}</p>
+          {%- if settings.contact_email != blank -%}
+            <a class="btn btn--outline btn--sm" href="mailto:{{ settings.contact_email }}?subject={{ 'reviews.mail_subject' | t | url_encode }}">{{ 'reviews.share' | t }}</a>
+          {%- endif -%}
+        </div>
+      {%- endif -%}
+    {%- endif -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Opiniones",
+  "settings": [
+    { "type": "text", "id": "anchor", "label": "Ancla (id)", "default": "opiniones" },
+    { "type": "text", "id": "eyebrow", "label": "Antetítulo", "default": "Opiniones" },
+    { "type": "inline_richtext", "id": "heading", "label": "Título", "default": "Lo que dicen <em>nuestros últimos clientes</em>" },
+    { "type": "text", "id": "empty_title", "label": "Título sin opiniones", "default": "Aún no hay opiniones publicadas" },
+    { "type": "textarea", "id": "empty_text", "label": "Texto sin opiniones", "default": "Publicamos solo opiniones reales de clientes. Cuando recibas tu Aura, nos encantará saber qué te parece." }
+  ],
+  "blocks": [
+    { "type": "@app" },
+    {
+      "type": "review",
+      "name": "Opinión",
+      "settings": [
+        { "type": "paragraph", "content": "Añade únicamente opiniones reales y verificables." },
+        { "type": "text", "id": "author", "label": "Nombre", "default": "Nombre" },
+        { "type": "range", "id": "rating", "label": "Valoración", "min": 1, "max": 5, "step": 1, "default": 5 },
+        { "type": "text", "id": "title", "label": "Título de la opinión" },
+        { "type": "textarea", "id": "text", "label": "Comentario", "default": "Comentario del cliente." },
+        { "type": "image_picker", "id": "photo", "label": "Foto (opcional)", "info": "Ocupa todo el ancho de la tarjeta; al tocarla se abre en grande. Usa solo fotos reales de este cliente." },
+        { "type": "text", "id": "date", "label": "Fecha", "info": "Ej.: marzo 2026" },
+        { "type": "checkbox", "id": "verified", "label": "Compra verificada", "default": false }
+      ]
+    }
+  ],
+  "presets": [ { "name": "Opiniones" } ]
+}
+{% endschema %}

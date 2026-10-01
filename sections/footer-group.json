@@ -1,0 +1,25 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "type": "footer",
+  "name": "Grupo de pie de página",
+  "sections": {
+    "footer": {
+      "type": "footer",
+      "settings": {
+        "blurb": "Herramientas de peinado sin cables, pensadas para tu día a día.",
+        "title_shop": "Tienda",
+        "title_help": "Ayuda",
+        "title_contact": "Contacto"
+      }
+    }
+  },
+  "order": ["footer"]
+}

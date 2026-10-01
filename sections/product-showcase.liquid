@@ -1,0 +1,110 @@
+<section class="section showcase on-dark" id="{{ section.settings.anchor | default: section.id }}" aria-labelledby="Heading-{{ section.id }}" data-hotspots>
+  <div class="container">
+    <div class="showcase__grid">
+      <div class="hotspot-media showcase__media"{% if section.settings.image != blank %} style="aspect-ratio: {{ section.settings.image.aspect_ratio }}"{% endif %} data-reveal>
+        {%- if section.settings.image != blank -%}
+          <img src="{{ section.settings.image | image_url: width: 1100 }}"
+               srcset="{{ section.settings.image | image_url: width: 600 }} 600w, {{ section.settings.image | image_url: width: 1100 }} 1100w"
+               sizes="(min-width: 990px) 50vw, 100vw" width="{{ section.settings.image.width }}" height="{{ section.settings.image.height }}"
+               alt="{{ section.settings.image.alt | default: section.settings.alt | escape }}" loading="lazy" decoding="async">
+        {%- else -%}
+          <img src="{{ 'aura-portrait.webp' | asset_url }}"
+               srcset="{{ 'aura-portrait-600.webp' | asset_url }} 600w, {{ 'aura-portrait.webp' | asset_url }} 920w"
+               sizes="(min-width: 990px) 50vw, 100vw" width="920" height="1150"
+               alt="{{ section.settings.alt | escape }}" loading="lazy" decoding="async">
+        {%- endif -%}
+        {%- assign spots = section.blocks | where: 'type', 'hotspot' -%}
+        {%- for block in spots -%}
+          <button type="button" class="hotspot" style="left: {{ block.settings.x }}%; top: {{ block.settings.y }}%;"
+                  data-hotspot="{{ forloop.index0 }}" aria-pressed="false" aria-controls="Feature-{{ section.id }}-{{ forloop.index0 }}"
+                  aria-label="{{ forloop.index }}. {{ block.settings.title | escape }}">{{ forloop.index }}</button>
+        {%- endfor -%}
+      </div>
+
+      <header class="section-head section-head--left showcase__head" data-reveal>
+          {%- if section.settings.eyebrow != blank -%}<p class="eyebrow">{{ section.settings.eyebrow }}</p>{%- endif -%}
+          <h2 class="h2" id="Heading-{{ section.id }}">{{ section.settings.heading }}</h2>
+          {%- if section.settings.text != blank -%}<p class="lead">{{ section.settings.text }}</p>{%- endif -%}
+      </header>
+      <ol class="feature-list showcase__list" role="list">
+          {%- for block in spots -%}
+            <li class="feature-item" id="Feature-{{ section.id }}-{{ forloop.index0 }}" data-feature="{{ forloop.index0 }}" data-reveal style="--reveal-delay: {{ forloop.index0 | times: 80 }}ms" {{ block.shopify_attributes }}>
+              <span class="feature-item__num" aria-hidden="true">{{ forloop.index }}</span>
+              <div>
+                <h3 class="h3">{{ block.settings.title }}</h3>
+                <p>{{ block.settings.text }}</p>
+              </div>
+            </li>
+          {%- endfor -%}
+      </ol>
+    </div>
+
+    {%- assign cards = section.blocks | where: 'type', 'card' -%}
+    {%- if cards.size > 0 -%}
+      <div class="bento-wrap" data-carousel>
+      <ul class="bento" role="list" data-carousel-track tabindex="0" aria-label="{{ section.settings.heading | strip_html | escape }}">
+        {%- for block in cards -%}
+          <li class="bento-card" data-reveal style="--reveal-delay: {{ forloop.index0 | times: 80 }}ms" {{ block.shopify_attributes }}>
+            {%- if block.settings.image != blank -%}
+              <img src="{{ block.settings.image | image_url: width: 700 }}" width="{{ block.settings.image.width }}" height="{{ block.settings.image.height }}"
+                   alt="{{ block.settings.image.alt | escape }}" loading="lazy" decoding="async">
+            {%- else -%}
+              <img src="{{ block.settings.fallback | asset_url }}" alt="{{ block.settings.alt | escape }}" loading="lazy" decoding="async">
+            {%- endif -%}
+            <div class="bento-card__body">
+              <p class="bento-card__kicker">{{ block.settings.kicker }}</p>
+              <p class="bento-card__title">{{ block.settings.title }}</p>
+            </div>
+          </li>
+        {%- endfor -%}
+      </ul>
+      {%- if cards.size > 1 -%}
+        <button type="button" class="carousel-btn carousel-btn--prev" data-carousel-prev aria-label="Anterior" hidden>{% render 'icon', name: 'arrow' %}</button>
+        <button type="button" class="carousel-btn carousel-btn--next" data-carousel-next aria-label="Siguiente">{% render 'icon', name: 'arrow' %}</button>
+      {%- endif -%}
+      </div>
+    {%- endif -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Producto en detalle",
+  "settings": [
+    { "type": "text", "id": "anchor", "label": "Ancla (id)", "default": "detalles" },
+    { "type": "image_picker", "id": "image", "label": "Imagen", "info": "Vacío = imagen incluida en el tema. Si cambias la imagen, ajusta la posición de los puntos." },
+    { "type": "text", "id": "alt", "label": "Texto alternativo (imagen por defecto)", "default": "Cepillo alisador Lyssé Aura con púas, pantalla digital y botón frontal" },
+    { "type": "text", "id": "eyebrow", "label": "Antetítulo", "default": "Diseño" },
+    { "type": "inline_richtext", "id": "heading", "label": "Título", "default": "Cada detalle, <em>pensado para ti</em>" },
+    { "type": "textarea", "id": "text", "label": "Texto", "default": "Toca los puntos de la imagen para descubrir cada parte de Aura." }
+  ],
+  "blocks": [
+    {
+      "type": "hotspot",
+      "name": "Punto de la imagen",
+      "limit": 5,
+      "settings": [
+        { "type": "range", "id": "x", "label": "Posición horizontal", "min": 0, "max": 100, "step": 1, "unit": "%", "default": 50 },
+        { "type": "range", "id": "y", "label": "Posición vertical", "min": 0, "max": 100, "step": 1, "unit": "%", "default": 50 },
+        { "type": "text", "id": "title", "label": "Título", "default": "Característica" },
+        { "type": "textarea", "id": "text", "label": "Texto", "default": "Explica esta parte del producto." }
+      ]
+    },
+    {
+      "type": "card",
+      "name": "Tarjeta con imagen",
+      "limit": 3,
+      "settings": [
+        { "type": "image_picker", "id": "image", "label": "Imagen" },
+        { "type": "select", "id": "fallback", "label": "Imagen por defecto", "default": "aura-head.webp", "options": [
+          { "value": "aura-head.webp", "label": "Cabezal" }, { "value": "aura-display.webp", "label": "Pantalla" }, { "value": "aura-travel.webp", "label": "Cepillo completo" }
+        ] },
+        { "type": "text", "id": "alt", "label": "Texto alternativo (imagen por defecto)", "default": "Detalle del cepillo Lyssé Aura" },
+        { "type": "text", "id": "kicker", "label": "Destacado", "default": "Detalle" },
+        { "type": "text", "id": "title", "label": "Título", "default": "Descripción corta" }
+      ]
+    }
+  ],
+  "presets": [ { "name": "Producto en detalle" } ]
+}
+{% endschema %}

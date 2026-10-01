@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="{{ request.locale.iso_code }}">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>{{ 'gift_card.title' | t }} · {{ shop.name }}</title>
+  <link rel="stylesheet" href="{{ 'base.css' | asset_url }}">
+  {{ content_for_header }}
+</head>
+<body>
+  <main class="section">
+    <div class="container page-narrow" style="text-align:center">
+      <p class="wordmark" style="font-size:2.6rem">{{ settings.wordmark | default: shop.name }}<span class="wordmark__dot" style="color:#c04cf7">.</span></p>
+      <h1 class="h2" style="margin:24px 0">{{ 'gift_card.title' | t }}</h1>
+      {%- if gift_card.expired -%}<p class="notice notice--error">{{ 'gift_card.expired' | t }}</p>{%- endif -%}
+      <p class="lead">{{ 'gift_card.balance' | t }}: <strong>{{ gift_card.balance | money }}</strong></p>
+      <p style="margin:24px 0"><span class="muted">{{ 'gift_card.code' | t }}:</span> <strong style="font-size:1.4rem;letter-spacing:.08em">{{ gift_card.code | format_code }}</strong></p>
+      <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap">
+        <a class="btn btn--primary" href="{{ shop.url }}">{{ 'gift_card.shop' | t }}</a>
+        <button class="btn btn--outline" type="button" onclick="window.print()">{{ 'gift_card.print' | t }}</button>
+      </div>
+    </div>
+  </main>
+</body>
+</html>

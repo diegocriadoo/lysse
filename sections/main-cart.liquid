@@ -1,0 +1,49 @@
+<section class="section">
+  <div class="container">
+    <h1 class="h2 page-title">{{ 'cart.title' | t }}</h1>
+    {%- if cart.item_count > 0 -%}
+      <form action="{{ routes.cart_url }}" method="post" novalidate>
+        <ul class="cart-items" role="list">
+          {%- for item in cart.items -%}
+            <li class="cart-item">
+              <div class="cart-item__img">
+                {%- if item.image -%}<img src="{{ item.image | image_url: width: 160 }}" width="76" height="76" alt="{{ item.image.alt | default: item.product.title | escape }}" loading="lazy">{%- endif -%}
+              </div>
+              <div>
+                <a class="cart-item__title" href="{{ item.url }}">{{ item.product.title }}</a>
+                {%- unless item.product.has_only_default_variant -%}<p class="cart-item__variant">{{ item.variant.title }}</p>{%- endunless -%}
+                <div class="cart-item__controls">
+                  <label class="visually-hidden" for="Updates-{{ forloop.index }}">{{ 'cart.quantity' | t }}</label>
+                  <input class="field" style="width:84px;min-height:40px;margin:0;padding:6px 10px;border:1.5px solid var(--line);border-radius:10px" id="Updates-{{ forloop.index }}" type="number" name="updates[]" value="{{ item.quantity }}" min="0">
+                  <a class="cart-item__remove" href="{{ item.url_to_remove }}">{{ 'cart.remove' | t }}</a>
+                </div>
+              </div>
+              <div class="cart-item__price">{{ item.final_line_price | money }}</div>
+            </li>
+          {%- endfor -%}
+        </ul>
+        <div class="field" style="max-width:480px;margin-top:24px">
+          <label for="CartNote">{{ 'cart.note' | t }}</label>
+          <textarea id="CartNote" name="note" rows="3">{{ cart.note }}</textarea>
+        </div>
+        <div class="cart-page__foot">
+          <p class="drawer__subtotal" style="gap:24px"><span>{{ 'cart.subtotal' | t }}</span><span>{{ cart.total_price | money }}</span></p>
+          <p class="drawer__note">{% if cart.taxes_included %}{{ 'products.product.taxes_included' | t }}{% else %}{{ 'products.product.taxes_excluded' | t }}{% endif %} {{ 'products.product.shipping_at_checkout' | t }}</p>
+          <div style="display:flex;gap:10px;flex-wrap:wrap;justify-content:flex-end">
+            <button type="submit" name="update" class="btn btn--outline">{{ 'customer.save' | t }}</button>
+            <button type="submit" name="checkout" class="btn btn--primary">{% render 'icon', name: 'lock' %}{{ 'cart.checkout' | t }}</button>
+          </div>
+        </div>
+      </form>
+    {%- else -%}
+      <div class="cart-empty">
+        <p>{{ 'cart.empty' | t }}</p>
+        <a class="btn btn--primary" href="{{ routes.root_url }}">{{ 'cart.continue' | t }}</a>
+      </div>
+    {%- endif -%}
+  </div>
+</section>
+
+{% schema %}
+{ "name": "Carrito", "tag": "div", "settings": [] }
+{% endschema %}

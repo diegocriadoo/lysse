@@ -1,0 +1,54 @@
+{%- assign p = product | default: section.settings.product | default: settings.featured_product -%}
+<section class="section final-cta" id="{{ section.settings.anchor | default: section.id }}" aria-labelledby="Heading-{{ section.id }}" data-final-cta>
+  <div class="container">
+    <div class="final-cta__card on-dark" data-reveal>
+      <div class="final-cta__media">
+        {%- if section.settings.image != blank -%}
+          <img src="{{ section.settings.image | image_url: width: 900 }}" width="{{ section.settings.image.width }}" height="{{ section.settings.image.height }}"
+               alt="{{ section.settings.image.alt | default: section.settings.alt | escape }}" loading="lazy" decoding="async">
+        {%- else -%}
+          <img src="{{ 'aura-portrait.webp' | asset_url }}" srcset="{{ 'aura-portrait-600.webp' | asset_url }} 600w, {{ 'aura-portrait.webp' | asset_url }} 920w"
+               sizes="(min-width: 900px) 40vw, 100vw" width="920" height="1150" alt="{{ section.settings.alt | escape }}" loading="lazy" decoding="async">
+        {%- endif -%}
+      </div>
+
+      <div class="final-cta__body">
+        {%- if section.settings.eyebrow != blank -%}<p class="eyebrow" style="margin-bottom: -4px">{{ section.settings.eyebrow }}</p>{%- endif -%}
+        <h2 class="h2" id="Heading-{{ section.id }}">{{ section.settings.heading }}</h2>
+        {%- if section.blocks.size > 0 -%}
+          <ul class="checklist" role="list">
+            {%- for block in section.blocks -%}
+              <li {{ block.shopify_attributes }}><span class="check">{% render 'icon', name: 'check' %}</span><span>{{ block.settings.text }}</span></li>
+            {%- endfor -%}
+          </ul>
+        {%- endif -%}
+        {%- if p != blank -%}
+          {%- capture assurance -%}
+            {%- if section.settings.microcopy != blank -%}<li>{% render 'icon', name: 'truck' %}<span>{{ section.settings.microcopy }}</span></li>{%- endif -%}
+          {%- endcapture -%}
+          {% render 'product-form', p: p, section_id: section.id, show_variants: true, button_label: section.settings.button_label, assurance: assurance %}
+        {%- endif -%}
+      </div>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Llamada final",
+  "settings": [
+    { "type": "text", "id": "anchor", "label": "Ancla (id)", "default": "pedido" },
+    { "type": "product", "id": "product", "label": "Producto", "info": "Vacío = producto de la página o el destacado." },
+    { "type": "image_picker", "id": "image", "label": "Imagen" },
+    { "type": "text", "id": "alt", "label": "Texto alternativo (imagen por defecto)", "default": "Cepillo alisador inalámbrico Lyssé Aura" },
+    { "type": "text", "id": "eyebrow", "label": "Antetítulo", "default": "Lyssé Aura" },
+    { "type": "inline_richtext", "id": "heading", "label": "Título", "default": "Pelo liso, <em>sin cables</em>, estés donde estés" },
+    { "type": "text", "id": "button_label", "label": "Texto del botón", "default": "QUIERO MI AURA" },
+    { "type": "inline_richtext", "id": "microcopy", "label": "Microcopy", "default": "Envío a toda España en 9-15 días laborables · <strong>30 días</strong> para devolverlo" }
+  ],
+  "blocks": [
+    { "type": "point", "name": "Punto", "limit": 5, "settings": [ { "type": "text", "id": "text", "label": "Texto", "default": "Beneficio" } ] }
+  ],
+  "presets": [ { "name": "Llamada final" } ]
+}
+{% endschema %}

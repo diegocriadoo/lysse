@@ -1,0 +1,100 @@
+{%- comment -%}
+  Bloque de compra reutilizable (hero y CTA final).
+  Parámetros:
+    - p: producto
+    - section_id: id de la sección
+    - primary: true en el formulario principal (lo usa el sticky add-to-cart)
+    - show_variants: muestra selector de variantes (por defecto true)
+    - button_label: texto opcional del botón
+    - assurance: texto de microcopy bajo el botón (acepta HTML simple)
+    - gift_tag: etiqueta sobre la última opción cuando el producto tiene un solo selector (p. ej. «Perfecto para regalar»)
+    - bestseller_tag: etiqueta con estrella sobre la última opción (p. ej. «El pack más vendido»)
+    - payment_icons: true para mostrar los iconos de pago justo bajo el botón de compra
+    - assurance_card: true para mostrar la garantía en una tarjeta aparte, debajo de la de compra
+{%- endcomment -%}
+{%- liquid
+  assign current = p.selected_or_first_available_variant
+  assign form_id = 'ProductForm-' | append: section_id
+  assign label = 'products.product.add_to_cart' | t
+  if button_label != blank
+    assign label = button_label
+  endif
+  if show_variants == nil
+    assign show_variants = true
+  endif
+-%}
+<div class="buy-card" data-product-root{% if primary %} data-primary{% endif %} data-section="{{ section_id }}">
+  <script type="application/json" data-variants>{{ p.variants | json }}</script>
+
+  {% render 'price', variant: current %}
+
+  {%- form 'product', p, id: form_id, class: 'product-form', novalidate: 'novalidate' -%}
+    <input type="hidden" name="id" value="{{ current.id }}" data-variant-id>
+
+    {%- if show_variants and p.has_only_default_variant == false -%}
+      {%- for option in p.options_with_values -%}
+        {%- assign pack_cards = false -%}
+        {%- if p.options.size == 1 -%}{%- assign pack_cards = true -%}{%- endif -%}
+        <fieldset class="variant-picker{% if pack_cards %} variant-picker--packs{% endif %}">
+          <legend>{{ option.name }}: <span data-option-label="{{ forloop.index0 }}">{{ option.selected_value }}</span></legend>
+          <div class="swatches">
+            {%- for value in option.values -%}
+              {%- capture input_id -%}{{ section_id }}-{{ option.position }}-{{ forloop.index0 }}{%- endcapture -%}
+              <div class="swatch">
+                <input type="radio" id="{{ input_id }}" name="option-{{ section_id }}-{{ option.position }}" value="{{ value | escape }}" data-option-index="{{ forloop.parentloop.index0 }}"{% if option.selected_value == value %} checked{% endif %}>
+                <label for="{{ input_id }}">
+                  <span class="swatch__name">{{ value }}</span>
+                  {%- if pack_cards -%}
+                    {%- assign pack_variant = p.variants | where: 'option1', value | first -%}
+                    {%- if pack_variant != blank -%}
+                      <span class="swatch__prices">
+                        <strong>{{ pack_variant.price | money }}</strong>
+                        {%- if pack_variant.compare_at_price > pack_variant.price -%}<s>{{ pack_variant.compare_at_price | money }}</s>{%- endif -%}
+                      </span>
+                    {%- endif -%}
+                    {%- if forloop.last and forloop.length > 1 -%}
+                      {%- if bestseller_tag != blank or gift_tag != blank -%}
+                        <span class="swatch__tags">
+                          {%- if bestseller_tag != blank -%}<span class="swatch__tag swatch__tag--star">{% render 'icon', name: 'star', class: 'icon' %}{{ bestseller_tag }}</span>{%- endif -%}
+                          {%- if gift_tag != blank -%}<span class="swatch__tag">{{ gift_tag }}</span>{%- endif -%}
+                        </span>
+                      {%- endif -%}
+                    {%- endif -%}
+                  {%- endif -%}
+                </label>
+              </div>
+            {%- endfor -%}
+          </div>
+        </fieldset>
+      {%- endfor -%}
+    {%- endif -%}
+
+    <div class="buy-row">
+      <input type="hidden" name="quantity" value="1">
+      <button type="submit" name="add" class="btn btn--primary btn--block" data-add-button data-label="{{ label | escape }}"{% unless current.available %} disabled{% endunless %}>
+        <span class="btn__label" data-add-label>{% if current.available %}{{ label }}{% else %}{{ 'products.product.sold_out' | t }}{% endif %}</span>
+        {% render 'icon', name: 'arrow', class: 'icon btn__arrow' %}
+      </button>
+    </div>
+    <p class="form-error" role="alert" data-form-error hidden></p>
+  {%- endform -%}
+
+  {%- if payment_icons and shop.enabled_payment_types.size > 0 -%}
+    <ul class="payment-icons" role="list" aria-label="{{ 'general.payment_methods' | t }}">
+      {%- for type in shop.enabled_payment_types -%}<li>{{ type | payment_type_svg_tag }}</li>{%- endfor -%}
+    </ul>
+  {%- endif -%}
+
+  {%- if assurance != blank and assurance_card != true -%}
+    <ul class="assurance" role="list">
+      {{ assurance }}
+    </ul>
+  {%- endif -%}
+</div>
+{%- if assurance != blank and assurance_card == true -%}
+  <div class="buy-card buy-card--assurance">
+    <ul class="assurance" role="list">
+      {{ assurance }}
+    </ul>
+  </div>
+{%- endif -%}

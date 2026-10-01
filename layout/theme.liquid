@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="{{ request.locale.iso_code }}" data-scheme="{{ settings.color_scheme | default: 'light' }}">
+  <head>
+    <meta charset="utf-8">
+    <meta name="facebook-domain-verification" content="lz6x90ckkk1thf91f3wd6bfzzfod14" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="theme-color" content="{% if settings.color_scheme == 'dark' %}{{ settings.color_dark }}{% else %}#ffffff{% endif %}">
+    <link rel="canonical" href="{{ canonical_url }}">
+
+    {%- if settings.favicon != blank -%}
+      <link rel="icon" type="image/png" href="{{ settings.favicon | image_url: width: 64, height: 64 }}">
+    {%- endif -%}
+
+    {%- capture seo_title -%}
+      {%- if template.name == 'index' -%}
+        {{ shop.name }}{% if settings.seo_home_suffix != blank %} · {{ settings.seo_home_suffix }}{% endif %}
+      {%- else -%}
+        {{ page_title }}{% if current_page != 1 %} · {{ 'general.page' | t: page: current_page }}{% endif %}{% unless page_title contains shop.name %} · {{ shop.name }}{% endunless %}
+      {%- endif -%}
+    {%- endcapture -%}
+    <title>{{ seo_title | strip }}</title>
+
+    {%- assign meta_desc = page_description | default: 'Lyssé Aura: cepillo alisador inalámbrico que alisa y peina a la vez. Listo en unos 20 segundos, con 3 temperaturas (160-200 °C). Envío gratis a península y Baleares y 30 días para devolverlo.' -%}{%- if meta_desc != blank -%}
+      <meta name="description" content="{{ meta_desc | escape }}">
+    {%- endif -%}
+
+    {% render 'meta-tags' %}
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    {% style %}
+      :root {
+        --c-dark: {{ settings.color_dark }};
+        --c-accent: {{ settings.color_accent }};
+        --c-accent-2: {{ settings.color_accent_2 }};
+        --c-light: {{ settings.color_light }};
+      }
+    {% endstyle %}
+
+    <link rel="stylesheet" href="{{ 'base.css' | asset_url }}">
+    <script src="{{ 'theme.js' | asset_url }}" defer></script>
+
+    <script>
+      window.theme = {
+        moneyFormat: {{ shop.money_format | json }},
+        routes: {
+          root: {{ routes.root_url | json }},
+          cart: {{ routes.cart_url | json }},
+          cartAdd: {{ routes.cart_add_url | json }},
+          cartChange: {{ routes.cart_change_url | json }}
+        },
+        strings: {
+          addToCart: {{ 'products.product.add_to_cart' | t | json }},
+          soldOut: {{ 'products.product.sold_out' | t | json }},
+          unavailable: {{ 'products.product.unavailable' | t | json }},
+          adding: {{ 'products.product.adding' | t | json }},
+          cartError: {{ 'cart.error' | t | json }}
+        }
+      };
+      document.documentElement.classList.add('js');
+    </script>
+
+    {{ content_for_header }}
+  </head>
+
+  <body class="template-{{ template.name | handleize }}">
+    <a class="skip-link" href="#MainContent">{{ 'accessibility.skip_to_content' | t }}</a>
+
+    {% sections 'header-group' %}
+
+    <main id="MainContent" tabindex="-1">
+      {{ content_for_layout }}
+    </main>
+
+    {% sections 'footer-group' %}
+
+    {% section 'cart-drawer' %}
+  </body>
+</html>

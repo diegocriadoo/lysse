@@ -1,0 +1,97 @@
+{%- liquid
+  assign anchor_prefix = routes.root_url
+  if template.name == 'index' or template.name == 'product'
+    assign anchor_prefix = ''
+  endif
+  assign menu = section.settings.menu
+  assign cta_product = product | default: settings.featured_product
+-%}
+
+{%- capture nav_links -%}
+  {%- if menu != blank and menu.links.size > 0 -%}
+    {%- for link in menu.links -%}
+      <a href="{{ link.url }}"{% if link.current %} aria-current="page"{% endif %}>{{ link.title }}</a>
+    {%- endfor -%}
+  {%- else -%}
+    <a href="{{ anchor_prefix }}#beneficios">{{ 'header.nav_benefits' | t }}</a>
+    <a href="{{ anchor_prefix }}#como-funciona">{{ 'header.nav_how' | t }}</a>
+    <a href="{{ anchor_prefix }}#opiniones">{{ 'header.nav_reviews' | t }}</a>
+    <a href="{{ anchor_prefix }}#faq">{{ 'header.nav_faq' | t }}</a>
+  {%- endif -%}
+{%- endcapture -%}
+
+{%- capture cta_url -%}{%- if cta_product != blank -%}{{ routes.cart_url }}/{{ cta_product.selected_or_first_available_variant.id }}:1{%- else -%}{{ routes.all_products_collection_url }}{%- endif -%}{%- endcapture -%}
+
+<header class="header on-dark">
+  <div class="container header__inner">
+    <button type="button" class="icon-btn header__menu-btn" aria-expanded="false" aria-controls="MobileNav" data-menu-open>
+      {% render 'icon', name: 'menu' %}
+      <span class="visually-hidden">{{ 'header.menu_open' | t }}</span>
+    </button>
+
+    <a class="header__logo" href="{{ routes.root_url }}" aria-label="{{ shop.name }} — {{ 'header.home' | t }}">
+      {%- if settings.logo != blank -%}
+        <img src="{{ settings.logo | image_url: width: 300 }}" alt="{{ shop.name | escape }}" width="{{ settings.logo.width }}" height="{{ settings.logo.height }}">
+      {%- else -%}
+        <span class="wordmark">{{ settings.wordmark | default: shop.name }}<span class="wordmark__dot">.</span></span>
+      {%- endif -%}
+    </a>
+
+    <nav class="header__nav" aria-label="{{ 'header.nav_label' | t }}">
+      {{ nav_links }}
+    </nav>
+
+    <div class="header__actions">
+      {%- if section.settings.show_cta -%}
+        <a href="{{ cta_url }}" data-buy-now class="btn btn--primary btn--sm header__cta">{{ section.settings.cta_label }}</a>
+      {%- endif -%}
+      <a href="{{ routes.cart_url }}" class="icon-btn" data-cart-open aria-label="{{ 'header.cart' | t }}">
+        {% render 'icon', name: 'bag' %}
+        <span class="cart-count" data-cart-count data-count="{{ cart.item_count }}" aria-live="polite">{{ cart.item_count }}</span>
+      </a>
+    </div>
+  </div>
+</header>
+
+<div class="mobile-nav" id="MobileNav" role="dialog" aria-modal="true" aria-label="{{ 'header.menu' | t }}" data-mobile-nav>
+  <div class="mobile-nav__top">
+    <span class="wordmark">{{ settings.wordmark | default: shop.name }}<span class="wordmark__dot">.</span></span>
+    <button type="button" class="icon-btn" data-menu-close>
+      {% render 'icon', name: 'close' %}
+      <span class="visually-hidden">{{ 'header.menu_close' | t }}</span>
+    </button>
+  </div>
+  <nav class="mobile-nav__links" aria-label="{{ 'header.nav_label' | t }}" data-menu-links>
+    {{ nav_links }}
+  </nav>
+  <div class="mobile-nav__foot">
+    <a href="{{ cta_url }}" data-buy-now class="btn btn--primary btn--block" data-menu-link>{{ section.settings.cta_label }}</a>
+    {%- if settings.contact_email != blank -%}
+      <a href="mailto:{{ settings.contact_email }}" class="btn btn--outline btn--block">{{ settings.contact_email }}</a>
+    {%- endif -%}
+  </div>
+</div>
+
+<script>
+  document.addEventListener('click', function (e) {
+    var link = e.target.closest('[data-buy-now]');
+    if (!link) return;
+    var input = document.querySelector('form[action*="/cart/add"] [data-variant-id]');
+    if (!input || !input.value) return;
+    e.preventDefault();
+    window.location.href = '{{ routes.cart_url }}/' + input.value + ':1';
+  });
+</script>
+
+{% schema %}
+{
+  "name": "Cabecera",
+  "tag": "div",
+  "class": "header-wrap",
+  "settings": [
+    { "type": "link_list", "id": "menu", "label": "Menú", "info": "Si el menú está vacío se muestran enlaces a las secciones de la landing." },
+    { "type": "checkbox", "id": "show_cta", "label": "Mostrar botón de compra", "default": true },
+    { "type": "text", "id": "cta_label", "label": "Texto del botón", "default": "Comprar ahora" }
+  ]
+}
+{% endschema %}

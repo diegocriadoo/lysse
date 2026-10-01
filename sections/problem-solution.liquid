@@ -1,0 +1,54 @@
+<section class="section" id="{{ section.settings.anchor | default: section.id }}" aria-labelledby="Heading-{{ section.id }}">
+  <div class="container">
+    <header class="section-head" data-reveal>
+      {%- if section.settings.eyebrow != blank -%}<p class="eyebrow">{{ section.settings.eyebrow }}</p>{%- endif -%}
+      <h2 class="h2" id="Heading-{{ section.id }}">{{ section.settings.heading }}</h2>
+      {%- if section.settings.text != blank -%}<p class="lead">{{ section.settings.text }}</p>{%- endif -%}
+    </header>
+
+    <div class="ps-grid">
+      <article class="ps-card ps-card--before" data-reveal>
+        <p class="ps-card__label">{{ section.settings.before_label }}</p>
+        <h3>{{ section.settings.before_title }}</h3>
+        <ul class="ps-list" role="list">
+          {%- assign items = section.blocks | where: 'type', 'before' -%}
+          {%- for block in items -%}
+            <li {{ block.shopify_attributes }}><span class="mark">{% render 'icon', name: 'x' %}</span><span>{{ block.settings.text }}</span></li>
+          {%- endfor -%}
+        </ul>
+      </article>
+
+      <article class="ps-card ps-card--after on-dark" data-reveal style="--reveal-delay: 100ms">
+        <p class="ps-card__label">{{ section.settings.after_label }}</p>
+        <h3>{{ section.settings.after_title }}</h3>
+        <ul class="ps-list" role="list">
+          {%- assign items = section.blocks | where: 'type', 'after' -%}
+          {%- for block in items -%}
+            <li {{ block.shopify_attributes }}><span class="mark">{% render 'icon', name: 'check' %}</span><span>{{ block.settings.text }}</span></li>
+          {%- endfor -%}
+        </ul>
+      </article>
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Problema / solución",
+  "settings": [
+    { "type": "text", "id": "anchor", "label": "Ancla (id)", "default": "por-que" },
+    { "type": "text", "id": "eyebrow", "label": "Antetítulo", "default": "El problema" },
+    { "type": "inline_richtext", "id": "heading", "label": "Título", "default": "Tu rutina no siempre pasa <em>por un enchufe</em>" },
+    { "type": "textarea", "id": "text", "label": "Texto" },
+    { "type": "text", "id": "before_label", "label": "Etiqueta izquierda", "default": "Con cable" },
+    { "type": "text", "id": "before_title", "label": "Título izquierda", "default": "Dependes de dónde esté el enchufe" },
+    { "type": "text", "id": "after_label", "label": "Etiqueta derecha", "default": "Con Aura" },
+    { "type": "text", "id": "after_title", "label": "Título derecha", "default": "Te peinas donde tú decidas" }
+  ],
+  "blocks": [
+    { "type": "before", "name": "Punto (problema)", "settings": [ { "type": "text", "id": "text", "label": "Texto", "default": "Problema" } ] },
+    { "type": "after", "name": "Punto (solución)", "settings": [ { "type": "text", "id": "text", "label": "Texto", "default": "Solución" } ] }
+  ],
+  "presets": [ { "name": "Problema / solución" } ]
+}
+{% endschema %}

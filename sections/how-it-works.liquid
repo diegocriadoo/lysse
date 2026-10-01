@@ -1,0 +1,51 @@
+<section class="section section--mist" id="{{ section.settings.anchor | default: section.id }}" aria-labelledby="Heading-{{ section.id }}">
+  <div class="container">
+    <header class="section-head" data-reveal>
+      {%- if section.settings.eyebrow != blank -%}<p class="eyebrow">{{ section.settings.eyebrow }}</p>{%- endif -%}
+      <h2 class="h2" id="Heading-{{ section.id }}">{{ section.settings.heading }}</h2>
+      {%- if section.settings.text != blank -%}<p class="lead">{{ section.settings.text }}</p>{%- endif -%}
+    </header>
+
+    <ol class="steps" role="list">
+      {%- for block in section.blocks -%}
+        <li class="step" data-reveal style="--reveal-delay: {{ forloop.index0 | times: 90 }}ms" {{ block.shopify_attributes }}>
+          <span class="step__num" aria-hidden="true">{% if forloop.index < 10 %}0{% endif %}{{ forloop.index }}</span>
+          <h3 class="h3"><span class="visually-hidden">{{ 'sections.step' | t }} {{ forloop.index }}: </span>{{ block.settings.title }}</h3>
+          <p>{{ block.settings.text }}</p>
+        </li>
+      {%- endfor -%}
+    </ol>
+
+    {%- if section.settings.cta_label != blank -%}
+      <div class="steps-cta" data-reveal>
+      {%- assign buy_p = product | default: settings.featured_product -%}
+      <a href="{{ routes.cart_url }}/{{ buy_p.selected_or_first_available_variant.id }}:1" data-buy-now class="btn btn--primary">{{ section.settings.cta_label }} {% render 'icon', name: 'arrow', class: 'icon btn__arrow' %}</a>
+      </div>
+    {%- endif -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Cómo funciona",
+  "settings": [
+    { "type": "text", "id": "anchor", "label": "Ancla (id)", "default": "como-funciona" },
+    { "type": "text", "id": "eyebrow", "label": "Antetítulo", "default": "Cómo se usa" },
+    { "type": "inline_richtext", "id": "heading", "label": "Título", "default": "Tres pasos. <em>Cero complicaciones.</em>" },
+    { "type": "textarea", "id": "text", "label": "Texto" },
+    { "type": "text", "id": "cta_label", "label": "Texto del botón", "default": "Quiero mi Aura" }
+  ],
+  "blocks": [
+    {
+      "type": "step",
+      "name": "Paso",
+      "limit": 4,
+      "settings": [
+        { "type": "text", "id": "title", "label": "Título", "default": "Paso" },
+        { "type": "textarea", "id": "text", "label": "Texto", "default": "Describe el paso." }
+      ]
+    }
+  ],
+  "presets": [ { "name": "Cómo funciona", "blocks": [ { "type": "step" }, { "type": "step" }, { "type": "step" } ] } ]
+}
+{% endschema %}

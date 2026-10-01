@@ -1,0 +1,224 @@
+{%- liquid
+  assign p = product | default: section.settings.product | default: settings.featured_product
+  assign current = p.selected_or_first_available_variant
+-%}
+
+<style>@media (max-width:599px){.product-hero{padding-top:14px}.product-hero__grid{gap:16px}.product-hero__media{width:100%;max-width:none;margin-inline:0}.gallery__chips{flex-wrap:wrap;justify-content:center;left:8px;right:8px;bottom:8px}.gallery__thumbs{justify-content:center;margin-top:8px}.gallery__thumb{width:48px;height:48px}.product-info{gap:16px}.product-info>.checklist{order:3}.product-info>.product-info__accordions{order:4}}</style><section class="product-hero on-dark" id="comprar" aria-labelledby="ProductTitle-{{ section.id }}">
+  <div class="container product-hero__grid">
+
+    {%- comment -%} Galería {%- endcomment -%}
+    <div class="product-hero__media">
+      <div class="gallery" data-gallery>
+        <div class="gallery__main">
+          {%- assign images = p.media | where: 'media_type', 'image' -%}
+          {%- if images.size > 0 -%}
+            {%- for media in images limit: 8 -%}
+              <div class="gallery__slide{% if forloop.first %} is-active{% endif %}" data-slide="{{ forloop.index0 }}"{% unless forloop.first %} aria-hidden="true"{% endunless %}>
+                <img
+                  src="{{ media.preview_image | image_url: width: 1100 }}"
+                  srcset="{{ media.preview_image | image_url: width: 600 }} 600w, {{ media.preview_image | image_url: width: 900 }} 900w, {{ media.preview_image | image_url: width: 1300 }} 1300w"
+                  sizes="(min-width: 990px) 55vw, 100vw"
+                  width="{{ media.preview_image.width }}" height="{{ media.preview_image.height }}"
+                  alt="{{ media.alt | default: p.title | escape }}"
+                  {% if forloop.first %}fetchpriority="high"{% else %}loading="lazy"{% endif %}
+                  decoding="async">
+              </div>
+            {%- endfor -%}
+          {%- else -%}
+            <div class="gallery__slide is-active" data-slide="0">
+              <img
+                src="{{ 'aura-portrait.webp' | asset_url }}"
+                srcset="{{ 'aura-portrait-600.webp' | asset_url }} 600w, {{ 'aura-portrait.webp' | asset_url }} 920w"
+                sizes="(min-width: 990px) 55vw, 100vw"
+                width="920" height="1150" fetchpriority="high" decoding="async"
+                alt="{{ section.settings.fallback_alt | escape }}">
+            </div>
+          {%- endif -%}
+
+          {%- assign chips = section.blocks | where: 'type', 'chip' -%}
+          {%- if chips.size > 0 -%}
+            <ul class="gallery__chips" role="list">
+              {%- for block in chips -%}
+                <li class="chip" {{ block.shopify_attributes }}>{% render 'icon', name: block.settings.icon %}{{ block.settings.text }}</li>
+              {%- endfor -%}
+            </ul>
+          {%- endif -%}
+        </div>
+
+        {%- if images.size > 1 -%}
+          <div class="gallery__thumbs" role="group" aria-label="{{ 'products.product.gallery' | t }}">
+            {%- for media in images limit: 8 -%}
+              <button type="button" class="gallery__thumb" data-thumb="{{ forloop.index0 }}" aria-current="{% if forloop.first %}true{% else %}false{% endif %}" aria-label="{{ 'products.product.show_image' | t: index: forloop.index }}">
+                <img src="{{ media.preview_image | image_url: width: 160 }}" width="68" height="68" alt="" loading="lazy">
+              </button>
+            {%- endfor -%}
+          </div>
+        {%- endif -%}
+      </div>
+    </div>
+
+    {%- comment -%} Información y compra {%- endcomment -%}
+    <div class="product-info">
+      {%- if section.settings.eyebrow != blank -%}
+        <p class="eyebrow">{{ section.settings.eyebrow }}</p>
+      {%- endif -%}
+
+      <h1 class="h1" id="ProductTitle-{{ section.id }}">
+        {%- if section.settings.heading != blank -%}
+          {{ section.settings.heading }}
+        {%- else -%}
+          {%- comment -%} «Nombre · Descriptor» se muestra en dos niveles dentro del mismo H1 {%- endcomment -%}
+          {%- assign title_parts = p.title | default: shop.name | split: ' · ' -%}
+          {{ title_parts.first }}
+          {%- if title_parts.size > 1 -%}<span class="h1__sub"> {{ p.title | remove_first: title_parts.first | remove_first: ' · ' }}</span>{%- endif -%}
+        {%- endif -%}
+      </h1>
+
+      {%- if section.settings.show_rating and section.settings.rating_text != blank -%}
+        <a class="rating-line" href="#{{ section.settings.rating_anchor | default: 'opiniones' }}">
+          {% render 'stars', rating: section.settings.rating_stars %}
+          <span>{{ section.settings.rating_text }}</span>
+        </a>
+      {%- endif -%}
+
+      {%- if section.settings.subtitle != blank -%}
+        <p class="product-info__sub">{{ section.settings.subtitle }}</p>
+      {%- endif -%}
+
+      {%- assign features = section.blocks | where: 'type', 'feature' -%}
+      {%- if features.size > 0 -%}
+        <ul class="checklist" role="list">
+          {%- for block in features -%}
+            <li {{ block.shopify_attributes }}><span class="check">{% render 'icon', name: 'check' %}</span><span>{{ block.settings.text }}</span></li>
+          {%- endfor -%}
+        </ul>
+      {%- endif -%}
+
+      {%- if p != blank -%}
+        {%- capture assurance -%}
+          {%- if section.settings.shipping_line != blank -%}<li>{% render 'icon', name: 'truck' %}<span>{{ section.settings.shipping_line }}</span></li>{%- endif -%}
+          {%- if section.settings.returns_line != blank -%}<li>{% render 'icon', name: 'return' %}<span>{{ section.settings.returns_line }}</span></li>{%- endif -%}
+          {%- if section.settings.secure_line != blank -%}<li>{% render 'icon', name: 'lock' %}<span>{{ section.settings.secure_line }}</span></li>{%- endif -%}
+        {%- endcapture -%}
+        {% render 'product-form', p: p, section_id: section.id, primary: true, assurance: assurance, assurance_card: true, gift_tag: section.settings.gift_tag, bestseller_tag: section.settings.bestseller_tag, payment_icons: section.settings.show_payment_icons %}
+      {%- else -%}
+        <p class="placeholder-note">Selecciona el producto en Personalizar tema → Ajustes del tema → Producto destacado.</p>
+      {%- endif -%}
+
+      {%- assign panels = section.blocks | where: 'type', 'collapsible' -%}
+      {%- if panels.size > 0 -%}
+        <div class="product-info__accordions">
+          {%- for block in panels -%}
+            <details class="accordion" {{ block.shopify_attributes }}>
+              <summary>
+                <span class="summary-title">{% render 'icon', name: block.settings.icon %}{{ block.settings.title }}</span>
+                <span class="accordion__plus" aria-hidden="true"></span>
+              </summary>
+              <div class="accordion__content rte">
+                {%- if block.settings.use_description and p.description != blank -%}
+                  {{ p.description }}
+                {%- else -%}
+                  {{ block.settings.content }}
+                {%- endif -%}
+              </div>
+            </details>
+          {%- endfor -%}
+        </div>
+      {%- endif -%}
+    </div>
+  </div>
+</section>
+
+{%- if p != blank -%}
+  {%- liquid
+    if current.available
+      assign availability = 'https://schema.org/InStock'
+    else
+      assign availability = 'https://schema.org/OutOfStock'
+    endif
+  -%}
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Product",
+      "name": {{ p.title | json }},
+      "url": {{ request.origin | append: p.url | json }},
+      {%- if p.featured_image %}
+      "image": [{{ p.featured_image | image_url: width: 1200 | prepend: 'https:' | json }}],
+      {%- endif %}
+      "description": {{ p.description | strip_html | default: page_description | json }},
+      {%- if current.sku != blank %}
+      "sku": {{ current.sku | json }},
+      {%- endif %}
+      "brand": { "@type": "Brand", "name": {{ p.vendor | default: shop.name | json }} },
+      "offers": {
+        "@type": "Offer",
+        "url": {{ request.origin | append: p.url | json }},
+        "priceCurrency": {{ cart.currency.iso_code | json }},
+        "price": {{ current.price | divided_by: 100.0 | json }},
+        "availability": {{ availability | json }},
+        "itemCondition": "https://schema.org/NewCondition"
+      }
+    }
+  </script>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Producto (hero)",
+  "tag": "div",
+  "class": "section-main-product",
+  "settings": [
+    { "type": "product", "id": "product", "label": "Producto", "info": "Solo se usa fuera de la página de producto (p. ej. en la portada). Si se deja vacío se usa el producto destacado de los ajustes del tema." },
+    { "type": "text", "id": "eyebrow", "label": "Antetítulo", "default": "Alisa y peina a la vez" },
+    { "type": "inline_richtext", "id": "heading", "label": "Título (H1)", "info": "Vacío = nombre del producto. Si el nombre contiene « · », la parte posterior se muestra como subtítulo del H1." },
+    { "type": "textarea", "id": "subtitle", "label": "Subtítulo", "default": "Cepilla y alisa en un mismo gesto, estés donde estés. Lista en 20 segundos, con tres temperaturas y sin un solo cable." },
+    { "type": "text", "id": "fallback_alt", "label": "Texto alternativo de la imagen por defecto", "default": "Cepillo alisador inalámbrico Lyssé Aura en negro con púas violetas y pantalla digital a 200 °C" },
+    { "type": "header", "content": "Microcopy bajo el botón" },
+    { "type": "inline_richtext", "id": "shipping_line", "label": "Envío", "default": "<strong>Envío a toda España</strong> · 9-15 días laborables" },
+    { "type": "inline_richtext", "id": "returns_line", "label": "Devoluciones", "default": "<strong>30 días</strong> para devolverlo" },
+    { "type": "text", "id": "secure_line", "label": "Pago", "default": "Pago seguro y cifrado" },
+    { "type": "text", "id": "gift_tag", "label": "Etiqueta del pack (última opción)", "default": "Perfecto para regalar" },
+    { "type": "text", "id": "bestseller_tag", "label": "Etiqueta con estrella (última opción)", "default": "El pack más vendido" },
+    { "type": "checkbox", "id": "show_payment_icons", "label": "Mostrar métodos de pago", "default": true },
+    { "type": "header", "content": "Valoración bajo el nombre" },
+    { "type": "checkbox", "id": "show_rating", "label": "Mostrar estrellas y nº de reseñas", "default": true },
+    { "type": "range", "id": "rating_stars", "label": "Estrellas", "min": 1, "max": 5, "step": 1, "default": 5 },
+    { "type": "text", "id": "rating_text", "label": "Texto", "default": "+299 reseñas", "info": "Indica solo el número de reseñas reales que tienes." },
+    { "type": "text", "id": "rating_anchor", "label": "Ancla de la sección de opiniones", "default": "opiniones" }
+  ],
+  "blocks": [
+    {
+      "type": "chip",
+      "name": "Etiqueta sobre imagen",
+      "limit": 4,
+      "settings": [
+        { "type": "select", "id": "icon", "label": "Icono", "default": "timer", "options": [
+          { "value": "timer", "label": "Reloj" }, { "value": "thermo", "label": "Temperatura" }, { "value": "cordless", "label": "Sin cable" },
+          { "value": "shield", "label": "Escudo" }, { "value": "sparkle", "label": "Destello" }, { "value": "travel", "label": "Viaje" }
+        ] },
+        { "type": "text", "id": "text", "label": "Texto", "default": "Lista en 20 s" }
+      ]
+    },
+    {
+      "type": "feature",
+      "name": "Punto clave",
+      "limit": 6,
+      "settings": [ { "type": "text", "id": "text", "label": "Texto", "default": "Beneficio del producto" } ]
+    },
+    {
+      "type": "collapsible",
+      "name": "Pestaña desplegable",
+      "settings": [
+        { "type": "select", "id": "icon", "label": "Icono", "default": "info", "options": [
+          { "value": "info", "label": "Info" }, { "value": "brush", "label": "Cepillo" }, { "value": "truck", "label": "Envío" },
+          { "value": "return", "label": "Devolución" }, { "value": "box", "label": "Caja" }, { "value": "shield", "label": "Escudo" }
+        ] },
+        { "type": "text", "id": "title", "label": "Título", "default": "Pestaña" },
+        { "type": "checkbox", "id": "use_description", "label": "Usar la descripción del producto", "default": false },
+        { "type": "richtext", "id": "content", "label": "Contenido", "default": "<p>Contenido de la pestaña.</p>" }
+      ]
+    }
+  ]
+}
+{% endschema %}

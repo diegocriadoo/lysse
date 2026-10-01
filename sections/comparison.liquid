@@ -1,0 +1,69 @@
+{%- capture yes -%}<span class="yes">{% render 'icon', name: 'check' %}<span class="visually-hidden">{{ 'sections.compare_yes' | t }}</span></span>{%- endcapture -%}
+{%- capture no -%}<span class="no">{% render 'icon', name: 'x' %}<span class="visually-hidden">{{ 'sections.compare_no' | t }}</span></span>{%- endcapture -%}
+
+<section class="section" id="{{ section.settings.anchor | default: section.id }}" aria-labelledby="Heading-{{ section.id }}">
+  <div class="container">
+    <header class="section-head" data-reveal>
+      {%- if section.settings.eyebrow != blank -%}<p class="eyebrow">{{ section.settings.eyebrow }}</p>{%- endif -%}
+      <h2 class="h2" id="Heading-{{ section.id }}">{{ section.settings.heading }}</h2>
+      {%- if section.settings.text != blank -%}<p class="lead">{{ section.settings.text }}</p>{%- endif -%}
+    </header>
+
+    <div class="compare-wrap" data-reveal>
+      <table class="compare">
+        <caption class="visually-hidden">{{ section.settings.heading | strip_html }}</caption>
+        <thead>
+          <tr>
+            <td></td>
+            <th scope="col" class="col-us">{{ section.settings.us_label }}</th>
+            <th scope="col">{{ section.settings.them_label }}</th>
+          </tr>
+        </thead>
+        <tbody>
+          {%- for block in section.blocks -%}
+            <tr {{ block.shopify_attributes }}>
+              <th scope="row">{{ block.settings.feature }}</th>
+              <td class="col-us">{% if block.settings.us == 'yes' %}{{ yes }}{% else %}{{ no }}{% endif %}</td>
+              <td>
+                {%- case block.settings.them -%}
+                  {%- when 'yes' -%}{{ yes }}
+                  {%- when 'no' -%}{{ no }}
+                  {%- else -%}<span class="maybe">{{ block.settings.them_text }}</span>
+                {%- endcase -%}
+              </td>
+            </tr>
+          {%- endfor -%}
+        </tbody>
+      </table>
+      {%- if section.settings.note != blank -%}<p class="compare-note">{{ section.settings.note }}</p>{%- endif -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Comparativa",
+  "settings": [
+    { "type": "text", "id": "anchor", "label": "Ancla (id)", "default": "comparativa" },
+    { "type": "text", "id": "eyebrow", "label": "Antetítulo", "default": "Comparativa" },
+    { "type": "inline_richtext", "id": "heading", "label": "Título", "default": "Aura frente a <em>la plancha</em>" },
+    { "type": "textarea", "id": "text", "label": "Texto" },
+    { "type": "text", "id": "us_label", "label": "Columna propia", "default": "Lyssé Aura" },
+    { "type": "text", "id": "them_label", "label": "Columna comparada", "default": "Plancha con cable" },
+    { "type": "text", "id": "note", "label": "Nota al pie", "default": "Comparativa genérica frente a planchas de placas con cable. Las prestaciones varían según el modelo." }
+  ],
+  "blocks": [
+    {
+      "type": "row",
+      "name": "Fila",
+      "settings": [
+        { "type": "text", "id": "feature", "label": "Característica", "default": "Característica" },
+        { "type": "select", "id": "us", "label": "Nosotros", "default": "yes", "options": [ { "value": "yes", "label": "Sí" }, { "value": "no", "label": "No" } ] },
+        { "type": "select", "id": "them", "label": "Alternativa", "default": "no", "options": [ { "value": "yes", "label": "Sí" }, { "value": "no", "label": "No" }, { "value": "text", "label": "Texto" } ] },
+        { "type": "text", "id": "them_text", "label": "Texto (si se elige Texto)", "default": "Según modelo" }
+      ]
+    }
+  ],
+  "presets": [ { "name": "Comparativa" } ]
+}
+{% endschema %}

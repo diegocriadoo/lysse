@@ -1,0 +1,20 @@
+<section class="section">
+  <div class="container page-narrow">
+    <p><a class="link-arrow" href="{{ routes.account_url }}">{{ 'customer.account' | t }}</a></p>
+    <h1 class="h2 page-title" style="margin-top:16px">{{ 'customer.order' | t }} {{ order.name }}</h1>
+    <p class="muted">{{ order.created_at | date: '%d/%m/%Y' }} · {{ order.financial_status_label }} · {{ order.fulfillment_status_label }}</p>
+    <ul class="cart-items" role="list" style="margin-top:24px">
+      {%- for line in order.line_items -%}
+        <li class="cart-item" style="grid-template-columns:1fr auto">
+          <div><p class="cart-item__title">{{ line.title }}</p><p class="cart-item__variant">× {{ line.quantity }}</p></div>
+          <div class="cart-item__price">{{ line.final_line_price | money }}</div>
+        </li>
+      {%- endfor -%}
+    </ul>
+    <p class="drawer__subtotal" style="margin-top:20px"><span>{{ 'customer.total' | t }}</span><span>{{ order.total_price | money }}</span></p>
+    {%- if order.shipping_address -%}
+      <h2 class="h3" style="margin-top:32px">{{ 'customer.addresses' | t }}</h2>
+      <p class="muted">{{ order.shipping_address | format_address }}</p>
+    {%- endif -%}
+  </div>
+</section>

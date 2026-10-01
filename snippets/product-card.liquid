@@ -1,0 +1,10 @@
+<a class="product-card" href="{{ item.url }}">
+  <div class="product-card__img">
+    {%- if item.featured_image -%}
+      <img src="{{ item.featured_image | image_url: width: 600 }}" srcset="{{ item.featured_image | image_url: width: 400 }} 400w, {{ item.featured_image | image_url: width: 800 }} 800w"
+           sizes="(min-width: 990px) 25vw, 50vw" alt="{{ item.featured_image.alt | default: item.title | escape }}" width="{{ item.featured_image.width }}" height="{{ item.featured_image.height }}" loading="lazy">
+    {%- endif -%}
+  </div>
+  <span class="product-card__title">{{ item.title }}</span>
+  <span class="muted">{{ item.price | money }}</span>
+</a>

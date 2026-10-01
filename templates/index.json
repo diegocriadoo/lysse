@@ -1,0 +1,674 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "main-product",
+      "blocks": {
+        "chip_1": {
+          "type": "chip",
+          "settings": {
+            "icon": "timer",
+            "text": "Lista en 20 s"
+          }
+        },
+        "chip_2": {
+          "type": "chip",
+          "settings": {
+            "icon": "thermo",
+            "text": "Hasta 200 °C"
+          }
+        },
+        "chip_3": {
+          "type": "chip",
+          "settings": {
+            "icon": "cordless",
+            "text": "Sin cable"
+          }
+        },
+        "feature_4": {
+          "type": "feature",
+          "settings": {
+            "text": "Lista para usar en unos 20 segundos"
+          }
+        },
+        "feature_5": {
+          "type": "feature",
+          "settings": {
+            "text": "3 temperaturas: 160, 180 y 200 °C"
+          }
+        },
+        "feature_6": {
+          "type": "feature",
+          "settings": {
+            "text": "Inalámbrica y portátil: llévala contigo"
+          }
+        },
+        "feature_7": {
+          "type": "feature",
+          "settings": {
+            "text": "Diseño anti-quemaduras con iones negativos"
+          }
+        },
+        "collapsible_8": {
+          "type": "collapsible",
+          "settings": {
+            "icon": "brush",
+            "title": "Cómo se usa",
+            "use_description": false,
+            "content": "<ol><li>Enciéndela y elige 160, 180 o 200 °C.</li><li>Espera unos 20 segundos a que se caliente.</li><li>Pasa el cepillo despacio por cada mechón, de la raíz a las puntas.</li></ol><p>Sigue siempre las indicaciones de seguridad del fabricante.</p>"
+          }
+        },
+        "collapsible_9": {
+          "type": "collapsible",
+          "settings": {
+            "icon": "info",
+            "title": "Especificaciones",
+            "use_description": false,
+            "content": "<ul><li>Temperaturas: 160 / 180 / 200 °C</li><li>Calentamiento: unos 20 segundos</li><li>Inalámbrico y portátil</li><li>Diseño anti-quemaduras</li><li>Tecnología de iones negativos</li><li>Pantalla digital de temperatura</li></ul><p>Potencia: 35 W · Voltaje: 7,4 V · Batería recargable: unos 40 minutos de uso por carga · Carga completa en unas 2 horas con cable USB (incluido); puedes usarla mientras se carga · Diámetro del cabezal: 21-30 mm · Material: ABS</p>"
+          }
+        },
+        "collapsible_10": {
+          "type": "collapsible",
+          "settings": {
+            "icon": "truck",
+            "title": "Envío",
+            "use_description": false,
+            "content": "<p><strong>Envío gratis</strong> a la España peninsular y las Islas Baleares. Plazo de entrega: 10-15 días laborables.</p><p>Por ahora no enviamos a Canarias, Ceuta ni Melilla.</p>"
+          }
+        },
+        "collapsible_11": {
+          "type": "collapsible",
+          "settings": {
+            "icon": "return",
+            "title": "Devoluciones",
+            "use_description": false,
+            "content": "<p>Tienes <strong>30 días naturales</strong> desde que recibes tu pedido para devolverlo, sin dar explicaciones. Escríbenos con tu número de pedido y te indicaremos cómo enviarlo.</p><p>Los gastos de envío de la devolución corren a tu cargo, salvo que el producto sea defectuoso o no corresponda con lo que pediste. Condiciones completas en nuestra <a href=\"/policies/refund-policy\">política de devoluciones</a>.</p>"
+          }
+        },
+        "collapsible_12": {
+          "type": "collapsible",
+          "settings": {
+            "icon": "box",
+            "title": "Qué incluye",
+            "use_description": false,
+            "content": "<p>Cepillo alisador Lyssé Aura, cable de carga USB, 2 pinzas para separar el pelo y un peine de púa.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "chip_1",
+        "chip_2",
+        "chip_3",
+        "feature_4",
+        "feature_5",
+        "feature_6",
+        "feature_7",
+        "collapsible_8",
+        "collapsible_9",
+        "collapsible_10",
+        "collapsible_11",
+        "collapsible_12"
+      ],
+      "settings": {
+        "product": "lysse-aura",
+        "eyebrow": "Tu pelo perfecto. Sin cables. En cualquier lugar.",
+        "heading": "",
+        "subtitle": "El cepillo alisador inalámbrico que te permite alisar y retocar tu pelo estés donde estés.",
+        "fallback_alt": "Cepillo alisador inalámbrico Lyssé Aura en negro con púas violetas y pantalla digital a 200 °C",
+        "shipping_line": "<strong>Envío GRATIS</strong> a península y Baleares · 10-15 días laborables",
+        "returns_line": "<strong>30 días</strong> para devolverlo",
+        "secure_line": "Pago seguro y cifrado",
+        "gift_tag": "Perfecto para regalar",
+        "bestseller_tag": "El pack más vendido",
+        "show_payment_icons": true,
+        "show_rating": true,
+        "rating_stars": 5,
+        "rating_text": "+299 reseñas",
+        "rating_anchor": "opiniones"
+      }
+    },
+    "reviews": {
+      "type": "reviews",
+      "blocks": {
+        "review_1": {
+          "type": "review",
+          "settings": {
+            "author": "Laura M.",
+            "rating": 5,
+            "title": "Me ha sorprendido mucho",
+            "text": "Es mucho más cómodo de usar que una plancha tradicional. Lo llevo cuando viajo y me viene genial para quitar el encrespamiento y dejar el pelo más arreglado en pocos minutos.",
+            "photo": "shopify://shop_images/aura-coche.png",
+            "date": "12/09/2026",
+            "verified": true
+          }
+        },
+        "review_2": {
+          "type": "review",
+          "settings": {
+            "author": "Marta G.",
+            "rating": 5,
+            "title": "Perfecto para llevar en el bolso",
+            "text": "Me encanta porque ocupa muy poco y puedo usarlo para retocarme el pelo durante el día. Es práctico y muy fácil de manejar. Justo lo que buscaba.",
+            "photo": "shopify://shop_images/aura-bolso.png",
+            "date": "08/09/2026",
+            "verified": true
+          }
+        },
+        "review_3": {
+          "type": "review",
+          "settings": {
+            "author": "Sofía R.",
+            "rating": 5,
+            "title": "Adiós al pelo rebelde",
+            "text": "Tengo bastante frizz y este cepillo me ayuda muchísimo a dejar el cabello más ordenado. Lo mejor es que no necesito sacar la plancha cada vez que quiero hacerme un pequeño retoque.",
+            "photo": "shopify://shop_images/aura-sofa.png",
+            "date": "03/09/2026",
+            "verified": true
+          }
+        },
+        "review_4": {
+          "type": "review",
+          "settings": {
+            "author": "Claudia P.",
+            "rating": 5,
+            "title": "Muy cómodo para viajar",
+            "text": "Lo compré pensando en llevarlo de viaje y ha sido un acierto. Es pequeño, práctico y se utiliza de forma muy sencilla. Ahora siempre tiene un hueco en mi neceser.",
+            "photo": "shopify://shop_images/aura-maleta.png",
+            "date": "29/08/2026",
+            "verified": true
+          }
+        },
+        "review_5": {
+          "type": "review",
+          "settings": {
+            "author": "Ana L.",
+            "rating": 5,
+            "title": "Tardo mucho menos en arreglarme",
+            "text": "Para esos días en los que tengo prisa es genial. Me permite darle forma y alisar el cabello rápidamente sin complicarme demasiado. Muy práctico para el día a día.",
+            "photo": "shopify://shop_images/aura-tocador.png",
+            "date": "21/08/2026",
+            "verified": true
+          }
+        }
+      },
+      "block_order": [
+        "review_1",
+        "review_2",
+        "review_3",
+        "review_4",
+        "review_5"
+      ],
+      "settings": {
+        "anchor": "opiniones",
+        "eyebrow": "Opiniones",
+        "heading": "Lo que dicen <em>nuestros últimos clientes</em>",
+        "empty_title": "Aún no hay opiniones publicadas",
+        "empty_text": "Publicamos solo opiniones reales de clientes. Cuando recibas tu Aura, nos encantará saber qué te parece."
+      }
+    },
+    "results": {
+      "type": "before-after",
+      "settings": {
+        "anchor": "resultados",
+        "eyebrow": "Resultados",
+        "heading": "Antes y después <em>de una pasada</em>",
+        "text": "Desliza para comparar.",
+        "before_image": "shopify://shop_images/e5c0c01d-0461-4a1e-a50b-4dd3db4ec82c.png",
+        "after_image": "shopify://shop_images/ChatGPT_Image_27_sept_2026_21_01_23.png",
+        "before_label": "Antes",
+        "after_label": "Después",
+        "start": 50,
+        "slider_label": "Desliza para comparar antes y después",
+        "caption": "",
+        "tinted": true
+      }
+    },
+    "benefits": {
+      "type": "benefits",
+      "blocks": {
+        "benefit_1": {
+          "type": "benefit",
+          "settings": {
+            "icon": "timer",
+            "stat": "20 s",
+            "title": "Lista en segundos",
+            "text": "Se calienta en unos 20 segundos: ideal para mañanas con el tiempo justo y retoques de última hora."
+          }
+        },
+        "benefit_2": {
+          "type": "benefit",
+          "settings": {
+            "icon": "thermo",
+            "stat": "160–200 °C",
+            "title": "Tres temperaturas",
+            "text": "Elige entre 160, 180 y 200 °C y compruébalo de un vistazo en la pantalla digital."
+          }
+        },
+        "benefit_3": {
+          "type": "benefit",
+          "settings": {
+            "icon": "cordless",
+            "stat": "Sin cable",
+            "title": "Úsala donde quieras",
+            "text": "Sin buscar enchufe ni pelearte con el cable: frente a cualquier espejo, en casa o fuera."
+          }
+        },
+        "benefit_4": {
+          "type": "benefit",
+          "settings": {
+            "icon": "shield",
+            "stat": "Anti-quemaduras",
+            "title": "Cuidado en cada pasada",
+            "text": "Diseño anti-quemaduras y tecnología de iones negativos, en un formato cepillo que peina mientras alisa."
+          }
+        }
+      },
+      "block_order": [
+        "benefit_1",
+        "benefit_2",
+        "benefit_3",
+        "benefit_4"
+      ],
+      "settings": {
+        "anchor": "beneficios",
+        "eyebrow": "Por qué Aura",
+        "heading": "Tu alisado, <em>sin esperas ni cables</em>",
+        "text": "Todo lo que necesitas para alisar y peinar a la vez, en un cepillo que cabe en tu rutina."
+      }
+    },
+    "problem": {
+      "type": "problem-solution",
+      "blocks": {
+        "before_1": {
+          "type": "before",
+          "settings": {
+            "text": "Tienes que peinarte cerca de un enchufe"
+          }
+        },
+        "before_2": {
+          "type": "before",
+          "settings": {
+            "text": "El cable se enreda y limita tus movimientos"
+          }
+        },
+        "before_3": {
+          "type": "before",
+          "settings": {
+            "text": "Llevarla contigo para un retoque es incómodo"
+          }
+        },
+        "after_4": {
+          "type": "after",
+          "settings": {
+            "text": "Sin cable: frente a cualquier espejo"
+          }
+        },
+        "after_5": {
+          "type": "after",
+          "settings": {
+            "text": "Lista en unos 20 segundos"
+          }
+        },
+        "after_6": {
+          "type": "after",
+          "settings": {
+            "text": "Portátil: para el trabajo, el gimnasio o de viaje"
+          }
+        }
+      },
+      "block_order": [
+        "before_1",
+        "before_2",
+        "before_3",
+        "after_4",
+        "after_5",
+        "after_6"
+      ],
+      "settings": {
+        "anchor": "por-que",
+        "eyebrow": "El problema",
+        "heading": "Tu rutina no siempre pasa <em>por un enchufe</em>",
+        "text": "El enchufe lejos del espejo, el cable que no llega, el retoque antes de salir… Aura está pensada para esos momentos.",
+        "before_label": "Con cable",
+        "before_title": "Dependes de dónde esté el enchufe",
+        "after_label": "Con Aura",
+        "after_title": "Te peinas donde tú decidas"
+      }
+    },
+    "showcase": {
+      "type": "product-showcase",
+      "blocks": {
+        "hotspot_1": {
+          "type": "hotspot",
+          "settings": {
+            "x": 89,
+            "y": 32,
+            "title": "Púas con diseño anti-quemaduras",
+            "text": "Peinan y alisan a la vez, con protección anti-quemaduras y tecnología de iones negativos."
+          }
+        },
+        "hotspot_2": {
+          "type": "hotspot",
+          "settings": {
+            "x": 28,
+            "y": 55,
+            "title": "Pantalla digital",
+            "text": "Muestra la temperatura seleccionada para que sepas en todo momento a cuántos grados trabajas."
+          }
+        },
+        "hotspot_3": {
+          "type": "hotspot",
+          "settings": {
+            "x": 26,
+            "y": 68,
+            "title": "Botón frontal",
+            "text": "Un único botón, fácil de alcanzar mientras te peinas."
+          }
+        },
+        "card_4": {
+          "type": "card",
+          "settings": {
+            "image": "shopify://shop_images/Gemini_Generated_Image_fmi5aifmi5aifmi5.jpg",
+            "fallback": "aura-head.webp",
+            "alt": "Cabezal del cepillo Lyssé Aura con púas negras y reflejos violetas",
+            "kicker": "Anti-quemaduras",
+            "title": "Púas con protección y cuidado iónico"
+          }
+        },
+        "card_5": {
+          "type": "card",
+          "settings": {
+            "image": "shopify://shop_images/Gemini_Generated_Image_1or03h1or03h1or0.jpg",
+            "fallback": "aura-display.webp",
+            "alt": "Pantalla digital del cepillo Lyssé Aura marcando 200 °C",
+            "kicker": "160 · 180 · 200 °C",
+            "title": "La temperatura, siempre a la vista"
+          }
+        },
+        "card_6": {
+          "type": "card",
+          "settings": {
+            "image": "shopify://shop_images/Gemini_Generated_Image_73je7p73je7p73je.jpg",
+            "fallback": "aura-travel.webp",
+            "alt": "Cepillo alisador inalámbrico Lyssé Aura completo",
+            "kicker": "Sin cable",
+            "title": "Pensada para llevarla contigo"
+          }
+        }
+      },
+      "block_order": [
+        "hotspot_1",
+        "hotspot_2",
+        "hotspot_3",
+        "card_4",
+        "card_5",
+        "card_6"
+      ],
+      "settings": {
+        "anchor": "detalles",
+        "image": "shopify://shop_images/Gemini_Generated_Image_98hi2p98hi2p98hi.jpg",
+        "alt": "Cepillo alisador Lyssé Aura con púas, pantalla digital y botón frontal",
+        "eyebrow": "Diseño",
+        "heading": "Cada detalle, <em>pensado para ti</em>",
+        "text": "Toca los puntos de la imagen para descubrir cada parte de Aura."
+      }
+    },
+    "how": {
+      "type": "how-it-works",
+      "blocks": {
+        "step_1": {
+          "type": "step",
+          "settings": {
+            "title": "Enciende y elige",
+            "text": "Enciende Aura y selecciona 160, 180 o 200 °C."
+          }
+        },
+        "step_2": {
+          "type": "step",
+          "settings": {
+            "title": "Espera 20 segundos",
+            "text": "En unos 20 segundos alcanza la temperatura y está lista para usar."
+          }
+        },
+        "step_3": {
+          "type": "step",
+          "settings": {
+            "title": "Cepilla mechón a mechón",
+            "text": "Pasa el cepillo despacio de la raíz a las puntas hasta conseguir el acabado que buscas."
+          }
+        }
+      },
+      "block_order": [
+        "step_1",
+        "step_2",
+        "step_3"
+      ],
+      "settings": {
+        "anchor": "como-funciona",
+        "eyebrow": "Cómo se usa",
+        "heading": "Tres pasos. <em>Cero complicaciones.</em>",
+        "text": "",
+        "cta_label": "Quiero mi Aura"
+      }
+    },
+    "compare": {
+      "type": "comparison",
+      "blocks": {
+        "row_1": {
+          "type": "row",
+          "settings": {
+            "feature": "Funciona sin cable",
+            "us": "yes",
+            "them": "no",
+            "them_text": "Según modelo"
+          }
+        },
+        "row_2": {
+          "type": "row",
+          "settings": {
+            "feature": "Peina y alisa a la vez",
+            "us": "yes",
+            "them": "no",
+            "them_text": "Según modelo"
+          }
+        },
+        "row_3": {
+          "type": "row",
+          "settings": {
+            "feature": "Tres temperaturas seleccionables",
+            "us": "yes",
+            "them": "no",
+            "them_text": "Según modelo"
+          }
+        },
+        "row_4": {
+          "type": "row",
+          "settings": {
+            "feature": "Lista en unos 20 segundos",
+            "us": "yes",
+            "them": "no",
+            "them_text": "Según modelo"
+          }
+        },
+        "row_5": {
+          "type": "row",
+          "settings": {
+            "feature": "Diseño anti-quemaduras",
+            "us": "yes",
+            "them": "no",
+            "them_text": "Según modelo"
+          }
+        }
+      },
+      "block_order": [
+        "row_1",
+        "row_2",
+        "row_3",
+        "row_4",
+        "row_5"
+      ],
+      "settings": {
+        "anchor": "comparativa",
+        "eyebrow": "Comparativa",
+        "heading": "Aura frente a <em>la plancha</em>",
+        "text": "",
+        "us_label": "Lyssé Aura",
+        "them_label": "Plancha con cable",
+        "note": "Comparativa genérica frente a planchas de placas con cable. Las prestaciones varían según el modelo."
+      }
+    },
+    "trust": {
+      "type": "trust-badges",
+      "blocks": {
+        "item_1": {
+          "type": "item",
+          "settings": {
+            "icon": "truck",
+            "title": "Envío gratis",
+            "text": "Península y Baleares · 10-15 días laborables"
+          }
+        },
+        "item_2": {
+          "type": "item",
+          "settings": {
+            "icon": "return",
+            "title": "30 días de devolución",
+            "text": "Si no te convence, puedes devolverlo"
+          }
+        },
+        "item_3": {
+          "type": "item",
+          "settings": {
+            "icon": "lock",
+            "title": "Pago seguro",
+            "text": "Checkout protegido y cifrado"
+          }
+        },
+        "item_4": {
+          "type": "item",
+          "settings": {
+            "icon": "mail",
+            "title": "Atención personalizada",
+            "text": "Resolvemos tus dudas por email"
+          }
+        }
+      },
+      "block_order": [
+        "item_1",
+        "item_2",
+        "item_3",
+        "item_4"
+      ],
+      "settings": {
+        "label": "Compra con tranquilidad"
+      }
+    },
+    "faq": {
+      "type": "faq",
+      "blocks": {
+        "question_1": {
+          "type": "question",
+          "settings": {
+            "question": "¿Cómo se usa?",
+            "answer": "<p>Enciéndela, elige 160, 180 o 200 °C y espera unos 20 segundos. Después, pasa el cepillo despacio por cada mechón, de la raíz a las puntas. Sigue siempre las indicaciones de seguridad del fabricante.</p>"
+          }
+        },
+        "question_2": {
+          "type": "question",
+          "settings": {
+            "question": "¿Qué temperatura elijo?",
+            "answer": "<p>Aura tiene tres niveles: 160, 180 y 200 °C. Como norma general, empieza por la temperatura más baja y súbela solo si lo necesitas.</p>"
+          }
+        },
+        "question_3": {
+          "type": "question",
+          "settings": {
+            "question": "¿Cuánto tarda en calentarse?",
+            "answer": "<p>Unos 20 segundos.</p>"
+          }
+        },
+        "question_4": {
+          "type": "question",
+          "settings": {
+            "question": "¿Cuánto dura la batería y cómo se carga?",
+            "answer": "<p>Cada carga da para unos 40 minutos de uso. Como un retoque suele llevar solo unos minutos, con un buen uso puedes aprovecharla para retocarte durante todo el día. Se carga con el cable USB incluido en unas 2 horas, y puedes usarla mientras se carga.</p>"
+          }
+        },
+        "question_6": {
+          "type": "question",
+          "settings": {
+            "question": "¿Cuánto tarda el envío?",
+            "answer": "<p><strong>El envío es gratis</strong> a la España peninsular y las Islas Baleares, con un plazo de entrega de 10-15 días laborables. Por ahora no enviamos a Canarias, Ceuta ni Melilla.</p>"
+          }
+        },
+        "question_7": {
+          "type": "question",
+          "settings": {
+            "question": "¿Puedo devolverlo?",
+            "answer": "<p>Sí. Tienes 30 días naturales desde que recibes tu pedido para devolverlo, sin dar explicaciones. Escríbenos con tu número de pedido y te indicaremos los pasos. Los gastos de la devolución corren a tu cargo, salvo si el producto es defectuoso o no es lo que pediste. Más información en nuestra <a href=\"/policies/refund-policy\">política de devoluciones</a>.</p>"
+          }
+        },
+        "question_8": {
+          "type": "question",
+          "settings": {
+            "question": "¿Tiene garantía?",
+            "answer": "<p>Sí. Todos nuestros productos tienen <strong>3 años de garantía legal</strong>. Si tu Aura presenta un defecto, escríbenos con tu número de pedido y una foto o vídeo del problema, y te ofreceremos reparación, sustitución o reembolso sin coste.</p>"
+          }
+        },
+        "question_9": {
+          "type": "question",
+          "settings": {
+            "question": "¿Cómo puedo contactar con vosotros?",
+            "answer": "<p>Escríbenos a <strong>contacto@lyssestyle.com</strong> y te responderemos en un máximo de 48 horas laborables.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "question_1",
+        "question_2",
+        "question_3",
+        "question_4",
+        "question_6",
+        "question_7",
+        "question_8",
+        "question_9"
+      ],
+      "settings": {
+        "anchor": "faq",
+        "eyebrow": "FAQ",
+        "heading": "Resolvemos <em>tus dudas</em>",
+        "text": "Todo lo que necesitas saber antes de pedir tu Aura.",
+        "contact_text": "¿No encuentras tu respuesta? Escríbenos y te contestamos personalmente.",
+        "schema": false
+      }
+    },
+    "sticky": {
+      "type": "sticky-atc",
+      "settings": {
+        "enable": true,
+        "label": "QUIERO MI AURA"
+      }
+    }
+  },
+  "order": [
+    "main",
+    "reviews",
+    "results",
+    "benefits",
+    "problem",
+    "showcase",
+    "how",
+    "compare",
+    "trust",
+    "faq",
+    "sticky"
+  ]
+}

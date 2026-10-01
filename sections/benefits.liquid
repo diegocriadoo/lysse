@@ -1,0 +1,50 @@
+<section class="section section--mist" id="{{ section.settings.anchor | default: section.id }}" aria-labelledby="Heading-{{ section.id }}">
+  <div class="container">
+    <header class="section-head" data-reveal>
+      {%- if section.settings.eyebrow != blank -%}<p class="eyebrow">{{ section.settings.eyebrow }}</p>{%- endif -%}
+      <h2 class="h2" id="Heading-{{ section.id }}">{{ section.settings.heading }}</h2>
+      {%- if section.settings.text != blank -%}<p class="lead">{{ section.settings.text }}</p>{%- endif -%}
+    </header>
+
+    <ul class="benefits-grid" role="list">
+      {%- for block in section.blocks -%}
+        <li class="benefit" data-reveal style="--reveal-delay: {{ forloop.index0 | times: 70 }}ms" {{ block.shopify_attributes }}>
+          <span class="benefit__icon">{% render 'icon', name: block.settings.icon %}</span>
+          {%- if block.settings.stat != blank -%}<span class="benefit__stat">{{ block.settings.stat }}</span>{%- endif -%}
+          <h3 class="h3">{{ block.settings.title }}</h3>
+          <p>{{ block.settings.text }}</p>
+        </li>
+      {%- endfor -%}
+    </ul>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Beneficios",
+  "settings": [
+    { "type": "text", "id": "anchor", "label": "Ancla (id)", "default": "beneficios" },
+    { "type": "text", "id": "eyebrow", "label": "Antetítulo", "default": "Por qué Aura" },
+    { "type": "inline_richtext", "id": "heading", "label": "Título", "default": "Tu alisado, <em>sin esperas ni cables</em>" },
+    { "type": "textarea", "id": "text", "label": "Texto" }
+  ],
+  "blocks": [
+    {
+      "type": "benefit",
+      "name": "Beneficio",
+      "limit": 6,
+      "settings": [
+        { "type": "select", "id": "icon", "label": "Icono", "default": "timer", "options": [
+          { "value": "timer", "label": "Reloj" }, { "value": "thermo", "label": "Temperatura" }, { "value": "cordless", "label": "Sin cable" },
+          { "value": "shield", "label": "Escudo" }, { "value": "sparkle", "label": "Destello" }, { "value": "travel", "label": "Viaje" },
+          { "value": "display", "label": "Pantalla" }, { "value": "brush", "label": "Cepillo" }
+        ] },
+        { "type": "text", "id": "stat", "label": "Dato destacado (opcional)" },
+        { "type": "text", "id": "title", "label": "Título", "default": "Beneficio" },
+        { "type": "textarea", "id": "text", "label": "Descripción", "default": "Describe el beneficio en una o dos frases." }
+      ]
+    }
+  ],
+  "presets": [ { "name": "Beneficios", "blocks": [ { "type": "benefit" }, { "type": "benefit" }, { "type": "benefit" } ] } ]
+}
+{% endschema %}

@@ -1,0 +1,43 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "type": "header",
+  "name": "Grupo de cabecera",
+  "sections": {
+    "announcement": {
+      "type": "announcement-bar",
+      "blocks": {
+        "message_MqVnhT": {
+          "type": "message",
+          "settings": {
+            "text": "Envío GRATIS solo HOY · 30 días GARANTÍA",
+            "link": ""
+          }
+        }
+      },
+      "block_order": [
+        "message_MqVnhT"
+      ],
+      "settings": {}
+    },
+    "header": {
+      "type": "header",
+      "settings": {
+        "menu": "",
+        "show_cta": true,
+        "cta_label": "Comprar ahora"
+      }
+    }
+  },
+  "order": [
+    "announcement",
+    "header"
+  ]
+}

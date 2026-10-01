@@ -1,0 +1,111 @@
+[
+  {
+    "name": "theme_info",
+    "theme_name": "Lyssé",
+    "theme_version": "1.0.0",
+    "theme_author": "Lyssé",
+    "theme_documentation_url": "https://help.shopify.com/manual/online-store/themes",
+    "theme_support_url": "https://help.shopify.com"
+  },
+  {
+    "name": "Marca",
+    "settings": [
+      {
+        "type": "text",
+        "id": "wordmark",
+        "label": "Nombre de marca (logotipo de texto)",
+        "default": "Lyssé"
+      },
+      {
+        "type": "image_picker",
+        "id": "logo",
+        "label": "Logotipo (opcional)",
+        "info": "Si subes un logotipo, sustituye al logotipo de texto."
+      },
+      {
+        "type": "image_picker",
+        "id": "favicon",
+        "label": "Favicon",
+        "info": "32 × 32 px o superior, PNG."
+      },
+      {
+        "type": "product",
+        "id": "featured_product",
+        "label": "Producto destacado",
+        "info": "Producto que se vende en la portada, el botón «Comprar» y el sticky."
+      },
+      {
+        "type": "text",
+        "id": "seo_home_suffix",
+        "label": "Complemento del título SEO de la portada",
+        "default": "Cepillo alisador inalámbrico"
+      }
+    ]
+  },
+  {
+    "name": "Colores",
+    "settings": [
+      {
+        "type": "select",
+        "id": "color_scheme",
+        "label": "Estilo",
+        "default": "light",
+        "options": [
+          {
+            "value": "light",
+            "label": "Claro"
+          },
+          {
+            "value": "dark",
+            "label": "Oscuro"
+          }
+        ]
+      },
+      {
+        "type": "color",
+        "id": "color_dark",
+        "label": "Fondo oscuro",
+        "default": "#07050C"
+      },
+      {
+        "type": "color",
+        "id": "color_accent",
+        "label": "Acento (botones)",
+        "default": "#7C3AED",
+        "info": "Mantén un contraste suficiente con el texto blanco."
+      },
+      {
+        "type": "color",
+        "id": "color_accent_2",
+        "label": "Acento secundario (brillos)",
+        "default": "#C04CF7"
+      },
+      {
+        "type": "color",
+        "id": "color_light",
+        "label": "Fondo claro",
+        "default": "#F6F2FB"
+      }
+    ]
+  },
+  {
+    "name": "Contacto y redes",
+    "settings": [
+      {
+        "type": "text",
+        "id": "contact_email",
+        "label": "Email de contacto"
+      },
+      {
+        "type": "url",
+        "id": "social_instagram",
+        "label": "Instagram"
+      },
+      {
+        "type": "url",
+        "id": "social_tiktok",
+        "label": "TikTok"
+      }
+    ]
+  }
+]

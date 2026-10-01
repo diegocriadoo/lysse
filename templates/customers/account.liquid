@@ -1,0 +1,25 @@
+<section class="section">
+  <div class="container">
+    <div style="display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap" class="page-title">
+      <h1 class="h2">{{ 'customer.account' | t }}</h1>
+      <a class="btn btn--outline btn--sm" href="{{ routes.account_logout_url }}">{{ 'customer.logout' | t }}</a>
+    </div>
+    <h2 class="h3" style="margin-bottom:16px">{{ 'customer.orders' | t }}</h2>
+    {%- paginate customer.orders by 20 -%}
+      {%- if customer.orders.size > 0 -%}
+        <table class="compare" style="text-align:left">
+          <thead><tr><th scope="col" style="text-align:left">{{ 'customer.order' | t }}</th><th scope="col">{{ 'customer.date' | t }}</th><th scope="col">{{ 'customer.status' | t }}</th><th scope="col">{{ 'customer.total' | t }}</th></tr></thead>
+          <tbody>
+            {%- for order in customer.orders -%}
+              <tr><th scope="row"><a href="{{ order.customer_url }}">{{ order.name }}</a></th><td>{{ order.created_at | date: '%d/%m/%Y' }}</td><td>{{ order.fulfillment_status_label }}</td><td>{{ order.total_price | money }}</td></tr>
+            {%- endfor -%}
+          </tbody>
+        </table>
+        {% render 'pagination', paginate: paginate %}
+      {%- else -%}
+        <p class="muted">{{ 'customer.no_orders' | t }}</p>
+      {%- endif -%}
+    {%- endpaginate -%}
+    <p style="margin-top:32px"><a class="link-arrow" href="{{ routes.account_addresses_url }}">{{ 'customer.addresses' | t }} ({{ customer.addresses_count }})</a></p>
+  </div>
+</section>

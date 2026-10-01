@@ -1,0 +1,160 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin language editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "general": {
+    "page": "Página {{ page }}",
+    "payment_methods": "Métodos de pago",
+    "announcement": "Anuncios",
+    "back_home": "Volver al inicio",
+    "search": "Buscar",
+    "search_placeholder": "¿Qué estás buscando?",
+    "no_results": "No hemos encontrado resultados para «{{ terms }}».",
+    "results": "Resultados para «{{ terms }}»",
+    "not_found_title": "Página no encontrada",
+    "not_found_text": "La página que buscas no existe o se ha movido.",
+    "password_title": "Abrimos muy pronto",
+    "password_label": "Contraseña",
+    "password_enter": "Entrar",
+    "password_admin": "¿Eres el propietario de la tienda?",
+    "newsletter_email": "Tu email",
+    "newsletter_submit": "Avisadme",
+    "newsletter_success": "¡Gracias! Te avisaremos."
+  },
+  "accessibility": {
+    "skip_to_content": "Saltar al contenido"
+  },
+  "header": {
+    "home": "Inicio",
+    "menu": "Menú",
+    "menu_open": "Abrir menú",
+    "menu_close": "Cerrar menú",
+    "nav_label": "Navegación principal",
+    "nav_benefits": "Beneficios",
+    "nav_how": "Cómo funciona",
+    "nav_reviews": "Opiniones",
+    "nav_faq": "Preguntas frecuentes",
+    "cart": "Carrito"
+  },
+  "products": {
+    "product": {
+      "add_to_cart": "QUIERO MI AURA",
+      "adding": "Añadiendo…",
+      "sold_out": "Agotado",
+      "unavailable": "No disponible",
+      "quantity": "Cantidad",
+      "quantity_decrease": "Reducir cantidad",
+      "quantity_increase": "Aumentar cantidad",
+      "regular_price": "Precio habitual",
+      "sale_price": "Precio de oferta",
+      "taxes_included": "Impuestos incluidos.",
+      "taxes_excluded": "Impuestos no incluidos.",
+      "shipping_at_checkout": "Gastos de envío calculados en la pantalla de pago.",
+      "gallery": "Galería de imágenes",
+      "show_image": "Ver imagen {{ index }}",
+      "view": "Ver producto"
+    }
+  },
+  "cart": {
+    "title": "Tu carrito",
+    "close": "Cerrar carrito",
+    "remove": "Eliminar",
+    "subtotal": "Subtotal",
+    "checkout": "Finalizar pedido",
+    "view": "Ver carrito",
+    "empty": "Tu carrito está vacío.",
+    "continue": "Seguir comprando",
+    "error": "No se ha podido añadir al carrito. Inténtalo de nuevo.",
+    "product": "Producto",
+    "quantity": "Cantidad",
+    "total": "Total",
+    "note": "Nota del pedido"
+  },
+  "sections": {
+    "step": "Paso",
+    "compare_yes": "Sí",
+    "compare_no": "No"
+  },
+  "reviews": {
+    "rating_label": "Valoración: {{ rating }} de 5",
+    "count": {
+      "one": "{{ count }} opinión",
+      "other": "{{ count }} opiniones"
+    },
+    "photo_alt": "Foto de {{ author }}",
+    "verified": "Compra verificada",
+    "share": "Enviar mi opinión",
+    "mail_subject": "Mi opinión sobre Lyssé Aura"
+  },
+  "footer": {
+    "buy": "Comprar",
+    "shipping": "Envíos",
+    "returns": "Devoluciones",
+    "account": "Mi cuenta",
+    "privacy": "Privacidad",
+    "terms": "Términos del servicio",
+    "legal": "Aviso legal",
+    "cookies": "Cookies"
+  },
+  "blogs": {
+    "read_more": "Leer más",
+    "back": "Volver al blog"
+  },
+  "customer": {
+    "login": "Iniciar sesión",
+    "logout": "Cerrar sesión",
+    "email": "Email",
+    "password": "Contraseña",
+    "forgot": "¿Has olvidado tu contraseña?",
+    "reset_title": "Restablecer contraseña",
+    "reset_text": "Te enviaremos un email para restablecer tu contraseña.",
+    "reset_submit": "Enviar",
+    "cancel": "Cancelar",
+    "create": "Crear cuenta",
+    "first_name": "Nombre",
+    "last_name": "Apellidos",
+    "account": "Mi cuenta",
+    "orders": "Historial de pedidos",
+    "no_orders": "Todavía no has realizado ningún pedido.",
+    "order": "Pedido",
+    "date": "Fecha",
+    "total": "Total",
+    "status": "Estado",
+    "addresses": "Direcciones",
+    "add_address": "Añadir dirección",
+    "save": "Guardar",
+    "delete": "Eliminar",
+    "edit": "Editar",
+    "activate": "Activar cuenta",
+    "decline": "Rechazar invitación",
+    "password_confirm": "Confirmar contraseña",
+    "address1": "Dirección",
+    "city": "Ciudad",
+    "zip": "Código postal",
+    "country": "País",
+    "province": "Provincia",
+    "phone": "Teléfono",
+    "default_address": "Usar como dirección predeterminada"
+  },
+  "contact": {
+    "name": "Nombre",
+    "email": "Email",
+    "message": "Mensaje",
+    "send": "Enviar",
+    "success": "Gracias por escribirnos. Te responderemos lo antes posible."
+  },
+  "gift_card": {
+    "title": "Tu tarjeta regalo",
+    "code": "Código",
+    "balance": "Saldo",
+    "expired": "Esta tarjeta regalo ha caducado.",
+    "shop": "Ir a la tienda",
+    "print": "Imprimir"
+  }
+}

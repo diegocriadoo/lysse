@@ -1,0 +1,34 @@
+{%- liquid
+  assign p = product | default: settings.featured_product
+  assign current = p.selected_or_first_available_variant
+-%}
+{%- if p != blank and section.settings.enable -%}
+  <div class="sticky-atc on-dark" data-sticky-atc aria-hidden="true">
+    <div class="container sticky-atc__inner">
+      <div class="sticky-atc__thumb">
+        {%- if p.featured_image -%}
+          <img src="{{ p.featured_image | image_url: width: 120 }}" width="48" height="48" alt="" loading="lazy">
+        {%- else -%}
+          <img src="{{ 'aura-portrait-600.webp' | asset_url }}" width="48" height="48" alt="" loading="lazy">
+        {%- endif -%}
+      </div>
+      <div class="sticky-atc__info">
+        <p class="sticky-atc__title">{{ p.title | split: ' · ' | first }}</p>
+        <p class="sticky-atc__price" data-sticky-price>{{ current.price | money }}</p>
+      </div>
+      <button type="button" class="btn btn--primary" data-sticky-add tabindex="-1"{% unless current.available %} disabled{% endunless %}>
+        <span data-sticky-label data-default="{{ section.settings.label | escape }}">{% if current.available %}{{ section.settings.label }}{% else %}{{ 'products.product.sold_out' | t }}{% endif %}</span>
+      </button>
+    </div>
+  </div>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Compra fija (sticky)",
+  "settings": [
+    { "type": "checkbox", "id": "enable", "label": "Activar", "default": true },
+    { "type": "text", "id": "label", "label": "Texto del botón", "default": "QUIERO MI AURA" }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,14 @@
+{%- liquid
+  assign on_sale = false
+  if variant.compare_at_price > variant.price
+    assign on_sale = true
+    assign saving = variant.compare_at_price | minus: variant.price | times: 100 | divided_by: variant.compare_at_price
+  endif
+-%}
+<div class="price-row">
+  <span class="visually-hidden">{% if on_sale %}{{ 'products.product.sale_price' | t }}{% else %}{{ 'products.product.regular_price' | t }}{% endif %}</span>
+  <span class="price" data-price>{{ variant.price | money }}</span>
+  <span class="visually-hidden" data-compare-label{% unless on_sale %} hidden{% endunless %}>{{ 'products.product.regular_price' | t }}</span>
+  <s class="price--compare" data-compare{% unless on_sale %} hidden{% endunless %}>{% if on_sale %}{{ variant.compare_at_price | money }}{% endif %}</s>
+  <span class="badge-save" data-save{% unless on_sale %} hidden{% endunless %}>{% if on_sale %}-{{ saving }}%{% endif %}</span>
+</div>

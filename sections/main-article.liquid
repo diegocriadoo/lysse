@@ -1,0 +1,15 @@
+<article class="section">
+  <div class="container page-narrow">
+    <p class="muted" style="font-size:var(--fs-sm)">{{ article.published_at | date: '%d/%m/%Y' }}</p>
+    <h1 class="h2 page-title">{{ article.title }}</h1>
+    {%- if article.image -%}
+      <img src="{{ article.image | image_url: width: 1400 }}" alt="{{ article.image.alt | default: article.title | escape }}" width="{{ article.image.width }}" height="{{ article.image.height }}" style="border-radius:var(--radius-l);margin-bottom:32px">
+    {%- endif -%}
+    <div class="rte">{{ article.content }}</div>
+    <p style="margin-top:40px"><a class="link-arrow" href="{{ blog.url }}">{{ 'blogs.back' | t }}</a></p>
+  </div>
+</article>
+
+{% schema %}
+{ "name": "Artículo", "tag": "div", "settings": [] }
+{% endschema %}

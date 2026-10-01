@@ -1,0 +1,29 @@
+<section class="section">
+  <div class="container page-narrow">
+    <p><a class="link-arrow" href="{{ routes.account_url }}">{{ 'customer.account' | t }}</a></p>
+    <h1 class="h2 page-title" style="margin-top:16px">{{ 'customer.addresses' | t }}</h1>
+    {%- paginate customer.addresses by 10 -%}
+      {%- for address in customer.addresses -%}
+        <div class="notice">
+          {{ address | format_address }}
+          {%- form 'customer_address', address -%}
+            <details><summary style="cursor:pointer;margin-top:8px">{{ 'customer.edit' | t }}</summary>
+              {% render 'address-fields', form: form, id: address.id %}
+              <button class="btn btn--primary btn--sm" type="submit">{{ 'customer.save' | t }}</button>
+            </details>
+          {%- endform -%}
+          <form method="post" action="/account/addresses/{{ address.id }}" style="margin-top:8px">
+            <input type="hidden" name="_method" value="delete">
+            <button class="cart-item__remove" type="submit">{{ 'customer.delete' | t }}</button>
+          </form>
+        </div>
+      {%- endfor -%}
+      {% render 'pagination', paginate: paginate %}
+    {%- endpaginate -%}
+    <h2 class="h3" style="margin:32px 0 16px">{{ 'customer.add_address' | t }}</h2>
+    {%- form 'customer_address', customer.new_address -%}
+      {% render 'address-fields', form: form, id: 'new' %}
+      <button class="btn btn--primary" type="submit">{{ 'customer.save' | t }}</button>
+    {%- endform -%}
+  </div>
+</section>

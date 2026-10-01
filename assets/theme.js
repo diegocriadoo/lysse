@@ -70,19 +70,41 @@
   /* ---------- Galería ---------- */
   function initGallery() {
     $$('[data-gallery]').forEach((gallery) => {
+      if (gallery.dataset.galleryReady) return;
+      gallery.dataset.galleryReady = 'true';
       const slides = $$('[data-slide]', gallery);
       const thumbs = $$('[data-thumb]', gallery);
+      let current = Math.max(0, slides.findIndex((s) => s.classList.contains('is-active')));
       const show = (i) => {
-        slides.forEach((s, idx) => { s.classList.toggle('is-active', idx === i); s.setAttribute('aria-hidden', idx === i ? 'false' : 'true'); });
-        thumbs.forEach((t, idx) => t.setAttribute('aria-current', idx === i ? 'true' : 'false'));
+        current = (i + slides.length) % slides.length;
+        slides.forEach((s, idx) => { s.classList.toggle('is-active', idx === current); s.setAttribute('aria-hidden', idx === current ? 'false' : 'true'); });
+        thumbs.forEach((t, idx) => t.setAttribute('aria-current', idx === current ? 'true' : 'false'));
       };
       thumbs.forEach((t) => t.addEventListener('click', () => show(Number(t.dataset.thumb))));
+
+      // Deslizar con el dedo (o arrastrar con el ratón) sobre la foto principal para cambiar de imagen
+      const main = $('.gallery__main', gallery);
+      if (!main || slides.length < 2) return;
+      let startX = 0, startY = 0, tracking = false;
+      main.addEventListener('pointerdown', (e) => {
+        if (e.pointerType === 'mouse' && e.button !== 0) return;
+        tracking = true; startX = e.clientX; startY = e.clientY;
+      });
+      main.addEventListener('pointerup', (e) => {
+        if (!tracking) return;
+        tracking = false;
+        const dx = e.clientX - startX, dy = e.clientY - startY;
+        if (Math.abs(dx) > 40 && Math.abs(dx) > Math.abs(dy)) show(current + (dx < 0 ? 1 : -1));
+      });
+      main.addEventListener('pointercancel', () => { tracking = false; });
     });
   }
 
   /* ---------- Cantidad ---------- */
   function initQty(root = document) {
     $$('[data-qty]', root).forEach((wrap) => {
+      if (wrap.dataset.qtyReady) return;
+      wrap.dataset.qtyReady = 'true';
       const input = $('input', wrap);
       const clamp = (v) => Math.max(Number(input.min) || 1, Math.min(Number(input.max) || 99, v || 1));
       $('[data-qty-minus]', wrap)?.addEventListener('click', () => { input.value = clamp(Number(input.value) - 1); });
@@ -309,6 +331,8 @@
   /* ---------- Hotspots ---------- */
   function initHotspots() {
     $$('[data-hotspots]').forEach((section) => {
+      if (section.dataset.hotspotsReady) return;
+      section.dataset.hotspotsReady = 'true';
       const spots = $$('[data-hotspot]', section);
       const items = $$('[data-feature]', section);
       const media = $('.hotspot-media', section);
@@ -449,6 +473,8 @@
   /* ---------- Acordeones: uno abierto por grupo ---------- */
   function initAccordions() {
     $$('.faq-list, .product-info__accordions').forEach((group) => {
+      if (group.dataset.accordionReady) return;
+      group.dataset.accordionReady = 'true';
       const items = $$('details', group);
       items.forEach((d) => d.addEventListener('toggle', () => {
         if (d.open) items.forEach((o) => { if (o !== d) o.open = false; });

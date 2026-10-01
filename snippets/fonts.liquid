@@ -1,0 +1,28 @@
+{%- comment -%}
+  Fuentes alojadas en la propia tienda (no se contacta con Google antes del consentimiento de cookies).
+  Solo el subconjunto «latin», que cubre todo el español (á, é, ñ, ü, ¿, ¡, €…).
+{%- endcomment -%}
+<link rel="preload" href="{{ 'manrope-latin.woff2' | asset_url }}" as="font" type="font/woff2" crossorigin>
+{% style %}
+  @font-face {
+    font-family: 'Manrope';
+    font-style: normal;
+    font-weight: 400 800;
+    font-display: swap;
+    src: url('{{ 'manrope-latin.woff2' | asset_url }}') format('woff2');
+  }
+  @font-face {
+    font-family: 'Instrument Serif';
+    font-style: normal;
+    font-weight: 400;
+    font-display: swap;
+    src: url('{{ 'instrument-serif-latin.woff2' | asset_url }}') format('woff2');
+  }
+  @font-face {
+    font-family: 'Instrument Serif';
+    font-style: italic;
+    font-weight: 400;
+    font-display: swap;
+    src: url('{{ 'instrument-serif-italic-latin.woff2' | asset_url }}') format('woff2');
+  }
+{% endstyle %}

@@ -150,6 +150,9 @@
       {%- if current.sku != blank %}
       "sku": {{ current.sku | json }},
       {%- endif %}
+      {%- if current.barcode != blank %}
+      "gtin": {{ current.barcode | json }},
+      {%- endif %}
       "brand": { "@type": "Brand", "name": {{ p.vendor | default: shop.name | json }} },
       "offers": {
         "@type": "Offer",
@@ -157,7 +160,25 @@
         "priceCurrency": {{ cart.currency.iso_code | json }},
         "price": {{ current.price | divided_by: 100.0 | json }},
         "availability": {{ availability | json }},
-        "itemCondition": "https://schema.org/NewCondition"
+        "itemCondition": "https://schema.org/NewCondition",
+        "shippingDetails": {
+          "@type": "OfferShippingDetails",
+          "shippingRate": { "@type": "MonetaryAmount", "value": 0, "currency": {{ cart.currency.iso_code | json }} },
+          "shippingDestination": { "@type": "DefinedRegion", "addressCountry": "ES" },
+          "deliveryTime": {
+            "@type": "ShippingDeliveryTime",
+            "handlingTime": { "@type": "QuantitativeValue", "minValue": 1, "maxValue": 2, "unitCode": "DAY" },
+            "transitTime": { "@type": "QuantitativeValue", "minValue": 9, "maxValue": 13, "unitCode": "DAY" }
+          }
+        },
+        "hasMerchantReturnPolicy": {
+          "@type": "MerchantReturnPolicy",
+          "applicableCountry": "ES",
+          "returnPolicyCategory": "https://schema.org/MerchantReturnFiniteReturnWindow",
+          "merchantReturnDays": 30,
+          "returnMethod": "https://schema.org/ReturnByMail",
+          "returnFees": "https://schema.org/ReturnFeesCustomerResponsibility"
+        }
       }
     }
   </script>
@@ -175,7 +196,7 @@
     { "type": "textarea", "id": "subtitle", "label": "Subtítulo", "default": "Cepilla y alisa en un mismo gesto, estés donde estés. Lista en 20 segundos, con tres temperaturas y sin un solo cable." },
     { "type": "text", "id": "fallback_alt", "label": "Texto alternativo de la imagen por defecto", "default": "Cepillo alisador inalámbrico Lyssé Aura en negro con púas violetas y pantalla digital a 200 °C" },
     { "type": "header", "content": "Microcopy bajo el botón" },
-    { "type": "inline_richtext", "id": "shipping_line", "label": "Envío", "default": "<strong>Envío a toda España</strong> · 9-15 días laborables" },
+    { "type": "inline_richtext", "id": "shipping_line", "label": "Envío", "default": "<strong>Envío GRATIS</strong> a península y Baleares · 10-15 días laborables" },
     { "type": "inline_richtext", "id": "returns_line", "label": "Devoluciones", "default": "<strong>30 días</strong> para devolverlo" },
     { "type": "text", "id": "secure_line", "label": "Pago", "default": "Pago seguro y cifrado" },
     { "type": "text", "id": "gift_tag", "label": "Etiqueta del pack (última opción)", "default": "Perfecto para regalar" },

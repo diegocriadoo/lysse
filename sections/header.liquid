@@ -20,7 +20,11 @@
   {%- endif -%}
 {%- endcapture -%}
 
-{%- capture cta_url -%}{%- if cta_product != blank -%}{{ routes.cart_url }}/{{ cta_product.selected_or_first_available_variant.id }}:1{%- else -%}{{ routes.all_products_collection_url }}{%- endif -%}{%- endcapture -%}
+{%- comment -%}
+  «Comprar ahora»: añade 1 unidad al carrito (sin vaciar lo que ya hubiera) y lleva al pago.
+  Sin JavaScript, el enlace añade el producto y abre el carrito.
+{%- endcomment -%}
+{%- capture cta_url -%}{%- if cta_product != blank -%}{{ routes.cart_add_url }}?id={{ cta_product.selected_or_first_available_variant.id }}&quantity=1{%- else -%}{{ routes.all_products_collection_url }}{%- endif -%}{%- endcapture -%}
 
 <header class="header on-dark">
   <div class="container header__inner">
@@ -75,11 +79,25 @@
 <script>
   document.addEventListener('click', function (e) {
     var link = e.target.closest('[data-buy-now]');
-    if (!link) return;
+    if (!link || !window.fetch) return;
     var input = document.querySelector('form[action*="/cart/add"] [data-variant-id]');
-    if (!input || !input.value) return;
+    var match = link.getAttribute('href').match(/[?&]id=(\d+)/);
+    var variantId = (input && input.value) || (match && match[1]);
+    if (!variantId) return;
     e.preventDefault();
-    window.location.href = '{{ routes.cart_url }}/' + input.value + ':1';
+    if (link.getAttribute('aria-busy') === 'true') return;
+    link.setAttribute('aria-busy', 'true');
+    fetch({{ routes.cart_add_url | append: '.js' | json }}, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+      body: JSON.stringify({ items: [{ id: Number(variantId), quantity: 1 }] })
+    }).then(function (res) {
+      if (!res.ok) throw new Error('cart');
+      window.location.href = '/checkout';
+    }).catch(function () {
+      link.removeAttribute('aria-busy');
+      window.location.href = {{ routes.cart_add_url | json }} + '?id=' + variantId + '&quantity=1';
+    });
   });
 </script>
 

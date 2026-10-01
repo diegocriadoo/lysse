@@ -47,10 +47,10 @@
           <li class="vr__card" data-vr-card {{ block.shopify_attributes }}>
             {%- if block.settings.video != blank -%}
               {{ block.settings.video | video_tag: class: 'vr__video', autoplay: false, loop: true, muted: true, playsinline: true, controls: false, preload: 'none', image_size: '720x' }}
-              <button type="button" class="vr__play" data-vr-toggle aria-label="Reproducir o pausar">
+              <button type="button" class="vr__play" data-vr-toggle aria-label="{{ 'general.play_pause' | t }}">
                 <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M8 5.5v13l11-6.5z" fill="currentColor"/></svg>
               </button>
-              <button type="button" class="vr__sound" data-vr-sound aria-label="Activar sonido" aria-pressed="false">
+              <button type="button" class="vr__sound" data-vr-sound aria-label="{{ 'general.unmute' | t }}" aria-pressed="false">
                 <svg class="vr__icon-off" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 9v6h4l5 4V5L8 9H4z" fill="currentColor"/><path d="M16.5 9.5l5 5m0-5l-5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/></svg>
                 <svg class="vr__icon-on" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 9v6h4l5 4V5L8 9H4z" fill="currentColor"/><path d="M16 8.5a5 5 0 010 7M18.5 6a8.5 8.5 0 010 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/></svg>
               </button>
@@ -68,8 +68,8 @@
       </ul>
 
       {%- if videos.size > 1 -%}
-        <button type="button" class="vr__arrow vr__arrow--prev" data-vr-prev aria-label="Vídeo anterior" hidden>{% render 'icon', name: 'arrow' %}</button>
-        <button type="button" class="vr__arrow vr__arrow--next" data-vr-next aria-label="Vídeo siguiente" hidden>{% render 'icon', name: 'arrow' %}</button>
+        <button type="button" class="vr__arrow vr__arrow--prev" data-vr-prev aria-label="{{ 'general.previous_video' | t }}" hidden>{% render 'icon', name: 'arrow' %}</button>
+        <button type="button" class="vr__arrow vr__arrow--next" data-vr-next aria-label="{{ 'general.next_video' | t }}" hidden>{% render 'icon', name: 'arrow' %}</button>
         <div class="vr__dots" data-vr-dots aria-hidden="true">
           {%- for block in videos -%}<span class="vr__dot{% if forloop.first %} is-active{% endif %}"></span>{%- endfor -%}
         </div>
@@ -201,10 +201,10 @@
           const on = video.muted;
           // Solo un vídeo con sonido a la vez
           if (on) wrap.querySelectorAll('video').forEach((v) => { if (v !== video) v.muted = true; });
-          wrap.querySelectorAll('[data-vr-sound]').forEach((b) => { b.setAttribute('aria-pressed', 'false'); b.setAttribute('aria-label', 'Activar sonido'); });
+          wrap.querySelectorAll('[data-vr-sound]').forEach((b) => { b.setAttribute('aria-pressed', 'false'); b.setAttribute('aria-label', {{ 'general.unmute' | t | json }}); });
           video.muted = !on;
           sound.setAttribute('aria-pressed', on ? 'true' : 'false');
-          sound.setAttribute('aria-label', on ? 'Silenciar' : 'Activar sonido');
+          sound.setAttribute('aria-label', on ? {{ 'general.mute' | t | json }} : {{ 'general.unmute' | t | json }});
           if (on && video.paused) video.play().catch(() => {});
         });
       });

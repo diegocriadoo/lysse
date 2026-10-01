@@ -25,7 +25,16 @@
     "password_admin": "¿Eres el propietario de la tienda?",
     "newsletter_email": "Tu email",
     "newsletter_submit": "Avisadme",
-    "newsletter_success": "¡Gracias! Te avisaremos."
+    "newsletter_success": "¡Gracias! Te avisaremos.",
+    "close": "Cerrar",
+    "previous": "Anterior",
+    "next": "Siguiente",
+    "previous_video": "Vídeo anterior",
+    "next_video": "Vídeo siguiente",
+    "play_pause": "Reproducir o pausar",
+    "mute": "Silenciar",
+    "unmute": "Activar sonido",
+    "collection_empty": "Todavía no hay productos en esta colección."
   },
   "accessibility": {
     "skip_to_content": "Saltar al contenido"
@@ -55,7 +64,7 @@
       "sale_price": "Precio de oferta",
       "taxes_included": "Impuestos incluidos.",
       "taxes_excluded": "Impuestos no incluidos.",
-      "shipping_at_checkout": "Gastos de envío calculados en la pantalla de pago.",
+      "shipping_at_checkout": "Envío gratis a península y Baleares.",
       "gallery": "Galería de imágenes",
       "show_image": "Ver imagen {{ index }}",
       "view": "Ver producto"
@@ -100,7 +109,8 @@
     "privacy": "Privacidad",
     "terms": "Términos del servicio",
     "legal": "Aviso legal",
-    "cookies": "Cookies"
+    "cookies": "Cookies",
+    "contact_form": "Formulario de contacto"
   },
   "blogs": {
     "read_more": "Leer más",

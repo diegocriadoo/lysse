@@ -50,7 +50,7 @@
       {%- for block in reviews -%}{%- if block.settings.photo != blank -%}{%- assign has_photo = true -%}{%- endif -%}{%- endfor -%}
       {%- if has_photo -%}
         <dialog class="review-lightbox" data-review-lightbox>
-          <button type="button" class="review-lightbox__close" data-review-lightbox-close aria-label="Cerrar">{% render 'icon', name: 'close' %}</button>
+          <button type="button" class="review-lightbox__close" data-review-lightbox-close aria-label="{{ 'general.close' | t }}">{% render 'icon', name: 'close' %}</button>
         </dialog>
       {%- endif -%}
     {%- elsif app_blocks.size == 0 -%}

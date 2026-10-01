@@ -668,7 +668,7 @@
         "heading": "Resolvemos <em>tus dudas</em>",
         "text": "Todo lo que necesitas saber antes de pedir tu Aura.",
         "contact_text": "¿No encuentras tu respuesta? Escríbenos y te contestamos personalmente.",
-        "schema": false
+        "schema": true
       }
     },
     "sticky": {

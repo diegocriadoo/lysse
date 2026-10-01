@@ -9,7 +9,7 @@
         {%- for item in collection.products -%}
           <li>{% render 'product-card', item: item %}</li>
         {%- else -%}
-          <li class="muted">{{ 'general.no_results' | t: terms: collection.title }}</li>
+          <li class="muted">{{ 'general.collection_empty' | t }}</li>
         {%- endfor -%}
       </ul>
       {% render 'pagination', paginate: paginate %}

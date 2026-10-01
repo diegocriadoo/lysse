@@ -37,6 +37,7 @@
             <li><a href="{{ shop.shipping_policy.url | default: '/policies/shipping-policy' }}">{{ 'footer.shipping' | t }}</a></li>
             <li><a href="{{ shop.refund_policy.url | default: '/policies/refund-policy' }}">{{ 'footer.returns' | t }}</a></li>
             <li><a href="{{ anchor_prefix }}#faq">{{ 'header.nav_faq' | t }}</a></li>
+            <li><a href="{{ pages.contact.url | default: '/pages/contact' }}">{{ 'footer.contact_form' | t }}</a></li>
             <li><a href="{{ routes.account_url }}">{{ 'footer.account' | t }}</a></li>
           {%- endif -%}
         </ul>

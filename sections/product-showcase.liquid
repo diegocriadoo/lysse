@@ -47,7 +47,7 @@
           <li class="bento-card" data-reveal style="--reveal-delay: {{ forloop.index0 | times: 80 }}ms" {{ block.shopify_attributes }}>
             {%- if block.settings.image != blank -%}
               <img src="{{ block.settings.image | image_url: width: 700 }}" width="{{ block.settings.image.width }}" height="{{ block.settings.image.height }}"
-                   alt="{{ block.settings.image.alt | escape }}" loading="lazy" decoding="async">
+                   alt="{{ block.settings.image.alt | default: block.settings.alt | escape }}" loading="lazy" decoding="async">
             {%- else -%}
               <img src="{{ block.settings.fallback | asset_url }}" alt="{{ block.settings.alt | escape }}" loading="lazy" decoding="async">
             {%- endif -%}
@@ -59,8 +59,8 @@
         {%- endfor -%}
       </ul>
       {%- if cards.size > 1 -%}
-        <button type="button" class="carousel-btn carousel-btn--prev" data-carousel-prev aria-label="Anterior" hidden>{% render 'icon', name: 'arrow' %}</button>
-        <button type="button" class="carousel-btn carousel-btn--next" data-carousel-next aria-label="Siguiente">{% render 'icon', name: 'arrow' %}</button>
+        <button type="button" class="carousel-btn carousel-btn--prev" data-carousel-prev aria-label="{{ 'general.previous' | t }}" hidden>{% render 'icon', name: 'arrow' %}</button>
+        <button type="button" class="carousel-btn carousel-btn--next" data-carousel-next aria-label="{{ 'general.next' | t }}">{% render 'icon', name: 'arrow' %}</button>
       {%- endif -%}
       </div>
     {%- endif -%}

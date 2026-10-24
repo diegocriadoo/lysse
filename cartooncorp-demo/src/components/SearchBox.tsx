@@ -3,7 +3,7 @@ import { useNavigate, useSearchParams } from "react-router";
 import { formatPrice } from "../lib/format";
 import { suggest } from "../services/catalog";
 import { Icon } from "./Icon";
-import { ProductArt } from "./ProductArt";
+import { ProductMedia } from "./ProductMedia";
 
 const POPULAR = ["Magic", "One Piece", "Dragon Ball", "Gunpla", "Chainsaw Man", "Funko"];
 
@@ -114,7 +114,7 @@ export function SearchBox({ autoFocus, onNavigate }: { autoFocus?: boolean; onNa
               onMouseEnter={() => setActive(i)}
             >
               <span className="search__thumb">
-                <ProductArt product={p} />
+                <ProductMedia product={p} sizes="44px" />
               </span>
               <span className="search__name">{p.name}</span>
               <span className="search__price">{formatPrice(p.price)}</span>

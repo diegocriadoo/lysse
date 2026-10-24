@@ -209,6 +209,27 @@ try {
     const n = euro(await page.locator("#results-count").textContent());
     check("filtros en hoja inferior (móvil)", n === 3, `${n} ofertas`);
 
+    await page.goto(BASE + "/producto/chainsaw-man-17-38490");
+    const sticky = page.locator(".sticky-buy");
+    const hiddenAtTop = !(await sticky.evaluate((el) => el.classList.contains("is-visible")));
+    await page.mouse.wheel(0, 1400);
+    await page.waitForTimeout(400);
+    const shownAfterScroll = await sticky.evaluate((el) => el.classList.contains("is-visible"));
+    check("barra de compra fija: oculta arriba y visible al bajar", hiddenAtTop && shownAfterScroll, `${hiddenAtTop}/${shownAfterScroll}`);
+    await sticky.getByRole("button").click();
+    await page.getByText("Añadido al carrito").waitFor();
+    check("barra de compra fija añade al carrito", true);
+
+    await page.goto(BASE + "/categoria/cartas");
+    await page.locator("#results-count", { hasText: /\d+ producto/ }).waitFor();
+    const overlaps = await page.$$eval(".card__flags", (rows) =>
+      rows.filter((row) => {
+        const r = [...row.children].map((c) => c.getBoundingClientRect());
+        return r.some((a, i) => r.some((b, j) => i < j && a.left < b.right && b.left < a.right && a.top < b.bottom && b.top < a.bottom));
+      }).length,
+    );
+    check("etiquetas de tarjeta sin solaparse (móvil)", overlaps === 0, `${overlaps} tarjetas con solape`);
+
     const small = await page.$$eval("button, a.btn, .card__add, input[type=checkbox]", (els) =>
       els.filter((e) => e.offsetParent && !e.closest(".footer, .crumbs, .announce")).map((e) => e.getBoundingClientRect()).filter((r) => r.width > 0 && (r.height < 24 || r.width < 20)).length,
     );

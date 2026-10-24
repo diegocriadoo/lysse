@@ -1,7 +1,7 @@
 import { useMemo, useRef, useState, type FormEvent } from "react";
 import { Link, useNavigate } from "react-router";
 import { Icon } from "../components/Icon";
-import { ProductArt } from "../components/ProductArt";
+import { ProductMedia } from "../components/ProductMedia";
 import { DemoNote, EmptyState, Field, describe } from "../components/ui";
 import { commerce, store, type ShippingMethodId } from "../data/store";
 import { usePageMeta } from "../hooks/usePageMeta";
@@ -286,7 +286,7 @@ export default function CheckoutPage() {
             {lines.map((l) => (
               <li key={l.key}>
                 <span className="summary__thumb">
-                  <ProductArt product={l.product} />
+                  <ProductMedia product={l.product} sizes="52px" />
                   <span className="summary__qty">{l.qty}</span>
                 </span>
                 <span className="summary__name">

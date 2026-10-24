@@ -32,6 +32,9 @@ export interface ProductImage {
   /** URL de la foto real. Si falta, se usa la ilustración generada. */
   src?: string;
   alt: string;
+  credit?: string;
+  license?: string;
+  sourceUrl?: string;
 }
 
 export interface ProductVariantOption {

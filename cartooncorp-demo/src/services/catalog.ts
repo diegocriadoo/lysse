@@ -159,7 +159,11 @@ export function getProductById(id: string) {
 export function getRelated(product: Product, limit = 4) {
   const sameFranchise = products.filter((p) => p.id !== product.id && p.franchise && p.franchise === product.franchise);
   const sameCategory = products.filter((p) => p.id !== product.id && p.category === product.category);
-  const unique = [...new Map([...sameFranchise, ...sameCategory].map((p) => [p.id, p])).values()];
+  // Si no hay suficientes, completa con productos de la misma sección principal.
+  const top = categories.find((c) => c.slug === product.category)?.parent ?? product.category;
+  const tree = new Set(getCategoryTree(top));
+  const sameSection = products.filter((p) => p.id !== product.id && tree.has(p.category));
+  const unique = [...new Map([...sameFranchise, ...sameCategory, ...sameSection].map((p) => [p.id, p])).values()];
   return unique.filter((p) => p.availability !== "out_of_stock").slice(0, limit);
 }
 

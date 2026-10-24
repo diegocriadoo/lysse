@@ -1,28 +1,20 @@
 import { useState, type KeyboardEvent } from "react";
 import { Link } from "react-router";
 import { Icon, type IconName } from "../components/Icon";
-import { ProductArt } from "../components/ProductArt";
-import { ProductGrid, ProductRail } from "../components/ProductCard";
+import { ProductMedia } from "../components/ProductMedia";
+import { ProductGrid } from "../components/ProductCard";
 import { Price, SectionHead } from "../components/ui";
 import { articles } from "../data/articles";
 import { topCategories } from "../data/categories";
 import { commerce, store } from "../data/store";
 import { usePageMeta } from "../hooks/usePageMeta";
 import { formatPrice } from "../lib/format";
-import { getNewest, getOnSale, getPreorders, getProductById, queryCatalog } from "../services/catalog";
+import { getOnSale, getPreorders, getProductById, queryCatalog } from "../services/catalog";
 
 const HERO_IDS = ["40349", "38490", "40921"];
 
-const CATEGORY_ICON: Record<string, IconName> = {
-  manga: "box",
-  figuras: "spark",
-  funko: "grid",
-  cartas: "cards",
-  modelismo: "box",
-  juegos: "grid",
-};
-
-const DISCOVER = [
+const TABS: { id: string; label: string; category?: string }[] = [
+  { id: "todo", label: "Todo" },
   { id: "manga", label: "Manga", category: "manga" },
   { id: "figuras", label: "Figuras", category: "figuras" },
   { id: "cartas", label: "Cartas", category: "cartas" },
@@ -38,7 +30,6 @@ export function HomePage() {
     telephone: "+34963288385",
   });
   const heroProducts = HERO_IDS.map((id) => getProductById(id)!).filter(Boolean);
-  const newest = getNewest(8);
   const sale = getOnSale(3);
   const preorders = getPreorders(2);
 
@@ -74,7 +65,7 @@ export function HomePage() {
           <div className="hero__panels" aria-label="Productos destacados">
             {heroProducts.map((p, i) => (
               <Link key={p.id} to={`/producto/${p.slug}`} className={`panel panel--${i + 1}`}>
-                <ProductArt product={p} />
+                <ProductMedia product={p} eager sizes="(min-width: 1024px) 30vw, 50vw" />
                 <span className="panel__tag">
                   <span className="panel__name">{p.name}</span>
                   <Price product={p} size="sm" />
@@ -86,28 +77,35 @@ export function HomePage() {
         </div>
       </section>
 
+      <TrustStrip />
+
       <section className="container section" aria-labelledby="cats-title">
         <SectionHead eyebrow="Explora" title="¿Qué coleccionas?" id="cats-title" to="/tienda" linkLabel="Todo el catálogo" />
         <ul className="cat-tiles">
-          {topCategories.map((c) => (
-            <li key={c.slug}>
-              <Link to={`/categoria/${c.slug}`} className="cat-tile" style={{ ["--hue" as string]: c.hue }}>
-                <Icon name={CATEGORY_ICON[c.slug] ?? "box"} className="cat-tile__icon" />
-                <span className="cat-tile__name">{c.name}</span>
-                <span className="cat-tile__desc">{c.description}</span>
-                <span className="cat-tile__count">{queryCatalog({ category: c.slug }).total} productos <Icon name="arrow-right" /></span>
-              </Link>
-            </li>
-          ))}
+          {topCategories.map((c) => {
+            const { items, total } = queryCatalog({ category: c.slug, sort: "newest", pageSize: 50 });
+            const cover = items.find((p) => p.featured && p.source.name !== "demo") ?? items[0];
+            return (
+              <li key={c.slug}>
+                <Link to={`/categoria/${c.slug}`} className="cat-tile" style={{ ["--hue" as string]: c.hue }}>
+                  <span className="cat-tile__art" aria-hidden="true">
+                    {cover && <ProductMedia product={cover} frame="wide" sizes="(min-width: 768px) 33vw, 50vw" />}
+                  </span>
+                  <span className="cat-tile__text">
+                    <span className="cat-tile__name">{c.name}</span>
+                    <span className="cat-tile__desc">{c.description}</span>
+                    <span className="cat-tile__count">
+                      {total} productos <Icon name="arrow-right" />
+                    </span>
+                  </span>
+                </Link>
+              </li>
+            );
+          })}
         </ul>
       </section>
 
-      <section className="section section--tint" aria-labelledby="new-title">
-        <div className="container">
-          <SectionHead eyebrow="Recién llegado" title="Novedades" id="new-title" to="/novedades" />
-          <ProductRail products={newest} label="Novedades" />
-        </div>
-      </section>
+      <NewArrivals />
 
       {sale.length > 0 && (
         <section className="container section" aria-labelledby="mtg-title">
@@ -124,7 +122,7 @@ export function HomePage() {
               {sale.map((p) => (
                 <li key={p.id}>
                   <Link to={`/producto/${p.slug}`} className="mini">
-                    <span className="mini__art"><ProductArt product={p} /></span>
+                    <span className="mini__art"><ProductMedia product={p} sizes="160px" /></span>
                     <span className="mini__name">{p.name}</span>
                     <Price product={p} size="sm" />
                   </Link>
@@ -134,8 +132,6 @@ export function HomePage() {
           </div>
         </section>
       )}
-
-      <Discover />
 
       <section className="container section" aria-labelledby="pre-title">
         <div className="preorder">
@@ -182,8 +178,6 @@ export function HomePage() {
         </div>
       </section>
 
-      <TrustStrip />
-
       <section className="container section" aria-labelledby="blog-title">
         <SectionHead eyebrow="Guías y noticias" title="Desde el mostrador" id="blog-title" to="/noticias" />
         <ul className="articles">
@@ -203,51 +197,54 @@ export function HomePage() {
   );
 }
 
-function Discover() {
-  const [tab, setTab] = useState(DISCOVER[0].id);
-  const current = DISCOVER.find((d) => d.id === tab)!;
-  const items = queryCatalog({ category: current.category, sort: "newest", pageSize: 4, availability: ["in_stock", "preorder"] }).items;
+/** Novedades con filtro por sección (pestañas accesibles con flechas). */
+function NewArrivals() {
+  const [tab, setTab] = useState(TABS[0].id);
+  const current = TABS.find((d) => d.id === tab)!;
+  const items = queryCatalog({ category: current.category, sort: "newest", pageSize: 8, availability: ["in_stock", "preorder"] }).items;
 
   const onKey = (e: KeyboardEvent, index: number) => {
     const dir = e.key === "ArrowRight" ? 1 : e.key === "ArrowLeft" ? -1 : 0;
     if (!dir) return;
     e.preventDefault();
-    const next = DISCOVER[(index + dir + DISCOVER.length) % DISCOVER.length];
+    const next = TABS[(index + dir + TABS.length) % TABS.length];
     setTab(next.id);
     document.getElementById(`tab-${next.id}`)?.focus();
   };
 
   return (
-    <section className="container section" aria-labelledby="disc-title">
-      <div className="section-head">
-        <div>
-          <p className="eyebrow">Descubre</p>
-          <h2 className="section-title" id="disc-title">Para empezar tu colección</h2>
+    <section className="section section--tint" aria-labelledby="new-title">
+      <div className="container">
+        <div className="section-head">
+          <div>
+            <p className="eyebrow">Recién llegado</p>
+            <h2 className="section-title" id="new-title">Novedades</h2>
+          </div>
+          <div role="tablist" aria-label="Filtrar novedades" className="tabs">
+            {TABS.map((d, i) => (
+              <button
+                key={d.id}
+                id={`tab-${d.id}`}
+                role="tab"
+                type="button"
+                aria-selected={tab === d.id}
+                aria-controls="new-panel"
+                tabIndex={tab === d.id ? 0 : -1}
+                className="tab"
+                onClick={() => setTab(d.id)}
+                onKeyDown={(e) => onKey(e, i)}
+              >
+                {d.label}
+              </button>
+            ))}
+          </div>
         </div>
-        <div role="tablist" aria-label="Categorías para descubrir" className="tabs">
-          {DISCOVER.map((d, i) => (
-            <button
-              key={d.id}
-              id={`tab-${d.id}`}
-              role="tab"
-              type="button"
-              aria-selected={tab === d.id}
-              aria-controls="disc-panel"
-              tabIndex={tab === d.id ? 0 : -1}
-              className="tab"
-              onClick={() => setTab(d.id)}
-              onKeyDown={(e) => onKey(e, i)}
-            >
-              {d.label}
-            </button>
-          ))}
+        <div id="new-panel" role="tabpanel" aria-labelledby={`tab-${tab}`} className="new-grid">
+          <ProductGrid products={items} />
         </div>
-      </div>
-      <div id="disc-panel" role="tabpanel" aria-labelledby={`tab-${tab}`}>
-        <ProductGrid products={items} />
         <p className="center">
-          <Link to={`/categoria/${current.category}`} className="btn btn--ghost">
-            Ver todo en {current.label} <Icon name="arrow-right" />
+          <Link to={current.category ? `/categoria/${current.category}` : "/novedades"} className="btn btn--ghost">
+            {current.category ? `Ver todo en ${current.label}` : "Ver todas las novedades"} <Icon name="arrow-right" />
           </Link>
         </p>
       </div>

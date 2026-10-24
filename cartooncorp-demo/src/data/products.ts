@@ -1,3 +1,4 @@
+import { productPhotos } from "./photos";
 import type { Availability, ArtKind, Product, ProductVariantGroup } from "./types";
 
 /**
@@ -81,7 +82,7 @@ function build(seed: Seed): Product {
     description: seed.description ?? [seed.short],
     specs: (seed.specs ?? []).map(([label, value]) => ({ label, value })),
     tags: seed.tags ?? [],
-    images: [{ alt: `${artAlt[seed.art.kind]}: ${seed.name}` }],
+    images: productPhotos[seed.id] ?? [{ alt: `${artAlt[seed.art.kind]}: ${seed.name}` }],
     art: seed.art,
     variants: seed.variants,
     featured: seed.featured,
@@ -220,7 +221,7 @@ const seeds: Seed[] = [
     origin: "observed-name", url: "https://cartooncorp.es/figuras-dragon-ball-y-merchandising-dragon-ball/23016-goku-black-wcf-battle-of-saiyans-vol-6-dragon-ball-super.html",
   },
   {
-    id: "d-op-01", name: "Figura Monkey D. Luffy (producto de demostración)", category: "one-piece", price: 34.95, brand: "Fabricante por confirmar", franchise: "One Piece",
+    id: "d-op-01", name: "Figura Monkey D. Luffy", category: "one-piece", price: 34.95, brand: "Fabricante por confirmar", franchise: "One Piece",
     addedAt: "2026-08-05", short: "Producto de ejemplo para ilustrar la sección de One Piece.",
     description: ["Producto ficticio creado para la demo. La web real tiene una sección de figuras de One Piece cuyo catálogo debe importarse."],
     tags: ["figura", "one piece"], art: { kind: "figure", hue: 0, accent: 45, label: "LUFFY" },
@@ -253,21 +254,21 @@ const seeds: Seed[] = [
     collectorNote: "Producto de coleccionismo, no es un juguete.",
   },
   {
-    id: "d-fk-01", name: "Funko Pop! Frieren (producto de demostración)", category: "funko-anime", price: 16.95, brand: "Funko", franchise: "Frieren",
+    id: "d-fk-01", name: "Funko Pop! Frieren", category: "funko-anime", price: 16.95, brand: "Funko", franchise: "Frieren",
     availability: "preorder", addedAt: "2026-09-29", short: "Ejemplo de ficha en reserva (pre-pedido).",
     description: ["Producto ficticio. La web real muestra figuras de Frieren en pre-pedido; los datos exactos deben importarse del catálogo del cliente."],
     tags: ["funko", "preventa"], art: { kind: "funko", hue: 250, accent: 140, label: "FRIEREN" },
     origin: "demo",
   },
   {
-    id: "d-fk-02", name: "Funko Pop! Games (producto de demostración)", category: "funko-games", price: 16.95, brand: "Funko",
+    id: "d-fk-02", name: "Funko Pop! Games", category: "funko-games", price: 16.95, brand: "Funko",
     addedAt: "2026-04-02", short: "Ejemplo para la sección Pop! Games.",
     description: ["Producto ficticio para ilustrar la subcategoría Pop! Games."],
     tags: ["funko"], art: { kind: "funko", hue: 100, accent: 280, label: "POP! GAMES" },
     origin: "demo",
   },
   {
-    id: "d-fk-03", name: "Funko Pop! Cine y series (producto de demostración)", category: "funko-cine-series", price: 16.95, brand: "Funko",
+    id: "d-fk-03", name: "Funko Pop! Cine y series", category: "funko-cine-series", price: 16.95, brand: "Funko",
     availability: "out_of_stock", addedAt: "2026-03-20", short: "Ejemplo de producto agotado.",
     description: ["Producto ficticio para mostrar cómo se ve un artículo agotado."],
     tags: ["funko"], art: { kind: "funko", hue: 175, accent: 330, label: "POP! MOVIES" },
@@ -349,14 +350,14 @@ const seeds: Seed[] = [
 
   // ─── Otros TCG (demo) ───────────────────────────────────────────────────
   {
-    id: "d-pk-01", name: "Sobre de ampliación Pokémon JCC (producto de demostración)", category: "pokemon-tcg", price: 5.95, brand: "The Pokémon Company",
+    id: "d-pk-01", name: "Sobre de ampliación Pokémon JCC", category: "pokemon-tcg", price: 5.95, brand: "The Pokémon Company",
     addedAt: "2026-08-12", short: "Ejemplo de ficha para la sección de cartas Pokémon.",
     description: ["Producto ficticio. La web real tiene una sección de cartas Pokémon; su catálogo debe importarse."],
     tags: ["pokémon", "sobre"], art: { kind: "tcg-pack", hue: 48, accent: 0, label: "POKÉMON TCG" },
     origin: "demo",
   },
   {
-    id: "d-op-tcg-01", name: "Sobre One Piece Card Game (producto de demostración)", category: "one-piece-tcg", price: 5.5, brand: "Bandai",
+    id: "d-op-tcg-01", name: "Sobre One Piece Card Game", category: "one-piece-tcg", price: 5.5, brand: "Bandai",
     availability: "preorder", addedAt: "2026-09-27", short: "Ejemplo de sobre en pre-pedido.",
     description: ["Producto ficticio. La web real lista sobres de One Piece Card Game; los datos reales deben importarse."],
     tags: ["one piece", "sobre", "preventa"], art: { kind: "tcg-pack", hue: 0, accent: 45, label: "ONE PIECE TCG" },
@@ -379,7 +380,7 @@ const seeds: Seed[] = [
     origin: "observed-name", url: "https://cartooncorp.es/fundas-tamano-estandar/42372-sabo-one-piece-tcg-sleeves-70.html",
   },
   {
-    id: "d-ac-01", name: "Tapete de juego (producto de demostración)", category: "accesorios-cartas", price: 19.95, brand: "Marca por confirmar",
+    id: "d-ac-01", name: "Tapete de juego", category: "accesorios-cartas", price: 19.95, brand: "Marca por confirmar",
     addedAt: "2026-06-30", short: "Ejemplo de producto con variantes de diseño.",
     description: ["Producto ficticio para mostrar el selector de variantes con precio y disponibilidad por opción."],
     tags: ["tapete", "accesorios"], art: { kind: "sleeves", hue: 260, accent: 180, label: "PLAYMAT" },
@@ -427,7 +428,7 @@ const seeds: Seed[] = [
     origin: "observed", url: "https://cartooncorp.es/gundam-model-kits-gunpla/9261-sd-00-gundam-ex-standard-gn-0000-.html",
   },
   {
-    id: "d-pt-01", name: "Set de pinceles para modelismo (producto de demostración)", category: "pinturas", price: 12.95, brand: "Marca por confirmar",
+    id: "d-pt-01", name: "Set de pinceles para modelismo", category: "pinturas", price: 12.95, brand: "Marca por confirmar",
     addedAt: "2026-02-14", short: "Ejemplo para la sección de pinturas y herramientas.",
     description: ["Producto ficticio. La web real vende pinturas, pinceles y aerografía de varias marcas."],
     tags: ["pinturas", "herramientas"], art: { kind: "paint", hue: 150, accent: 20, label: "BRUSH SET" },
@@ -436,14 +437,14 @@ const seeds: Seed[] = [
 
   // ─── Juegos y puzzles (demo) ────────────────────────────────────────────
   {
-    id: "d-jm-01", name: "Juego de mesa familiar (producto de demostración)", category: "juegos-de-mesa", price: 34.95, brand: "Editorial por confirmar",
+    id: "d-jm-01", name: "Juego de mesa familiar", category: "juegos-de-mesa", price: 34.95, brand: "Editorial por confirmar",
     addedAt: "2026-04-25", short: "Ejemplo para la sección de juegos de mesa.",
     description: ["Producto ficticio. La web real indica más de 300 juegos de mesa y cartas; deben importarse."],
     tags: ["juego de mesa"], art: { kind: "board-game", hue: 90, accent: 20, label: "BOARD GAME" },
     origin: "demo",
   },
   {
-    id: "d-pz-01", name: "Puzzle 1000 piezas (producto de demostración)", category: "puzzles", price: 19.95, brand: "Marca por confirmar",
+    id: "d-pz-01", name: "Puzzle 1000 piezas", category: "puzzles", price: 19.95, brand: "Marca por confirmar",
     addedAt: "2026-03-03", short: "Ejemplo para la sección de puzzles.",
     description: ["Producto ficticio. La web real ofrece puzzles de 500 a 1500 piezas de licencias como Marvel, Spy x Family o Disney."],
     specs: [["Piezas", "1000"]],

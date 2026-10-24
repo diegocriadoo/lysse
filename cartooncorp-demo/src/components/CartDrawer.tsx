@@ -4,7 +4,7 @@ import { formatPrice, plural } from "../lib/format";
 import { useCart } from "../state/CartContext";
 import { Drawer } from "./Drawer";
 import { Icon } from "./Icon";
-import { ProductArt } from "./ProductArt";
+import { ProductMedia } from "./ProductMedia";
 import { EmptyState, QuantityStepper } from "./ui";
 
 export function FreeShippingMeter({ remaining, qualifies, subtotal }: { remaining: number; qualifies: boolean; subtotal: number }) {
@@ -43,12 +43,13 @@ export function CartLines({ compact = false }: { compact?: boolean }) {
       {lines.map((l) => (
         <li key={l.key} className="line">
           <Link to={`/producto/${l.product.slug}`} className="line__media" onClick={closeDrawer} tabIndex={-1} aria-hidden="true">
-            <ProductArt product={l.product} />
+            <ProductMedia product={l.product} sizes="90px" />
           </Link>
           <div className="line__info">
             <Link to={`/producto/${l.product.slug}`} className="line__name" onClick={closeDrawer}>
               {l.product.name}
             </Link>
+            {l.product.source.name === "demo" && <span className="flag flag--demo flag--inline">Producto demo</span>}
             {l.optionLabels.length > 0 && <p className="line__opts">{l.optionLabels.join(" · ")}</p>}
             {l.availability === "preorder" && <p className="line__pre">Reserva · se envía cuando llegue a tienda</p>}
             <p className="line__unit">{formatPrice(l.unitPrice)} / ud.</p>

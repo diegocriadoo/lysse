@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { Link, useParams } from "react-router";
 import { Icon } from "../components/Icon";
-import { ProductArt } from "../components/ProductArt";
+import { ProductMedia } from "../components/ProductMedia";
 import { ProductRail } from "../components/ProductCard";
 import { AvailabilityBadge, Breadcrumbs, DemoNote, Price, QuantityStepper, SectionHead } from "../components/ui";
 import { getCategory } from "../data/categories";
@@ -10,7 +10,7 @@ import type { Product } from "../data/types";
 import { usePageMeta } from "../hooks/usePageMeta";
 import { formatPrice } from "../lib/format";
 import { canPurchase, resolveVariant } from "../services/cart";
-import { getProductBySlug, getRelated } from "../services/catalog";
+import { getProductBySlug, getRelated, isOnSale } from "../services/catalog";
 import { useCart } from "../state/CartContext";
 import { NotFoundPage } from "./NotFoundPage";
 
@@ -81,17 +81,37 @@ function ProductView({ product }: { product: Product }) {
         <Gallery product={product} />
 
         <div className="pdp__info">
-          {product.franchise && <p className="eyebrow">{product.franchise}</p>}
+          <div className="pdp__kicker">
+            {product.franchise && <p className="eyebrow">{product.franchise}</p>}
+            <SourceChip product={product} />
+          </div>
           <h1 className="pdp__title">{product.name}</h1>
           {product.brand && <p className="pdp__brand">{product.brand}</p>}
 
-          <div className="pdp__price-row">
-            <Price product={product} price={price} size="lg" />
-            <AvailabilityBadge value={availability} />
+          <div className="pdp__pricebox">
+            <div className="pdp__price-row">
+              <Price product={product} price={price} size="lg" />
+              <AvailabilityBadge value={availability} />
+            </div>
+            <p className="muted small">
+              {isOnSale(product) && price === product.price && (
+                <strong className="pdp__save">Ahorras {formatPrice(product.compareAtPrice! - product.price)} · </strong>
+              )}
+              IVA incluido · Ref. {product.id}
+            </p>
           </div>
-          <p className="muted small">IVA incluido · Ref. {product.id}</p>
 
           <p className="pdp__lead">{product.shortDescription}</p>
+          {product.specs.length > 0 && (
+            <ul className="pdp__keyspecs" aria-label="Características principales">
+              {product.specs.slice(0, 3).map((sp) => (
+                <li key={sp.label}>
+                  <span>{sp.label}</span>
+                  <strong>{sp.value}</strong>
+                </li>
+              ))}
+            </ul>
+          )}
 
           {product.variants?.map((group) => (
             <fieldset key={group.id} className="variants">
@@ -204,22 +224,38 @@ function ProductView({ product }: { product: Product }) {
 
 function Gallery({ product }: { product: Product }) {
   const [view, setView] = useState(0);
-  const views = [0, 1, 2];
-  const labels = ["Vista frontal", "Detalle", "Vista en ángulo"];
+  const photos = product.images.filter((i) => i.src);
+  // Con fotos reales, una miniatura por foto; sin ellas, tres vistas de la ilustración.
+  const slides = photos.length > 1 ? photos.map((p, i) => ({ label: p.alt, index: i, view: 0 })) : ["Vista frontal", "Detalle", "Vista en ángulo"].map((label, v) => ({ label, index: 0, view: photos.length ? 0 : v }));
+  const items = photos.length === 1 ? slides.slice(0, 1) : slides;
+  const current = items[view] ?? items[0];
+  const photo = product.images[current.index];
   return (
     <div className="gallery">
       <div className="gallery__main">
-        {product.images[0]?.src ? <img src={product.images[0].src} alt={product.images[0].alt} /> : <ProductArt product={product} view={view} />}
-        <span className="gallery__note">Imagen provisional</span>
+        <ProductMedia product={product} index={current.index} view={current.view} eager sizes="(min-width: 768px) 50vw, 100vw" />
+        {!photo?.src && <span className="gallery__note">Ilustración provisional · foto pendiente</span>}
+        {photo?.src && photo.credit && <span className="gallery__note">© {photo.credit}{photo.license ? ` · ${photo.license}` : ""}</span>}
       </div>
-      <div className="gallery__thumbs" role="group" aria-label="Imágenes del producto">
-        {views.map((v) => (
-          <button key={v} type="button" className={`gallery__thumb ${v === view ? "is-active" : ""}`} aria-pressed={v === view} aria-label={labels[v]} onClick={() => setView(v)}>
-            <ProductArt product={product} view={v} />
-          </button>
-        ))}
-      </div>
+      {items.length > 1 && (
+        <div className="gallery__thumbs" role="group" aria-label="Imágenes del producto">
+          {items.map((it, i) => (
+            <button key={i} type="button" className={`gallery__thumb ${i === view ? "is-active" : ""}`} aria-pressed={i === view} aria-label={it.label} onClick={() => setView(i)}>
+              <ProductMedia product={product} index={it.index} view={it.view} sizes="80px" />
+            </button>
+          ))}
+        </div>
+      )}
     </div>
+  );
+}
+
+function SourceChip({ product }: { product: Product }) {
+  if (product.source.name === "demo") return <span className="source-chip source-chip--demo">Producto de demostración</span>;
+  return (
+    <span className="source-chip" title={product.source.price === "observed" ? "Nombre y precio vistos en la web actual (oct. 2026)" : "Nombre visto en la web actual; precio de demostración"}>
+      {product.source.price === "observed" ? "Precio observado en la web actual" : "Precio de demostración"}
+    </span>
   );
 }
 
@@ -232,7 +268,7 @@ function DataSourceInfo({ product }: { product: Product }) {
         <li>Nombre: {label[s.name]}</li>
         <li>Precio: {label[s.price]}</li>
         <li>Disponibilidad: {label[s.availability]}</li>
-        <li>Imagen: ilustración provisional generada para la demo</li>
+        <li>Imagen: {product.images[0]?.src ? `fotografía${product.images[0].credit ? ` (© ${product.images[0].credit})` : ""}` : "ilustración provisional generada para la demo"}</li>
       </ul>
       {product.releaseNote && <p>{product.releaseNote}</p>}
       {s.url && (

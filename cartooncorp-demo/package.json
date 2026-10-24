@@ -9,6 +9,7 @@
     "build": "tsc -b && vite build",
     "preview": "vite preview",
     "build:single": "vite build --mode single && node scripts/inline.mjs",
+    "build:neutral": "npm run build:single && node scripts/neutral.mjs",
     "typecheck": "tsc -b",
     "test": "vitest run",
     "test:e2e": "node tests/e2e/run.mjs"

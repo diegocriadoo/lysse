@@ -19,7 +19,20 @@ const FRAMES = {
   wide: "-120 66 640 400",
 };
 
-export function ProductArt({ product, view = 0, frame = "portrait", className }: { product: Pick<Product, "art" | "name" | "brand">; view?: number; frame?: keyof typeof FRAMES; className?: string }) {
+export function ProductArt({
+  product,
+  view = 0,
+  frame = "portrait",
+  backdrop = true,
+  className,
+}: {
+  product: Pick<Product, "art" | "name" | "brand">;
+  view?: number;
+  frame?: keyof typeof FRAMES;
+  /** false: sin fondo de estudio, para colocar el objeto sobre otra superficie (vitrina del hero). */
+  backdrop?: boolean;
+  className?: string;
+}) {
   const id = useId().replace(/:/g, "");
   const { kind, hue, accent = (hue + 40) % 360, label = product.name, number } = product.art;
   const c: Palette = {
@@ -82,11 +95,15 @@ export function ProductArt({ product, view = 0, frame = "portrait", className }:
         </filter>
       </defs>
 
-      <rect x="-200" width="800" height="500" fill={`url(#bg${id})`} />
-      <rect x="-200" width="800" height="500" fill={`url(#spot${id})`} />
+      {backdrop && (
+        <>
+          <rect x="-200" width="800" height="500" fill={`url(#bg${id})`} />
+          <rect x="-200" width="800" height="500" fill={`url(#spot${id})`} />
+        </>
+      )}
 
       <g transform={transform}>
-        <ellipse cx="205" cy="420" rx="128" ry="13" fill={c.deep} opacity=".28" filter={`url(#blur${id})`} />
+        <ellipse cx="205" cy="420" rx="128" ry="13" fill={backdrop ? c.deep : "#000"} opacity={backdrop ? 0.28 : 0.55} filter={`url(#blur${id})`} />
         {kind === "manga" && <Manga c={c} label={label} number={number} brand={brand} />}
         {kind === "funko" && <Funko c={c} label={label} number={number} />}
         {kind === "tcg-box" && <TcgBox c={c} label={label} />}

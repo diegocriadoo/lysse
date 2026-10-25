@@ -44,7 +44,7 @@ try {
   const browser = await chromium.launch();
 
   // ── 1. Todas las rutas, escritorio y móvil ────────────────────────────────
-  for (const [label, viewport] of [["escritorio", { width: 1440, height: 900 }], ["móvil", { width: 390, height: 844 }]]) {
+  for (const [label, viewport] of [["escritorio", { width: 1440, height: 900 }], ["tablet", { width: 820, height: 1180 }], ["móvil", { width: 390, height: 844 }], ["móvil 360", { width: 360, height: 740 }]]) {
     const ctx = await browser.newContext({ viewport });
     const page = await ctx.newPage();
     const errors = [];
@@ -78,6 +78,11 @@ try {
     const ctx = await browser.newContext({ viewport: { width: 1440, height: 900 } });
     const page = await ctx.newPage();
     await page.goto(BASE + "/");
+    await page.getByRole("link", { name: "Descubrir categorías" }).click();
+    await page.waitForTimeout(600);
+    const anchorOk = await page.evaluate(() => location.pathname === "/" && document.activeElement?.id === "categorias");
+    check("«Descubrir categorías» lleva a las categorías", anchorOk);
+    await page.evaluate(() => scrollTo(0, 0));
     const search = page.getByRole("combobox");
     await search.fill("dragon");
     await page.getByRole("listbox").waitFor();

@@ -1,17 +1,25 @@
-import { useState, type KeyboardEvent } from "react";
+import { useState, type KeyboardEvent, type MouseEvent } from "react";
 import { Link } from "react-router";
 import { Icon, type IconName } from "../components/Icon";
-import { ProductMedia } from "../components/ProductMedia";
+import { hasPhoto, ProductMedia } from "../components/ProductMedia";
 import { ProductGrid } from "../components/ProductCard";
 import { Price, SectionHead } from "../components/ui";
 import { articles } from "../data/articles";
-import { topCategories } from "../data/categories";
+import { getCategory, topCategories } from "../data/categories";
 import { commerce, store } from "../data/store";
 import { usePageMeta } from "../hooks/usePageMeta";
 import { formatPrice } from "../lib/format";
-import { getOnSale, getPreorders, getProductById, queryCatalog } from "../services/catalog";
+import { getFeatured, getPreorders, getProductById, queryCatalog } from "../services/catalog";
+import type { Product } from "../data/types";
 
 const HERO_IDS = ["40349", "38490", "40921"];
+
+const FEATURED_SECTIONS: { slug: string; title?: string; description?: string; hue?: number }[] = [
+  { slug: "manga" },
+  { slug: "figuras" },
+  { slug: "cartas" },
+  { slug: "preventas", title: "Pre-pedidos", description: "Reserva lo próximo antes de que llegue a tienda.", hue: 252 },
+];
 
 const TABS: { id: string; label: string; category?: string }[] = [
   { id: "todo", label: "Todo" },
@@ -29,9 +37,10 @@ export function HomePage() {
     address: { "@type": "PostalAddress", streetAddress: store.address.street, postalCode: store.address.postalCode, addressLocality: store.address.city, addressCountry: "ES" },
     telephone: "+34963288385",
   });
-  const heroProducts = HERO_IDS.map((id) => getProductById(id)!).filter(Boolean);
-  const sale = getOnSale(3);
+  const [main, back, front] = HERO_IDS.map((id) => getProductById(id)!);
+  const featured = getFeatured(20).filter((p) => !HERO_IDS.includes(p.id) && p.source.name !== "demo").slice(0, 4);
   const preorders = getPreorders(2);
+  const preorderTotal = queryCatalog({ availability: ["preorder"] }).total;
 
   return (
     <>
@@ -49,53 +58,46 @@ export function HomePage() {
             </p>
             <div className="hero__ctas">
               <Link to="/novedades" className="btn btn--primary btn--lg">
-                Ver novedades <Icon name="arrow-right" />
+                Explorar novedades <Icon name="arrow-right" />
               </Link>
-              <Link to="/preventas" className="btn btn--outline-light btn--lg">
-                Pre-pedidos
-              </Link>
+              <a href="#categorias" className="btn btn--outline-light btn--lg" onClick={scrollToCategories}>
+                Descubrir categorías
+              </a>
             </div>
-            <ul className="hero__facts">
-              <li><strong>{formatPrice(commerce.freeShippingThreshold)}</strong> envío gratis desde</li>
-              <li><strong>0 €</strong> recogida en tienda</li>
-              <li><strong>{topCategories.length}</strong> mundos para coleccionar</li>
-            </ul>
           </div>
 
-          <div className="hero__panels" aria-label="Productos destacados">
-            {heroProducts.map((p, i) => (
-              <Link key={p.id} to={`/producto/${p.slug}`} className={`panel panel--${i + 1}`}>
-                <ProductMedia product={p} eager sizes="(min-width: 1024px) 30vw, 50vw" />
-                <span className="panel__tag">
-                  <span className="panel__name">{p.name}</span>
-                  <Price product={p} size="sm" />
-                </span>
-              </Link>
-            ))}
-            <span className="hero__burst" aria-hidden="true">¡NUEVO!</span>
+          <div className="stage" aria-label="Productos destacados">
+            <span className="stage__glow" aria-hidden="true" />
+            <StageItem product={back} className="stage__item--back" />
+            <StageItem product={main} className="stage__item--main" />
+            <StageItem product={front} className="stage__item--front" />
+            <span className="stage__floor" aria-hidden="true" />
+            {!hasPhoto(main) && <span className="stage__note">Ilustraciones provisionales · fotos pendientes</span>}
           </div>
         </div>
       </section>
 
       <TrustStrip />
 
-      <section className="container section" aria-labelledby="cats-title">
+      <section className="container section" id="categorias" aria-labelledby="cats-title" tabIndex={-1}>
         <SectionHead eyebrow="Explora" title="¿Qué coleccionas?" id="cats-title" to="/tienda" linkLabel="Todo el catálogo" />
         <ul className="cat-tiles">
-          {topCategories.map((c) => {
-            const { items, total } = queryCatalog({ category: c.slug, sort: "newest", pageSize: 50 });
+          {FEATURED_SECTIONS.map((sec) => {
+            const { items, total } = sec.slug === "preventas" ? queryCatalog({ availability: ["preorder"], pageSize: 50 }) : queryCatalog({ category: sec.slug, sort: "newest", pageSize: 50 });
             const cover = items.find((p) => p.featured && p.source.name !== "demo") ?? items[0];
+            const cat = getCategory(sec.slug);
+            const to = sec.slug === "preventas" ? "/preventas" : `/categoria/${sec.slug}`;
             return (
-              <li key={c.slug}>
-                <Link to={`/categoria/${c.slug}`} className="cat-tile" style={{ ["--hue" as string]: c.hue }}>
+              <li key={sec.slug}>
+                <Link to={to} className="cat-tile" style={{ ["--hue" as string]: sec.hue ?? cat?.hue }}>
                   <span className="cat-tile__art" aria-hidden="true">
-                    {cover && <ProductMedia product={cover} frame="wide" sizes="(min-width: 768px) 33vw, 50vw" />}
+                    {cover && <ProductMedia product={cover} frame="wide" sizes="(min-width: 768px) 25vw, 50vw" />}
                   </span>
                   <span className="cat-tile__text">
-                    <span className="cat-tile__name">{c.name}</span>
-                    <span className="cat-tile__desc">{c.description}</span>
+                    <span className="cat-tile__name">{sec.title ?? cat?.name}</span>
+                    <span className="cat-tile__desc">{sec.description ?? cat?.description}</span>
                     <span className="cat-tile__count">
-                      {total} productos <Icon name="arrow-right" />
+                      {total} {total === 1 ? "producto" : "productos"} <Icon name="arrow-right" />
                     </span>
                   </span>
                 </Link>
@@ -103,35 +105,29 @@ export function HomePage() {
             );
           })}
         </ul>
+        <nav className="more-cats" aria-label="Más secciones">
+          <span className="more-cats__label">También:</span>
+          {topCategories
+            .filter((c) => !FEATURED_SECTIONS.some((f) => f.slug === c.slug))
+            .map((c) => (
+              <Link key={c.slug} to={`/categoria/${c.slug}`} className="chip">
+                {c.name} <span className="chip__count">{queryCatalog({ category: c.slug }).total}</span>
+              </Link>
+            ))}
+          <Link to="/ofertas" className="chip chip--sale">
+            Ofertas <span className="chip__count">{queryCatalog({ onSale: true }).total}</span>
+          </Link>
+        </nav>
       </section>
 
-      <NewArrivals />
-
-      {sale.length > 0 && (
-        <section className="container section" aria-labelledby="mtg-title">
-          <div className="feature-band" style={{ ["--hue" as string]: 28 }}>
-            <div className="feature-band__copy">
-              <p className="eyebrow eyebrow--light">Magic: The Gathering</p>
-              <h2 id="mtg-title" className="feature-band__title">Cajas de sobres con precio rebajado</h2>
-              <p>Innistrad Remasterizada, Horizontes de Modern 3 y más. Abre en casa o juega con la comunidad en la tienda.</p>
-              <Link to="/ofertas" className="btn btn--light">
-                Ver todas las ofertas <Icon name="arrow-right" />
-              </Link>
-            </div>
-            <ul className="feature-band__list">
-              {sale.map((p) => (
-                <li key={p.id}>
-                  <Link to={`/producto/${p.slug}`} className="mini">
-                    <span className="mini__art"><ProductMedia product={p} sizes="160px" /></span>
-                    <span className="mini__name">{p.name}</span>
-                    <Price product={p} size="sm" />
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
+      {featured.length > 0 && (
+        <section className="container section section--flush-top" aria-labelledby="feat-title">
+          <SectionHead eyebrow="Selección de la tienda" title="Destacados" id="feat-title" to="/tienda" linkLabel="Ver catálogo" />
+          <ProductGrid products={featured} />
         </section>
       )}
+
+      <NewArrivals />
 
       <section className="container section" aria-labelledby="pre-title">
         <div className="preorder">
@@ -143,7 +139,7 @@ export function HomePage() {
               <li><strong>Te avisamos</strong><span>Cuando llega a tienda, preparamos tu pedido.</span></li>
               <li><strong>Envío o recogida</strong><span>En casa o en Guillem de Castro, 53.</span></li>
             </ol>
-            <p className="muted small">Flujo de reserva propuesto. Las condiciones reales (pago por adelantado, señal, plazos) debe definirlas CartoonCorp.</p>
+            <p className="muted small">Flujo de reserva propuesto: las condiciones (pago, señal, plazos) las define CartoonCorp. Hay {preorderTotal} productos en pre-pedido en la demo.</p>
             <Link to="/preventas" className="link-arrow">Ver pre-pedidos <Icon name="arrow-right" /></Link>
           </div>
           <ProductGrid products={preorders} />
@@ -194,6 +190,31 @@ export function HomePage() {
         </ul>
       </section>
     </>
+  );
+}
+
+function scrollToCategories(e: MouseEvent<HTMLAnchorElement>) {
+  // Ancla interna: desplaza y mueve el foco sin cambiar de ruta.
+  e.preventDefault();
+  const el = document.getElementById("categorias");
+  if (!el) return;
+  const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  el.scrollIntoView({ behavior: reduce ? "auto" : "smooth", block: "start" });
+  el.focus({ preventScroll: true });
+}
+
+/** Producto de la vitrina del hero: objeto sin fondo y etiqueta con nombre y precio. */
+function StageItem({ product, className }: { product: Product; className: string }) {
+  return (
+    <Link to={`/producto/${product.slug}`} className={`stage__item ${className}`}>
+      <span className="stage__art">
+        <ProductMedia product={product} eager backdrop={false} sizes="(min-width: 1024px) 28vw, 50vw" />
+      </span>
+      <span className="stage__tag">
+        <span className="stage__name">{product.name}</span>
+        <Price product={product} size="sm" />
+      </span>
+    </Link>
   );
 }
 

@@ -173,6 +173,14 @@ function ProductView({ product }: { product: Product }) {
               <Icon name="store" />
               <span>Recogida gratis en {store.address.street}</span>
             </li>
+            {price < commerce.freeShippingThreshold && (
+              <li>
+                <Icon name="box" />
+                <span>
+                  Envío a domicilio: {formatPrice(commerce.shippingMethods.find((m) => m.id === "standard")!.price)} <small className="muted">(tarifa orientativa de la demo)</small>
+                </span>
+              </li>
+            )}
             <li>
               <Icon name="return" />
               <span>

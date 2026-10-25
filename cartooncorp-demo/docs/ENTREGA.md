@@ -176,3 +176,44 @@ Fuentes recomendadas, por orden: fotos propias de CartoonCorp o las que ya usa e
 - Fotos reales de producto (sección 7).
 - Prueba en Safari/iOS y en tablet.
 - Las páginas legales siguen siendo plantillas.
+
+## 9. Tercera iteración: portada y presentación comercial
+
+Archivo entregable: `entregas/cartooncorp-demo-v3.html` (se abre con doble clic, sin servidor). La versión anterior se conserva intacta en `entregas/cartooncorp-demo-v2-original.html` y en la etiqueta git `demo-v2`.
+
+**Cambios**
+- **Hero:** las viñetas se sustituyen por una vitrina editorial. Los productos aparecen iluminados sobre el fondo oscuro, con etiqueta de nombre y precio, y una nota visible de "ilustraciones provisionales". Botones "Explorar novedades" y "Descubrir categorías"; el segundo desplaza la página hasta las categorías y les pasa el foco.
+- **Accesos:** cuatro accesos grandes con imagen (Manga, Figuras, Cartas coleccionables, Pre-pedidos) y accesos secundarios a Funko, Modelismo, Juegos y Ofertas con su número de productos.
+- **Destacados:** nueva sección con productos de datos observados (sin productos demo).
+- **Banda de Magic eliminada** para reducir saturación; las ofertas siguen en el menú, en los accesos y en las etiquetas de descuento de las tarjetas.
+- **Ficha:** la tarifa de envío a domicilio se muestra como "tarifa orientativa de la demo".
+- **Detalles:** radios más contenidos (10 px en tarjetas, 14 px en bloques), los botones del hero se apilan por debajo de 400 px y la marca de "ilustración provisional" se acorta a "provisional" en tarjetas estrechas.
+- **Estilos sin uso eliminados** (viñetas antiguas, banda de ofertas).
+
+**Probado (automático, `npm run test:e2e`)**
+- Las 27 rutas, a 1440 px, 820 px (tablet), 390 px y 360 px: cargan con título, sin errores de consola y sin desbordamiento horizontal.
+- 88 enlaces internos sin errores.
+- Buscador con sugerencias, búsqueda con y sin resultados, filtros, orden por precio, paginación.
+- Carrito: añadir, cantidades, eliminar y deshacer, persistencia al recargar y cálculo de totales.
+- Checkout: validaciones, envío o recogida, aceptación de condiciones y confirmación marcada como demostración.
+- Menú móvil con Escape, filtros en móvil, barra de compra fija, solape de etiquetas, tamaño de botones táctiles, formulario de contacto y "Descubrir categorías".
+- Unitarias (`npm test`): 28 pruebas.
+
+**Revisado visualmente (capturas)**
+- Portada a 1440, 820 y 360 px.
+- Categoría, ficha, carrito y checkout a 1440 y 360 px.
+
+**No probado**
+- Safari/iOS y Firefox (solo Chromium).
+- Lectores de pantalla reales.
+
+**Sigue siendo provisional**
+- Fotos de producto (bloqueado: este entorno no tiene acceso a ningún banco de imágenes ni a la web de la tienda).
+- Logotipo.
+- Tarifa y plazos de envío.
+- Condiciones de pre-pedido.
+- Horario y email.
+- Textos legales.
+- Artículos del blog.
+- 10 productos demo.
+- Precios de 9 productos con nombre real.

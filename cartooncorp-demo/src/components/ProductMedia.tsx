@@ -17,6 +17,7 @@ export function ProductMedia({
   eager = false,
   sizes = "(min-width: 1024px) 25vw, 50vw",
   frame,
+  backdrop = true,
 }: {
   product: Product;
   index?: number;
@@ -26,6 +27,7 @@ export function ProductMedia({
   eager?: boolean;
   sizes?: string;
   frame?: "portrait" | "wide";
+  backdrop?: boolean;
 }) {
   const image = product.images[index] ?? product.images[0];
   // Se guarda qué URL ha fallado para que una foto rota no afecte a las demás.
@@ -57,8 +59,12 @@ export function ProductMedia({
 
   return (
     <>
-      <ProductArt product={product} view={view} frame={frame} />
-      {mark && <span className="ph-mark">Ilustración provisional</span>}
+      <ProductArt product={product} view={view} frame={frame} backdrop={backdrop} />
+      {mark && (
+        <span className="ph-mark" title="Ilustración provisional: foto pendiente">
+          <span className="ph-mark__long">Ilustración </span>provisional
+        </span>
+      )}
       {caption && <span className="gallery__note">Ilustración provisional · foto pendiente</span>}
     </>
   );

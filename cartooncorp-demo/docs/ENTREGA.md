@@ -179,7 +179,7 @@ Fuentes recomendadas, por orden: fotos propias de CartoonCorp o las que ya usa e
 
 ## 9. Tercera iteración: portada y presentación comercial
 
-Archivo entregable: `entregas/cartooncorp-demo-v3.html` (se abre con doble clic, sin servidor). La versión anterior se conserva intacta en `entregas/cartooncorp-demo-v2-original.html` y en la etiqueta git `demo-v2`.
+Archivo entregable: `entregas/cartooncorp-demo-v3.html` (se abre con doble clic, sin servidor). La versión anterior se conserva intacta en `entregas/cartooncorp-demo-v2-original.html` y en el commit `09070de` de la rama.
 
 **Cambios**
 - **Hero:** las viñetas se sustituyen por una vitrina editorial. Los productos aparecen iluminados sobre el fondo oscuro, con etiqueta de nombre y precio, y una nota visible de "ilustraciones provisionales". Botones "Explorar novedades" y "Descubrir categorías"; el segundo desplaza la página hasta las categorías y les pasa el foco.

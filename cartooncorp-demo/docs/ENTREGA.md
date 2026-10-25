@@ -86,10 +86,10 @@ No usa el código, la base de datos ni el panel de la tienda actual, y no está 
 
 ## 3. Elementos demostrativos que necesitan datos reales del cliente
 
-- **Catálogo completo.** La demo tiene 45 productos: 35 con nombre real y 26 de ellos también con precio observado, más 10 productos ficticios marcados "(producto de demostración)".
+- **Catálogo completo.** La demo tiene 44 productos: 34 con nombre real y 25 de ellos también con precio observado, más 10 productos ficticios con la etiqueta "Producto demo".
 - **Precios.** Hay que confirmar los observados y sustituir los de demostración.
 - **Stock y disponibilidad.** Son simulados, salvo 2 casos observados.
-- **Fotografías de producto.** Ahora son ilustraciones SVG generadas. El campo `images[].src` ya está preparado para poner la foto real.
+- **Fotografías de producto.** Ahora son ilustraciones provisionales, marcadas como tales. Para añadir las fotos reales ver la sección 7.
 - **Logotipo y colores de marca.** El logotipo es una propuesta (`src/components/Logo.tsx`).
 - **Tarifas y plazos de envío.** Los 4,95 € son un valor de demostración.
 - **Formas de pago y condiciones de los pre-pedidos.**
@@ -98,6 +98,8 @@ No usa el código, la base de datos ni el panel de la tienda actual, y no está 
 - **Orden de "Novedades"** (`addedAt` es una fecha interna de la demo).
 
 ## 4. Limitaciones por no tener acceso al sistema original
+
+- No se han podido incluir fotos reales de producto: el entorno de desarrollo bloquea los bancos de imágenes con licencia abierta (Wikimedia Commons, Openverse, Flickr, Unsplash) y la web de CartoonCorp. No se ha usado ninguna imagen cuya licencia no se haya podido comprobar.
 
 - No se pudo abrir la web actual desde el entorno, porque la red bloqueaba el dominio. La investigación se basa en páginas indexadas (ver `INVESTIGACION.md`).
 - Sin acceso a PrestaShop no hay catálogo completo, stock real, clientes, pedidos, reglas de precios ni promociones.
@@ -125,3 +127,52 @@ No usa el código, la base de datos ni el panel de la tienda actual, y no está 
 5. **Integrar pagos, stock y pedidos;** primero en un entorno de pruebas y luego en producción.
 6. **Migrar SEO:** mapa de redirecciones, sitemap y Search Console.
 7. **Lanzamiento por fases:** tienda nueva en un subdominio, pruebas con clientes habituales y cambio de dominio.
+
+## 7. Imágenes: cómo sustituir las ilustraciones por fotos
+
+Cada producto muestra una ilustración provisional ("packshot" dibujado con el color de su licencia), marcada con "Ilustración provisional" en tarjetas y fichas. No imita portadas ni logotipos reales.
+
+Para poner fotos reales:
+
+1. Copia cada foto a `public/productos/<id>.webp`. Recomendado: 1200×1500 px (4:5), producto centrado sobre fondo claro y uniforme.
+2. Regístrala en `src/data/photos.ts` con su texto alternativo, crédito y licencia. La ficha muestra el crédito automáticamente.
+3. Si un producto tiene varias fotos, la ficha muestra una miniatura por foto.
+
+Si una foto no carga, se vuelve a mostrar la ilustración (comprobado con una foto válida, una rota y una galería mixta).
+
+Fuentes recomendadas, por orden: fotos propias de CartoonCorp o las que ya usa en su web (las tiene el cliente), material de prensa de editoriales y fabricantes con permiso para distribuidores, y bancos con licencia abierta revisando cada licencia.
+
+## 8. Segunda iteración de calidad (cambios)
+
+**Imágenes**
+- Ilustraciones rehechas como fotos de producto de estudio: volumen (frontal, lateral y tapa), luz cenital y sombra de contacto, mismo fondo en todos los productos. Encuadre vertical para tarjetas y panorámico para mosaicos.
+- Componente `ProductMedia`: usa la foto real si existe y la ilustración si falta o falla.
+
+**Portada**
+- Franja de ventajas (envío, recogida, producto oficial, atención) justo bajo el hero.
+- Categorías con imagen de un producto real de cada sección.
+- "Novedades" y "Descubre" unidas en una sola sección con pestañas (Todo, Manga, Figuras, Cartas, Gunpla).
+- Ajustes del hero en móvil: botones en una fila y precios sin tapar las imágenes.
+
+**Catálogo y fichas**
+- Tarjetas con botón de compra con texto ("Añadir", "Reservar", "Elegir opción", "Sin stock"), % de descuento real y etiqueta "Producto demo" uniforme. Los nombres de productos demo ya no llevan sufijo.
+- Fichas con indicador del origen del precio (observado o de demostración), importe ahorrado en ofertas, tres características clave a la vista y relacionados que siempre completan la fila.
+- Barra de orden y filtros reorganizada en móvil.
+- Checkout sin newsletter; etiqueta "Producto demo" también en carrito y resumen del pedido.
+
+**Errores corregidos**
+- La barra de compra fija en móvil no aparecía si se bajaba de golpe por la página (usaba `IntersectionObserver`, que no detecta saltos de scroll).
+- Las etiquetas "Pre-pedido" y "Producto demo" se solapaban en tarjetas estrechas.
+- El contador del carrito tapaba el importe en la cabecera.
+- El icono de "Abrir en el mapa" saltaba de línea.
+- La documentación decía 45 productos; son 44 (34 con nombre observado, 25 con precio observado).
+
+**Validación**
+- `npm test`: 28 pruebas unitarias en verde.
+- `npm run test:e2e`: todos los recorridos en verde, incluidos los nuevos de barra fija, solape de etiquetas y tamaño de botones táctiles.
+- Revisión visual en capturas de portada, catálogo, fichas, carrito y checkout (escritorio 1440 px y móvil 390 px) y de las páginas secundarias en móvil. Las 27 rutas se comprueban automáticamente (h1, sin errores de consola, sin desbordamiento) en ambos tamaños. No se ha probado en tablet ni en navegadores distintos de Chromium.
+
+**Pendiente**
+- Fotos reales de producto (sección 7).
+- Prueba en Safari/iOS y en tablet.
+- Las páginas legales siguen siendo plantillas.

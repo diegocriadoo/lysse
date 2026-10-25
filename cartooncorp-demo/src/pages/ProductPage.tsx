@@ -54,13 +54,27 @@ function ProductView({ product }: { product: Product }) {
   const buyBox = useRef<HTMLDivElement>(null);
   const [showSticky, setShowSticky] = useState(false);
 
-  // Barra fija de compra en móvil cuando el botón principal sale de la vista.
+  // Barra fija de compra en móvil cuando el botón principal queda por encima
+  // de la pantalla. Se calcula en cada scroll (y no con IntersectionObserver)
+  // para que funcione también con saltos bruscos de scroll.
   useEffect(() => {
-    const el = buyBox.current;
-    if (!el || typeof IntersectionObserver === "undefined") return;
-    const io = new IntersectionObserver(([entry]) => setShowSticky(!entry.isIntersecting && entry.boundingClientRect.top < 0));
-    io.observe(el);
-    return () => io.disconnect();
+    let frame = 0;
+    const update = () => {
+      frame = 0;
+      const el = buyBox.current;
+      if (el) setShowSticky(el.getBoundingClientRect().bottom < 0);
+    };
+    const onScroll = () => {
+      if (!frame) frame = requestAnimationFrame(update);
+    };
+    update();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", onScroll);
+    return () => {
+      cancelAnimationFrame(frame);
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", onScroll);
+    };
   }, []);
 
   const onAdd = () => {
@@ -229,13 +243,10 @@ function Gallery({ product }: { product: Product }) {
   const slides = photos.length > 1 ? photos.map((p, i) => ({ label: p.alt, index: i, view: 0 })) : ["Vista frontal", "Detalle", "Vista en ángulo"].map((label, v) => ({ label, index: 0, view: photos.length ? 0 : v }));
   const items = photos.length === 1 ? slides.slice(0, 1) : slides;
   const current = items[view] ?? items[0];
-  const photo = product.images[current.index];
   return (
     <div className="gallery">
       <div className="gallery__main">
-        <ProductMedia product={product} index={current.index} view={current.view} eager sizes="(min-width: 768px) 50vw, 100vw" />
-        {!photo?.src && <span className="gallery__note">Ilustración provisional · foto pendiente</span>}
-        {photo?.src && photo.credit && <span className="gallery__note">© {photo.credit}{photo.license ? ` · ${photo.license}` : ""}</span>}
+        <ProductMedia product={product} index={current.index} view={current.view} eager caption sizes="(min-width: 768px) 50vw, 100vw" />
       </div>
       {items.length > 1 && (
         <div className="gallery__thumbs" role="group" aria-label="Imágenes del producto">

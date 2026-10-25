@@ -1,5 +1,5 @@
 import { useState, type FormEvent } from "react";
-import { Link } from "react-router";
+import { Link, useLocation } from "react-router";
 import { topCategories } from "../data/categories";
 import { store } from "../data/store";
 import { email as emailRule } from "../services/validation";
@@ -8,9 +8,12 @@ import { Icon } from "./Icon";
 import { Logo } from "./Logo";
 
 export function Footer() {
+  // En el checkout y la confirmación no se distrae con la suscripción.
+  const { pathname } = useLocation();
+  const inCheckout = pathname.startsWith("/checkout") || pathname.startsWith("/pedido/");
   return (
     <footer className="footer">
-      <Newsletter />
+      {!inCheckout && <Newsletter />}
       <div className="container footer__grid">
         <div className="footer__brand">
           <Logo inverted />

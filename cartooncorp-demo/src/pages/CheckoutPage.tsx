@@ -292,6 +292,7 @@ export default function CheckoutPage() {
                 <span className="summary__name">
                   {l.product.name}
                   {l.optionLabels.length > 0 && <small>{l.optionLabels.join(" · ")}</small>}
+                  {l.product.source.name === "demo" && <small className="summary__demo">Producto demo</small>}
                 </span>
                 <span>{formatPrice(l.lineTotal)}</span>
               </li>

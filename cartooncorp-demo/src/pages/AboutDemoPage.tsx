@@ -39,7 +39,7 @@ export default function AboutDemoPage() {
         <h2>Qué es real y qué es simulado</h2>
         <ul>
           <li><strong>{observed} de {products.length} productos</strong> usan nombres vistos en la web pública; {observedPrice} de ellos también su precio (consulta de octubre de 2026, puede haber cambiado).</li>
-          <li>Los productos marcados como <em>«producto de demostración»</em> son ficticios y sirven para mostrar secciones o estados (agotado, pre-pedido, variantes).</li>
+          <li>Los productos con la etiqueta <em>«Producto demo»</em> son ficticios y sirven para mostrar secciones o estados (agotado, pre-pedido, variantes). Cada ficha indica además si su precio es el observado en la web actual o uno de demostración.</li>
           <li>Sólo se muestran precios tachados cuando el precio anterior se vio en la web actual.</li>
           <li>La disponibilidad es simulada salvo dos casos observados.</li>
           <li>Las imágenes son ilustraciones provisionales generadas para la demo; el logotipo es una propuesta y no el oficial.</li>

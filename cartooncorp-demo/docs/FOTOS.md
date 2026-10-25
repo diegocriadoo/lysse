@@ -2,11 +2,25 @@
 
 Generado con `npm run fotos:informe` el 2026-10-25.
 
-**0 de 34 productos reales tienen foto.** 34 pendientes. Los 10 productos de demostración son ficticios: no deben llevar foto de un producto real, sino sustituirse por productos del catálogo de CartoonCorp.
+**3 de 34 productos reales tienen foto.** 31 pendientes. Los 10 productos de demostración son ficticios: no deben llevar foto de un producto real, sino sustituirse por productos del catálogo de CartoonCorp.
 
-## Por qué no hay fotos todavía
+## Fotos integradas y su verificación
 
-El entorno donde se ha desarrollado la demo no tiene acceso a Internet para imágenes: se probaron cartooncorp.es, cartooncorp.net, Norma Editorial, Planeta de Libros, Funko, Bandai, Bandai Spirits, Wizards of the Coast, Amazon, Wikimedia Commons, Google, Bing y DuckDuckGo, y todos fueron rechazados por la política de red. No se ha descargado, generado ni enlazado ninguna foto sin verificar.
+| Archivo | Producto | Fuente | Licencia |
+|---|---|---|---|
+| `33562.webp` | Caja del Funko Pop! Roronoa Zoro nº 327 de One Piece | [Funko](https://funko.com/pop-roronoa-zoro/23191.html) | Imagen oficial del fabricante (funko.com); uso sujeto a autorización como distribuidor |
+| `33562__2.webp` | Figura Funko Pop! Roronoa Zoro de One Piece, vista frontal | [Funko](https://funko.com/pop-roronoa-zoro/23191.html) | Imagen oficial del fabricante (funko.com); uso sujeto a autorización como distribuidor |
+| `40921.webp` | Figura Funko Pop! Bulbasaur nº 453 de Pokémon | [Funko](https://funko.com/pop-bulbasaur/36237.html) | Imagen oficial del fabricante (funko.com); uso sujeto a autorización como distribuidor |
+| `44311.webp` | Caja del Funko Pop! The Thing nº 1516 de The Fantastic Four: First Steps | [Funko](https://funko.com/pop-the-thing-fantastic-four-first-steps/83585.html) | Imagen oficial del fabricante (funko.com); uso sujeto a autorización como distribuidor |
+| `44311__2.webp` | Figura Funko Pop! The Thing de The Fantastic Four: First Steps, vista frontal | [Funko](https://funko.com/pop-the-thing-fantastic-four-first-steps/83585.html) | Imagen oficial del fabricante (funko.com); uso sujeto a autorización como distribuidor |
+
+Las tres fotos de Funko proceden de funko.com (buscador oficial; las fichas tienen un desafío anti-bots que no se ha intentado saltar). La correspondencia con el producto de la demo se verificó cruzando el número de artículo de Funko con el número de figura que publican tiendas externas: 36237 = Bulbasaur nº 453, 23191 = Roronoa Zoro nº 327 (el 54462 es otro Zoro y se descartó), 83585 = The Thing nº 1516. Se revisó cada imagen a ojo y se descartó una ilustración ambientada de Bulbasaur que no mostraba el producto tal como se vende. Las imágenes se recortaron, se pasaron a WebP de 900 px y se incrustan en el HTML.
+
+## Fuentes revisadas y no disponibles
+
+- **cartooncorp.es**: su servidor rechaza las peticiones automáticas (403). No se ha intentado saltar esa protección.
+- **cartooncorp.net, www.normaeditorial.com, www.planetadelibros.com, Bandai, Wizards of the Coast, Ultra Pro**: no permitidos por la red del entorno de desarrollo (Norma y Planeta redirigen a su dominio con www, que no está en la lista).
+- **Wikimedia Commons**: accesible, pero con un límite de peticiones muy estricto (unos 50 s entre consultas). Sólo se completaron 3 búsquedas (los tres Funko), sin resultados; el resto de productos no se llegó a buscar allí.
 
 ## Cómo completarlas
 
@@ -35,9 +49,9 @@ El entorno donde se ha desarrollado la demo no tiene acceso a Internet para imá
 | `40972` | Janemba Dragon Ball Z Match Makers Banpresto | ⏳ pendiente | [ficha actual](https://cartooncorp.es/figuras-dragon-ball-y-merchandising-dragon-ball/40972-janemba-dragon-ball-z-match-makers-banpresto.html) |
 | `34609` | Orange Piccolo History Box Vol. 7 Dragon Ball Super: Super Hero | ⏳ pendiente | [ficha actual](https://cartooncorp.es/figuras-dragon-ball-y-merchandising-dragon-ball/34609-orange-piccolo-history-box-vol7-dragon-ball-super-super-hero.html) |
 | `23016` | Goku Black WCF Battle of Saiyans Vol. 6 Dragon Ball Super | ⏳ pendiente | [ficha actual](https://cartooncorp.es/figuras-dragon-ball-y-merchandising-dragon-ball/23016-goku-black-wcf-battle-of-saiyans-vol-6-dragon-ball-super.html) |
-| `40921` | Funko Pop! Bulbasaur 453 Pokémon | ⏳ pendiente | [ficha actual](https://cartooncorp.es/funko-pop-manga-y-anime/40921-funko-pop-bulbasaur-453-pok%C3%A9mon.html) |
-| `33562` | Funko Pop! Roronoa Zoro 327 One Piece | ⏳ pendiente | [ficha actual](https://cartooncorp.es/funko-pop-manga-y-anime/33562-funko-pop-roronoa-zoro-327-one-piece.html) |
-| `44311` | Funko Pop! The Thing 1516 The Fantastic 4: First Steps | ⏳ pendiente | [ficha actual](https://cartooncorp.es/funko-pop-superheroes/44311-funko-pop-the-thing-1516-the-fantastic-4-first-steps.html) |
+| `40921` | Funko Pop! Bulbasaur 453 Pokémon | ✅ 40921.webp | [ficha actual](https://cartooncorp.es/funko-pop-manga-y-anime/40921-funko-pop-bulbasaur-453-pok%C3%A9mon.html) |
+| `33562` | Funko Pop! Roronoa Zoro 327 One Piece | ✅ 33562.webp, 33562__2.webp | [ficha actual](https://cartooncorp.es/funko-pop-manga-y-anime/33562-funko-pop-roronoa-zoro-327-one-piece.html) |
+| `44311` | Funko Pop! The Thing 1516 The Fantastic 4: First Steps | ✅ 44311.webp, 44311__2.webp | [ficha actual](https://cartooncorp.es/funko-pop-superheroes/44311-funko-pop-the-thing-1516-the-fantastic-4-first-steps.html) |
 | `40349` | Caja de Sobres de Juego Innistrad Remasterizada (Castellano) – INNR | ⏳ pendiente | [ficha actual](https://cartooncorp.es/tienda-magic-gathering-en-valencia/40349-caja-de-sobres-de-juego-innistrad-remasterizada-magic-the-gathering-castellano-innr.html) |
 | `36340` | Caja de Sobres de Juego Horizontes de Modern 3 (Castellano) – MH3 | ⏳ pendiente | [ficha actual](https://cartooncorp.es/tienda-magic-gathering-en-valencia/36340-caja-de-sobres-de-juego-horizontes-de-modern-3-magic-the-gathering-castellano-mtg-mh3.html) |
 | `42385` | Caja de Sobres de Juego El Confín de la Eternidad | ⏳ pendiente | [ficha actual](https://cartooncorp.es/tienda-magic-gathering-en-valencia/42385-caja-de-sobres-de-juego-el-conf%C3%ADn-de-la-eternidad-magic-the-gathering-castellano-mtg-edge.html) |

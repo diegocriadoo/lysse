@@ -15,7 +15,7 @@ export type DataSource =
 
 export type Availability = "in_stock" | "preorder" | "out_of_stock" | "unknown";
 
-/** Estilo de la ilustración generada que sustituye a la foto real. */
+/** Tipo de producto (envase); `art.hue` da el color de la sección en la interfaz. */
 export type ArtKind =
   | "manga"
   | "funko"
@@ -29,7 +29,7 @@ export type ArtKind =
   | "paint";
 
 export interface ProductImage {
-  /** URL de la foto real. Si falta, se usa la ilustración generada. */
+  /** URL de la foto real. Sin foto, la interfaz muestra «Foto pendiente». */
   src?: string;
   alt: string;
   credit?: string;

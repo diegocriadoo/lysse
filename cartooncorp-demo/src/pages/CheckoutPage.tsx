@@ -286,7 +286,7 @@ export default function CheckoutPage() {
             {lines.map((l) => (
               <li key={l.key}>
                 <span className="summary__thumb">
-                  <ProductMedia product={l.product} sizes="52px" />
+                  <ProductMedia product={l.product} compact sizes="52px" />
                   <span className="summary__qty">{l.qty}</span>
                 </span>
                 <span className="summary__name">

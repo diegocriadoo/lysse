@@ -27,6 +27,7 @@ export default function AboutDemoPage() {
   usePageMeta("Sobre esta demo", "Qué es real y qué es simulado en esta propuesta de rediseño.");
   const observed = products.filter((p) => p.source.name === "observed").length;
   const observedPrice = products.filter((p) => p.source.price === "observed").length;
+  const withPhoto = products.filter((p) => p.images.some((i) => i.src)).length;
   return (
     <div className="container page narrow">
       <Breadcrumbs items={[{ label: "Sobre esta demo" }]} />
@@ -42,7 +43,7 @@ export default function AboutDemoPage() {
           <li>Los productos con la etiqueta <em>«Producto demo»</em> son ficticios y sirven para mostrar secciones o estados (agotado, pre-pedido, variantes). Cada ficha indica además si su precio es el observado en la web actual o uno de demostración.</li>
           <li>Sólo se muestran precios tachados cuando el precio anterior se vio en la web actual.</li>
           <li>La disponibilidad es simulada salvo dos casos observados.</li>
-          <li>Las imágenes son ilustraciones provisionales generadas para la demo; el logotipo es una propuesta y no el oficial.</li>
+          <li>{withPhoto} productos tienen foto oficial del fabricante, con su crédito en la ficha; el resto muestra «Foto pendiente» hasta que se incorpore una foto verificada. El logotipo es una propuesta y no el oficial.</li>
           <li>El carrito, la cuenta y los pedidos de prueba viven sólo en tu navegador. No se cobra nada ni se envía ningún dato.</li>
           <li>Datos de contacto (dirección y teléfono) obtenidos de fuentes públicas; el email y el horario están pendientes de confirmar.</li>
         </ul>

@@ -12,7 +12,10 @@ import { formatPrice } from "../lib/format";
 import { getFeatured, getPreorders, getProductById, queryCatalog } from "../services/catalog";
 import type { Product } from "../data/types";
 
-const HERO_IDS = ["40349", "38490", "40921"];
+/** Vitrina del hero: sólo productos con foto real verificada (la caja de Zoro, en el centro). */
+const HERO_PREFERENCE = ["33562", "40921", "44311"];
+
+const SECTION_ICON: Record<string, IconName> = { manga: "box", figuras: "spark", cartas: "cards", preventas: "calendar" };
 
 const FEATURED_SECTIONS: { slug: string; title?: string; description?: string; hue?: number }[] = [
   { slug: "manga" },
@@ -37,8 +40,9 @@ export function HomePage() {
     address: { "@type": "PostalAddress", streetAddress: store.address.street, postalCode: store.address.postalCode, addressLocality: store.address.city, addressCountry: "ES" },
     telephone: "+34963288385",
   });
-  const [main, back, front] = HERO_IDS.map((id) => getProductById(id)!);
-  const featured = getFeatured(20).filter((p) => !HERO_IDS.includes(p.id) && p.source.name !== "demo").slice(0, 4);
+  const withPhoto = HERO_PREFERENCE.map((id) => getProductById(id)).filter((p): p is Product => !!p && hasPhoto(p));
+  const [main, back, front] = withPhoto.length === 3 ? [withPhoto[0], withPhoto[1], withPhoto[2]] : [undefined, undefined, undefined];
+  const featured = getFeatured(20).filter((p) => p.source.name !== "demo").sort((a, b) => Number(hasPhoto(b)) - Number(hasPhoto(a))).slice(0, 4);
   const preorders = getPreorders(2);
   const preorderTotal = queryCatalog({ availability: ["preorder"] }).total;
 
@@ -66,14 +70,15 @@ export function HomePage() {
             </div>
           </div>
 
-          <div className="stage" aria-label="Productos destacados">
-            <span className="stage__glow" aria-hidden="true" />
-            <StageItem product={back} className="stage__item--back" />
-            <StageItem product={main} className="stage__item--main" />
-            <StageItem product={front} className="stage__item--front" />
-            <span className="stage__floor" aria-hidden="true" />
-            {!hasPhoto(main) && <span className="stage__note">Ilustraciones provisionales · fotos pendientes</span>}
-          </div>
+          {main && back && front && (
+            <div className="stage" aria-label="Productos destacados">
+              <span className="stage__glow" aria-hidden="true" />
+              <StageItem product={back} className="stage__item--back" />
+              <StageItem product={main} className="stage__item--main" />
+              <StageItem product={front} className="stage__item--front" />
+              <span className="stage__floor" aria-hidden="true" />
+            </div>
+          )}
         </div>
       </section>
 
@@ -84,14 +89,14 @@ export function HomePage() {
         <ul className="cat-tiles">
           {FEATURED_SECTIONS.map((sec) => {
             const { items, total } = sec.slug === "preventas" ? queryCatalog({ availability: ["preorder"], pageSize: 50 }) : queryCatalog({ category: sec.slug, sort: "newest", pageSize: 50 });
-            const cover = items.find((p) => p.featured && p.source.name !== "demo") ?? items[0];
+            const cover = items.find(hasPhoto);
             const cat = getCategory(sec.slug);
             const to = sec.slug === "preventas" ? "/preventas" : `/categoria/${sec.slug}`;
             return (
               <li key={sec.slug}>
                 <Link to={to} className="cat-tile" style={{ ["--hue" as string]: sec.hue ?? cat?.hue }}>
-                  <span className="cat-tile__art" aria-hidden="true">
-                    {cover && <ProductMedia product={cover} frame="wide" sizes="(min-width: 768px) 25vw, 50vw" />}
+                  <span className={`cat-tile__art ${cover ? "" : "cat-tile__art--icon"}`} aria-hidden="true">
+                    {cover ? <ProductMedia product={cover} sizes="(min-width: 768px) 25vw, 50vw" /> : <Icon name={SECTION_ICON[sec.slug] ?? "grid"} />}
                   </span>
                   <span className="cat-tile__text">
                     <span className="cat-tile__name">{sec.title ?? cat?.name}</span>
@@ -208,7 +213,7 @@ function StageItem({ product, className }: { product: Product; className: string
   return (
     <Link to={`/producto/${product.slug}`} className={`stage__item ${className}`}>
       <span className="stage__art">
-        <ProductMedia product={product} eager backdrop={false} sizes="(min-width: 1024px) 28vw, 50vw" />
+        <ProductMedia product={product} eager sizes="(min-width: 1024px) 28vw, 50vw" />
       </span>
       <span className="stage__tag">
         <span className="stage__name">{product.name}</span>

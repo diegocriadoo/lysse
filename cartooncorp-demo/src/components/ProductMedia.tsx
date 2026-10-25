@@ -1,33 +1,28 @@
 import { useState } from "react";
 import type { Product } from "../data/types";
-import { ProductArt } from "./ProductArt";
+import { Icon } from "./Icon";
 
 /**
- * Imagen de producto. Usa la foto real (`product.images[i].src`) cuando existe
- * y vuelve a la ilustración provisional si no hay foto o si no carga.
- * Con `mark`, la ilustración lleva una etiqueta que la identifica como provisional;
- * con `caption`, una nota más detallada (para la galería), o el crédito de la foto.
+ * Imagen de producto. Muestra la fotografía real (`product.images[i].src`) y,
+ * si no hay foto verificada o no carga, un marcador neutro «Foto pendiente».
+ * Nunca se dibuja una imagen que imite el producto.
+ * Con `caption`, añade el crédito de la foto (galería de la ficha).
  */
 export function ProductMedia({
   product,
   index = 0,
-  view = 0,
-  mark = false,
-  caption = false,
   eager = false,
+  caption = false,
+  compact = false,
   sizes = "(min-width: 1024px) 25vw, 50vw",
-  frame,
-  backdrop = true,
 }: {
   product: Product;
   index?: number;
-  view?: number;
-  mark?: boolean;
-  caption?: boolean;
   eager?: boolean;
+  caption?: boolean;
+  /** Marcador sin texto, para miniaturas (carrito, buscador, resumen). */
+  compact?: boolean;
   sizes?: string;
-  frame?: "portrait" | "wide";
-  backdrop?: boolean;
 }) {
   const image = product.images[index] ?? product.images[0];
   // Se guarda qué URL ha fallado para que una foto rota no afecte a las demás.
@@ -40,8 +35,8 @@ export function ProductMedia({
           className="product-photo"
           src={image.src}
           alt={image.alt}
-          width={1200}
-          height={1500}
+          width={900}
+          height={900}
           sizes={sizes}
           loading={eager ? "eager" : "lazy"}
           decoding="async"
@@ -57,16 +52,17 @@ export function ProductMedia({
     );
   }
 
+  const demo = product.source.name === "demo";
   return (
-    <>
-      <ProductArt product={product} view={view} frame={frame} backdrop={backdrop} />
-      {mark && (
-        <span className="ph-mark" title="Ilustración provisional: foto pendiente">
-          <span className="ph-mark__long">Ilustración </span>provisional
-        </span>
+    <span className={`photo-pending ${compact ? "photo-pending--compact" : ""}`} role="img" aria-label={`${product.name}: foto pendiente`}>
+      <Icon name="camera" className="photo-pending__icon" />
+      {!compact && (
+        <>
+          <span className="photo-pending__title">{demo ? "Producto de ejemplo" : "Foto pendiente"}</span>
+          {!demo && <span className="photo-pending__text">Imagen oficial por incorporar</span>}
+        </>
       )}
-      {caption && <span className="gallery__note">Ilustración provisional · foto pendiente</span>}
-    </>
+    </span>
   );
 }
 

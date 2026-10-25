@@ -1,5 +1,5 @@
 import { productPhotos } from "./photos";
-import type { Availability, ArtKind, Product, ProductVariantGroup } from "./types";
+import type { Availability, Product, ProductVariantGroup } from "./types";
 
 /**
  * Catálogo de la demo.
@@ -13,8 +13,8 @@ import type { Availability, ArtKind, Product, ProductVariantGroup } from "./type
  * - `addedAt` es una fecha interna de la demo que sólo sirve para ordenar
  *   novedades; no es una fecha de lanzamiento.
  *
- * Las imágenes no se incluyen: los productos usan ilustraciones generadas
- * (`art`) hasta que el cliente aporte fotografías con derechos de uso.
+ * Las fotos se registran en `src/data/photos.ts`; sin foto verificada, la
+ * interfaz muestra «Foto pendiente». `art.hue` sólo da el color de la sección.
  */
 
 interface Seed {
@@ -51,18 +51,6 @@ function slugify(text: string) {
     .replace(/(^-|-$)/g, "");
 }
 
-const artAlt: Record<ArtKind, string> = {
-  manga: "Ilustración provisional de la portada",
-  funko: "Ilustración provisional de la caja Funko Pop!",
-  "tcg-box": "Ilustración provisional de la caja de sobres",
-  "tcg-pack": "Ilustración provisional del sobre",
-  figure: "Ilustración provisional de la figura",
-  "model-kit": "Ilustración provisional de la caja de la maqueta",
-  sleeves: "Ilustración provisional del paquete de fundas",
-  "board-game": "Ilustración provisional de la caja del juego",
-  puzzle: "Ilustración provisional de la caja del puzzle",
-  paint: "Ilustración provisional del producto",
-};
 
 function build(seed: Seed): Product {
   const demo = seed.origin === "demo";
@@ -82,7 +70,7 @@ function build(seed: Seed): Product {
     description: seed.description ?? [seed.short],
     specs: (seed.specs ?? []).map(([label, value]) => ({ label, value })),
     tags: seed.tags ?? [],
-    images: productPhotos[seed.id] ?? [{ alt: `${artAlt[seed.art.kind]}: ${seed.name}` }],
+    images: productPhotos[seed.id] ?? [],
     art: seed.art,
     variants: seed.variants,
     featured: seed.featured,

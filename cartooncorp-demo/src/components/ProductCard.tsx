@@ -20,7 +20,7 @@ export function ProductCard({ product, headingLevel = 3 }: { product: Product; h
   return (
     <article className={`card ${product.availability === "out_of_stock" ? "card--soldout" : ""}`}>
       <Link to={url} className="card__media" tabIndex={-1} aria-hidden="true">
-        <ProductMedia product={product} mark />
+        <ProductMedia product={product} />
         <div className="card__flags">
           {isOnSale(product) && <span className="flag flag--sale">−{discountPercent(product)}%</span>}
           {preorder && <span className="flag flag--pre">Pre-pedido</span>}

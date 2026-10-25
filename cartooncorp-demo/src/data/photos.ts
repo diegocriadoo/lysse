@@ -1,9 +1,9 @@
 /**
  * Fotografías de producto.
  *
- * Ahora mismo no hay ninguna: no se han podido obtener ni verificar fotos con
- * permiso de uso (ver docs/FOTOS.md). Mientras un producto no tenga foto, la
- * interfaz muestra una ilustración marcada como provisional.
+ * Estado actual en docs/FOTOS.md (`npm run fotos:informe`). Mientras un
+ * producto no tenga foto, la interfaz muestra un marcador neutro «Foto
+ * pendiente», nunca una imagen que imite el producto.
  *
  * Para añadir fotos:
  *   1. Guarda el archivo en `src/assets/productos/<id>.jpg` (también .jpeg,
@@ -15,7 +15,7 @@
  *
  * Vite optimiza las fotos al compilar y, en la versión de un solo archivo
  * (`npm run build:single`), las incrusta dentro del HTML para que funcione
- * sin servidor. Si una foto no carga, se vuelve a mostrar la ilustración.
+ * sin servidor. Si una foto no carga, se muestra el marcador «Foto pendiente».
  */
 export interface ProductPhoto {
   src: string;
@@ -28,7 +28,15 @@ export interface ProductPhoto {
 }
 
 /** Procedencia de cada archivo de `src/assets/productos/`, por nombre de archivo sin extensión. */
-export const photoCredits: Record<string, { alt: string; credit: string; license: string; sourceUrl?: string }> = {};
+export const photoCredits: Record<string, { alt: string; credit: string; license: string; sourceUrl?: string }> = {
+  // Imágenes oficiales de funko.com. Correspondencia verificada por número de
+  // artículo de Funko y número de figura (ver docs/FOTOS.md).
+  "33562": { alt: "Caja del Funko Pop! Roronoa Zoro nº 327 de One Piece", credit: "Funko", license: "Imagen oficial del fabricante (funko.com); uso sujeto a autorización como distribuidor", sourceUrl: "https://funko.com/pop-roronoa-zoro/23191.html" },
+  "33562__2": { alt: "Figura Funko Pop! Roronoa Zoro de One Piece, vista frontal", credit: "Funko", license: "Imagen oficial del fabricante (funko.com); uso sujeto a autorización como distribuidor", sourceUrl: "https://funko.com/pop-roronoa-zoro/23191.html" },
+  "44311": { alt: "Caja del Funko Pop! The Thing nº 1516 de The Fantastic Four: First Steps", credit: "Funko", license: "Imagen oficial del fabricante (funko.com); uso sujeto a autorización como distribuidor", sourceUrl: "https://funko.com/pop-the-thing-fantastic-four-first-steps/83585.html" },
+  "44311__2": { alt: "Figura Funko Pop! The Thing de The Fantastic Four: First Steps, vista frontal", credit: "Funko", license: "Imagen oficial del fabricante (funko.com); uso sujeto a autorización como distribuidor", sourceUrl: "https://funko.com/pop-the-thing-fantastic-four-first-steps/83585.html" },
+  "40921": { alt: "Figura Funko Pop! Bulbasaur nº 453 de Pokémon", credit: "Funko", license: "Imagen oficial del fabricante (funko.com); uso sujeto a autorización como distribuidor", sourceUrl: "https://funko.com/pop-bulbasaur/36237.html" },
+};
 
 const files = import.meta.glob<string>("../assets/productos/*.{jpg,jpeg,png,webp}", { eager: true, import: "default", query: "?url" });
 

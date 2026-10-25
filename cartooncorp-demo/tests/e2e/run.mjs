@@ -189,6 +189,39 @@ try {
     await ctx.close();
   }
 
+  // ── 3b. Fotos reales ─────────────────────────────────────────────────────
+  {
+    const ctx = await browser.newContext({ viewport: { width: 1440, height: 900 } });
+    const page = await ctx.newPage();
+    const broken = [];
+    page.on("requestfailed", (r) => broken.push(r.url()));
+    const imgState = () =>
+      page.$$eval("img.product-photo", (imgs) => imgs.map((i) => ({ alt: i.alt, ok: i.complete && i.naturalWidth > 0 })));
+    const loadAll = async () => {
+      await page.evaluate(async () => {
+        for (let y = 0; y < document.body.scrollHeight; y += 600) { scrollTo(0, y); await new Promise((r) => setTimeout(r, 60)); }
+      });
+      await page.waitForTimeout(400);
+    };
+    const results = {};
+    for (const route of ["/", "/categoria/funko", "/producto/funko-pop-roronoa-zoro-327-one-piece-33562", "/producto/funko-pop-bulbasaur-453-pokemon-40921", "/producto/funko-pop-the-thing-1516-the-fantastic-4-first-steps-44311"]) {
+      await page.goto(BASE + route, { waitUntil: "networkidle" });
+      await loadAll();
+      results[route] = await imgState();
+    }
+    const all = Object.values(results).flat();
+    check("fotos reales cargan (portada, Funko y 3 fichas)", all.length > 0 && all.every((i) => i.ok), `${all.filter((i) => i.ok).length}/${all.length} cargadas`);
+    check("ficha de Zoro: 2 fotos (caja y figura)", (await (async () => { await page.goto(BASE + "/producto/funko-pop-roronoa-zoro-327-one-piece-33562"); return page.locator(".gallery__thumb").count(); })()) === 2);
+    check("sin peticiones de imagen fallidas", broken.length === 0, broken.join(", "));
+    await page.goto(BASE + "/tienda");
+    await page.locator("#results-count", { hasText: /\d+ producto/ }).waitFor();
+    const pending = await page.locator(".photo-pending").count();
+    const illustrations = await page.locator("svg.product-art").count();
+    check("ninguna ilustración de producto en la web", illustrations === 0, `${illustrations} ilustraciones`);
+    check("productos sin foto muestran «Foto pendiente»", pending > 0, `${pending} en la página 1 del catálogo`);
+    await ctx.close();
+  }
+
   // ── 4. Móvil: menú, filtros, accesibilidad por teclado ────────────────────
   {
     const ctx = await browser.newContext({ viewport: { width: 390, height: 844 }, hasTouch: true });

@@ -59,7 +59,7 @@ export function Footer() {
       </div>
       <div className="container footer__legal">
         <p>
-          © {new Date().getFullYear()} Propuesta de rediseño para CartoonCorp. Demostración sin pedidos ni pagos reales. Logotipo e imágenes provisionales.
+          © {new Date().getFullYear()} Propuesta de rediseño para CartoonCorp. Demostración sin pedidos ni pagos reales. Logotipo provisional; fotos de producto en proceso.
         </p>
         <ul>
           <li><Link to="/legal/aviso-legal">Aviso legal</Link></li>

@@ -114,7 +114,7 @@ export function SearchBox({ autoFocus, onNavigate }: { autoFocus?: boolean; onNa
               onMouseEnter={() => setActive(i)}
             >
               <span className="search__thumb">
-                <ProductMedia product={p} sizes="44px" />
+                <ProductMedia product={p} compact sizes="44px" />
               </span>
               <span className="search__name">{p.name}</span>
               <span className="search__price">{formatPrice(p.price)}</span>

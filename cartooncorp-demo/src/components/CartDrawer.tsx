@@ -43,7 +43,7 @@ export function CartLines({ compact = false }: { compact?: boolean }) {
       {lines.map((l) => (
         <li key={l.key} className="line">
           <Link to={`/producto/${l.product.slug}`} className="line__media" onClick={closeDrawer} tabIndex={-1} aria-hidden="true">
-            <ProductMedia product={l.product} sizes="90px" />
+            <ProductMedia product={l.product} compact sizes="90px" />
           </Link>
           <div className="line__info">
             <Link to={`/producto/${l.product.slug}`} className="line__name" onClick={closeDrawer}>

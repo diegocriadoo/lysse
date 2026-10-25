@@ -245,22 +245,18 @@ function ProductView({ product }: { product: Product }) {
 }
 
 function Gallery({ product }: { product: Product }) {
-  const [view, setView] = useState(0);
+  const [current, setCurrent] = useState(0);
   const photos = product.images.filter((i) => i.src);
-  // Con fotos reales, una miniatura por foto; sin ellas, tres vistas de la ilustración.
-  const slides = photos.length > 1 ? photos.map((p, i) => ({ label: p.alt, index: i, view: 0 })) : ["Vista frontal", "Detalle", "Vista en ángulo"].map((label, v) => ({ label, index: 0, view: photos.length ? 0 : v }));
-  const items = photos.length === 1 ? slides.slice(0, 1) : slides;
-  const current = items[view] ?? items[0];
   return (
     <div className="gallery">
       <div className="gallery__main">
-        <ProductMedia product={product} index={current.index} view={current.view} eager caption sizes="(min-width: 768px) 50vw, 100vw" />
+        <ProductMedia product={product} index={current} eager caption sizes="(min-width: 768px) 50vw, 100vw" />
       </div>
-      {items.length > 1 && (
+      {photos.length > 1 && (
         <div className="gallery__thumbs" role="group" aria-label="Imágenes del producto">
-          {items.map((it, i) => (
-            <button key={i} type="button" className={`gallery__thumb ${i === view ? "is-active" : ""}`} aria-pressed={i === view} aria-label={it.label} onClick={() => setView(i)}>
-              <ProductMedia product={product} index={it.index} view={it.view} sizes="80px" />
+          {photos.map((p, i) => (
+            <button key={p.src} type="button" className={`gallery__thumb ${i === current ? "is-active" : ""}`} aria-pressed={i === current} aria-label={p.alt} onClick={() => setCurrent(i)}>
+              <ProductMedia product={product} index={i} sizes="80px" />
             </button>
           ))}
         </div>
@@ -287,7 +283,7 @@ function DataSourceInfo({ product }: { product: Product }) {
         <li>Nombre: {label[s.name]}</li>
         <li>Precio: {label[s.price]}</li>
         <li>Disponibilidad: {label[s.availability]}</li>
-        <li>Imagen: {product.images[0]?.src ? `fotografía${product.images[0].credit ? ` (© ${product.images[0].credit})` : ""}` : "ilustración provisional generada para la demo"}</li>
+        <li>Imagen: {product.images[0]?.src ? `fotografía oficial${product.images[0].credit ? ` (© ${product.images[0].credit})` : ""}` : "pendiente (sin foto verificada)"}</li>
       </ul>
       {product.releaseNote && <p>{product.releaseNote}</p>}
       {s.url && (

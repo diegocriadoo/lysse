@@ -53,6 +53,7 @@ export function Footer() {
             {store.social.map((s) => (
               <li key={s.href}><a href={s.href} target="_blank" rel="noopener noreferrer">{s.label} <Icon name="external" /></a></li>
             ))}
+            <li><Link to="/propuesta">La propuesta</Link></li>
             <li><Link to="/sobre-la-demo">Sobre esta demo</Link></li>
           </ul>
         </nav>

@@ -21,7 +21,7 @@ const ROUTES = [
   "/", "/tienda", "/categoria/manga", "/categoria/magic", "/categoria/funko-anime", "/novedades", "/ofertas", "/preventas",
   "/buscar?q=dragon", "/buscar?q=zzzz", "/producto/chainsaw-man-17-38490", "/carrito", "/checkout", "/cuenta", "/contacto",
   "/tienda-fisica", "/ayuda", "/envios", "/devoluciones", "/legal/aviso-legal", "/legal/privacidad", "/legal/cookies",
-  "/legal/condiciones", "/noticias", "/noticias/empezar-con-gunpla", "/sobre-la-demo", "/ruta-inexistente",
+  "/legal/condiciones", "/noticias", "/noticias/empezar-con-gunpla", "/sobre-la-demo", "/propuesta", "/ruta-inexistente",
 ];
 
 let failures = 0;

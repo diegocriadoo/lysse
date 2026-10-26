@@ -227,7 +227,10 @@ function StageItem({ product, className }: { product: Product; className: string
 function NewArrivals() {
   const [tab, setTab] = useState(TABS[0].id);
   const current = TABS.find((d) => d.id === tab)!;
-  const items = queryCatalog({ category: current.category, sort: "newest", pageSize: 8, availability: ["in_stock", "preorder"] }).items;
+  // En la portada se priorizan los productos con foto real (orden estable: dentro de cada grupo, los más nuevos primero).
+  const items = queryCatalog({ category: current.category, sort: "newest", pageSize: 50, availability: ["in_stock", "preorder"] })
+    .items.sort((a, b) => Number(hasPhoto(b)) - Number(hasPhoto(a)))
+    .slice(0, 8);
 
   const onKey = (e: KeyboardEvent, index: number) => {
     const dir = e.key === "ArrowRight" ? 1 : e.key === "ArrowLeft" ? -1 : 0;

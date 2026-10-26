@@ -15,6 +15,7 @@ const replacements = [
   [re("Qhttps://noticias\\.cartooncorp\\.net/Q"), "void 0"],
   [re("Qhttps://bsky\\.app/profile/cartooncorp\\.bsky\\.socialQ"), "void 0"],
   [/noticias\.cartooncorp\.net/g, "el blog actual"],
+  [/cartooncorp\.net y cartooncorp\.es/g, "Los dos dominios actuales"],
   [/cartooncorp\.net menciona 14 días y cartooncorp\.es 7 días/g, "la web actual da plazos distintos (14 y 7 días)"],
   // Logotipo "Cartoon" + <span>Corp</span>
   [re("children:\\[QCartoonQ,"), "children:[`Tienda`,"],

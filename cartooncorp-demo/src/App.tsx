@@ -18,6 +18,7 @@ const InfoPage = lazy(() => import("./pages/InfoPage"));
 const BlogPage = lazy(() => import("./pages/BlogPage"));
 const ArticlePage = lazy(() => import("./pages/ArticlePage"));
 const AboutDemoPage = lazy(() => import("./pages/AboutDemoPage"));
+const ProposalPage = lazy(() => import("./pages/ProposalPage"));
 
 function PageLoader() {
   return (
@@ -54,6 +55,7 @@ export function App() {
           <Route path="noticias" element={<BlogPage />} />
           <Route path="noticias/:slug" element={<ArticlePage />} />
           <Route path="sobre-la-demo" element={<AboutDemoPage />} />
+          <Route path="propuesta" element={<ProposalPage />} />
           <Route path="*" element={<NotFoundPage />} />
         </Route>
       </Routes>

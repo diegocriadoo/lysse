@@ -38,8 +38,8 @@ export function Header() {
           <span className="announce__hide-sm">
             <Icon name="store" /> Recogida gratis en tienda · Valencia
           </span>
-          <Link to="/sobre-la-demo" className="announce__demo">
-            Demo<span className="announce__long"> de rediseño · sin pedidos reales</span>
+          <Link to="/propuesta" className="announce__demo">
+            Demo<span className="announce__long"> de rediseño · ver la propuesta</span>
           </Link>
         </div>
       </div>

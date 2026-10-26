@@ -1,26 +1,35 @@
 # Fotos de producto: estado
 
-Generado con `npm run fotos:informe` el 2026-10-25.
+Generado con `npm run fotos:informe` el 2026-10-26.
 
-**3 de 34 productos reales tienen foto.** 31 pendientes. Los 10 productos de demostración son ficticios: no deben llevar foto de un producto real, sino sustituirse por productos del catálogo de CartoonCorp.
+**7 de 34 productos reales tienen foto.** 27 pendientes. Los 10 productos de demostración son ficticios: no deben llevar foto de un producto real, sino sustituirse por productos del catálogo de CartoonCorp.
 
 ## Fotos integradas y su verificación
 
 | Archivo | Producto | Fuente | Licencia |
 |---|---|---|---|
+| `20513.webp` | Portada de Akira 5. Edición original, de Katsuhiro Otomo (Norma Editorial) | [Norma Editorial](https://www.normaeditorial.com/ficha/manga/katsuhiro-otomo/akira-edicion-original/akira-5-edicion-original) | Imagen oficial de la editorial (normaeditorial.com); uso sujeto a autorización como distribuidor |
+| `28454.webp` | Portada de Choujin X 1, de Sui Ishida (Norma Editorial) | [Norma Editorial](https://www.normaeditorial.com/ficha/manga/choujin-x/choujin-x-1) | Imagen oficial de la editorial (normaeditorial.com); uso sujeto a autorización como distribuidor |
 | `33562.webp` | Caja del Funko Pop! Roronoa Zoro nº 327 de One Piece | [Funko](https://funko.com/pop-roronoa-zoro/23191.html) | Imagen oficial del fabricante (funko.com); uso sujeto a autorización como distribuidor |
 | `33562__2.webp` | Figura Funko Pop! Roronoa Zoro de One Piece, vista frontal | [Funko](https://funko.com/pop-roronoa-zoro/23191.html) | Imagen oficial del fabricante (funko.com); uso sujeto a autorización como distribuidor |
+| `34316.webp` | Portada de Neon Genesis Evangelion. Edición coleccionista 7 (Norma Editorial) | [Norma Editorial](https://www.normaeditorial.com/ficha/manga/neon-genesis-evangelion-edicion-coleccionista/neon-genesis-evangelion-edicion-coleccionista-7) | Imagen oficial de la editorial (normaeditorial.com); uso sujeto a autorización como distribuidor |
+| `38490.webp` | Portada de Chainsaw Man 17, de Tatsuki Fujimoto (Norma Editorial) | [Norma Editorial](https://www.normaeditorial.com/ficha/manga/chainsaw-man/chainsaw-man-17) | Imagen oficial de la editorial (normaeditorial.com); uso sujeto a autorización como distribuidor |
 | `40921.webp` | Figura Funko Pop! Bulbasaur nº 453 de Pokémon | [Funko](https://funko.com/pop-bulbasaur/36237.html) | Imagen oficial del fabricante (funko.com); uso sujeto a autorización como distribuidor |
 | `44311.webp` | Caja del Funko Pop! The Thing nº 1516 de The Fantastic Four: First Steps | [Funko](https://funko.com/pop-the-thing-fantastic-four-first-steps/83585.html) | Imagen oficial del fabricante (funko.com); uso sujeto a autorización como distribuidor |
 | `44311__2.webp` | Figura Funko Pop! The Thing de The Fantastic Four: First Steps, vista frontal | [Funko](https://funko.com/pop-the-thing-fantastic-four-first-steps/83585.html) | Imagen oficial del fabricante (funko.com); uso sujeto a autorización como distribuidor |
 
 Las tres fotos de Funko proceden de funko.com (buscador oficial; las fichas tienen un desafío anti-bots que no se ha intentado saltar). La correspondencia con el producto de la demo se verificó cruzando el número de artículo de Funko con el número de figura que publican tiendas externas: 36237 = Bulbasaur nº 453, 23191 = Roronoa Zoro nº 327 (el 54462 es otro Zoro y se descartó), 83585 = The Thing nº 1516. Se revisó cada imagen a ojo y se descartó una ilustración ambientada de Bulbasaur que no mostraba el producto tal como se vende. Las imágenes se recortaron, se pasaron a WebP de 900 px y se incrustan en el HTML.
 
+Las cuatro portadas de Norma Editorial proceden de la imagen principal (og:image) de la ficha oficial de cada tomo, localizada con un buscador web porque el buscador interno de Norma está vetado a robots en su robots.txt. Se verificó título, número de tomo, ISBN y precio (iguales a los observados en CartoonCorp), y se evitó «Akira 05» a color, que es otro producto distinto de «Akira 5. Edición original». Cada portada se revisó a ojo (título y número visibles).
+
 ## Fuentes revisadas y no disponibles
 
-- **cartooncorp.es**: su servidor rechaza las peticiones automáticas (403). No se ha intentado saltar esa protección.
-- **cartooncorp.net, www.normaeditorial.com, www.planetadelibros.com, Bandai, Wizards of the Coast, Ultra Pro**: no permitidos por la red del entorno de desarrollo (Norma y Planeta redirigen a su dominio con www, que no está en la lista).
-- **Wikimedia Commons**: accesible, pero con un límite de peticiones muy estricto (unos 50 s entre consultas). Sólo se completaron 3 búsquedas (los tres Funko), sin resultados; el resto de productos no se llegó a buscar allí.
+- **cartooncorp.es**: protegida por una verificación de Cloudflare que no se completa en un navegador automático (probado 30 s en Chromium con challenges.cloudflare.com permitido). No se ha intentado saltar.
+- **Planeta Cómic (6 mangas: Kaiju Nº8 09, My Hero Academia 15, Dragon Ball Ultimate 07, Vinland Saga 01, Gintama 03, Lamu 01)**: las fichas se abren y se ha localizado la portada de cada una, pero las imágenes están en `proassets.planetadelibros.com`, que no está permitido en el entorno. Es lo único que falta para completarlas.
+- **Wizards of the Coast (9 cajas de Magic)**: sus fichas sólo tienen banners promocionales, no fotos de las cajas en castellano que vende la tienda. Pendientes de fotos de CartoonCorp.
+- **Bandai / Banpresto (6 figuras, 4 Gunpla, fundas de Sabo)**: p-bandai.com y bandaispirits.co.jp no publican estos productos; las bases de datos oficiales (bandai-hobby.net, bsp-prize.jp) no están permitidas.
+- **Ultra Pro (fundas)**: www.ultrapro.com redirige a ultrapro.com, que no está permitido.
+- **Wikimedia Commons**: accesible, pero con un límite de peticiones muy estricto (unos 50 s entre consultas). Sólo se completaron 3 búsquedas (los tres Funko), sin resultados.
 
 ## Cómo completarlas
 
@@ -33,14 +42,14 @@ Las tres fotos de Funko proceden de funko.com (buscador oficial; las fichas tien
 
 | Id | Producto | Foto | Origen del producto |
 |---|---|---|---|
-| `28454` | Choujin X 01 | ⏳ pendiente | [ficha actual](https://cartooncorp.es/comics-manga-seinen/28454-choujin-x-01.html) |
-| `38490` | Chainsaw Man 17 | ⏳ pendiente | [ficha actual](https://cartooncorp.es/shonen/38490-chainsaw-man-17.html) |
+| `28454` | Choujin X 01 | ✅ 28454.webp | [ficha actual](https://cartooncorp.es/comics-manga-seinen/28454-choujin-x-01.html) |
+| `38490` | Chainsaw Man 17 | ✅ 38490.webp | [ficha actual](https://cartooncorp.es/shonen/38490-chainsaw-man-17.html) |
 | `35900` | Kaiju Nº8 09 | ⏳ pendiente | [ficha actual](https://cartooncorp.es/shonen/35900-kaiju-n%C2%BA8-09.html) |
 | `14049` | My Hero Academia 15 | ⏳ pendiente | [ficha actual](https://cartooncorp.es/shonen/14049-my-hero-academia-15.html) |
 | `14007` | Dragon Ball Ultimate Edition 07 de 34 | ⏳ pendiente | [ficha actual](https://cartooncorp.es/shonen/14007-dragon-ball-ultimate-edition-07-de-34.html) |
 | `18599` | Vinland Saga 01 | ⏳ pendiente | [ficha actual](https://cartooncorp.es/comics-manga-seinen/18599-vinland-saga-01.html) |
-| `20513` | Akira 05 Edición Original | ⏳ pendiente | [ficha actual](https://cartooncorp.es/comics-manga-seinen/20513-akira-05-edicion-original.html) |
-| `34316` | Neon Génesis Evangelion 07 de 07 Edición Coleccionista | ⏳ pendiente | [ficha actual](https://cartooncorp.es/shonen/34316-neon-genesis-evangelion-07-de-07-edicion-coleccionista.html) |
+| `20513` | Akira 05 Edición Original | ✅ 20513.webp | [ficha actual](https://cartooncorp.es/comics-manga-seinen/20513-akira-05-edicion-original.html) |
+| `34316` | Neon Génesis Evangelion 07 de 07 Edición Coleccionista | ✅ 34316.webp | [ficha actual](https://cartooncorp.es/shonen/34316-neon-genesis-evangelion-07-de-07-edicion-coleccionista.html) |
 | `38836` | Gintama 03 de 26 | ⏳ pendiente | [ficha actual](https://cartooncorp.es/shonen/38836-gintama-03-de-26.html) |
 | `35902` | Lamu 01 de 17 | ⏳ pendiente | [ficha actual](https://cartooncorp.es/shonen/35902-lamu-01-de-17.html) |
 | `47963` | Son Goku & Chichi Dragon Ball Ichibansho | ⏳ pendiente | [ficha actual](https://cartooncorp.es/figuras-dragon-ball-y-merchandising-dragon-ball/47963-son-goku-chichi-dragon-ball-ichibansho.html) |

@@ -248,7 +248,7 @@ function Gallery({ product }: { product: Product }) {
   const [current, setCurrent] = useState(0);
   const photos = product.images.filter((i) => i.src);
   return (
-    <div className="gallery">
+    <div className={`gallery ${photos.length > 1 ? "" : "gallery--single"}`}>
       <div className="gallery__main">
         <ProductMedia product={product} index={current} eager caption sizes="(min-width: 768px) 50vw, 100vw" />
       </div>

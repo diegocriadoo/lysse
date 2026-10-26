@@ -27,11 +27,16 @@ ${files.map((f) => { const n = f.replace(/\.[^.]+$/, ""); const c = credits[n] ?
 
 Las tres fotos de Funko proceden de funko.com (buscador oficial; las fichas tienen un desafío anti-bots que no se ha intentado saltar). La correspondencia con el producto de la demo se verificó cruzando el número de artículo de Funko con el número de figura que publican tiendas externas: 36237 = Bulbasaur nº 453, 23191 = Roronoa Zoro nº 327 (el 54462 es otro Zoro y se descartó), 83585 = The Thing nº 1516. Se revisó cada imagen a ojo y se descartó una ilustración ambientada de Bulbasaur que no mostraba el producto tal como se vende. Las imágenes se recortaron, se pasaron a WebP de 900 px y se incrustan en el HTML.
 
+Las cuatro portadas de Norma Editorial proceden de la imagen principal (og:image) de la ficha oficial de cada tomo, localizada con un buscador web porque el buscador interno de Norma está vetado a robots en su robots.txt. Se verificó título, número de tomo, ISBN y precio (iguales a los observados en CartoonCorp), y se evitó «Akira 05» a color, que es otro producto distinto de «Akira 5. Edición original». Cada portada se revisó a ojo (título y número visibles).
+
 ## Fuentes revisadas y no disponibles
 
-- **cartooncorp.es**: su servidor rechaza las peticiones automáticas (403). No se ha intentado saltar esa protección.
-- **cartooncorp.net, www.normaeditorial.com, www.planetadelibros.com, Bandai, Wizards of the Coast, Ultra Pro**: no permitidos por la red del entorno de desarrollo (Norma y Planeta redirigen a su dominio con www, que no está en la lista).
-- **Wikimedia Commons**: accesible, pero con un límite de peticiones muy estricto (unos 50 s entre consultas). Sólo se completaron 3 búsquedas (los tres Funko), sin resultados; el resto de productos no se llegó a buscar allí.
+- **cartooncorp.es**: protegida por una verificación de Cloudflare que no se completa en un navegador automático (probado 30 s en Chromium con challenges.cloudflare.com permitido). No se ha intentado saltar.
+- **Planeta Cómic (6 mangas: Kaiju Nº8 09, My Hero Academia 15, Dragon Ball Ultimate 07, Vinland Saga 01, Gintama 03, Lamu 01)**: las fichas se abren y se ha localizado la portada de cada una, pero las imágenes están en \`proassets.planetadelibros.com\`, que no está permitido en el entorno. Es lo único que falta para completarlas.
+- **Wizards of the Coast (9 cajas de Magic)**: sus fichas sólo tienen banners promocionales, no fotos de las cajas en castellano que vende la tienda. Pendientes de fotos de CartoonCorp.
+- **Bandai / Banpresto (6 figuras, 4 Gunpla, fundas de Sabo)**: p-bandai.com y bandaispirits.co.jp no publican estos productos; las bases de datos oficiales (bandai-hobby.net, bsp-prize.jp) no están permitidas.
+- **Ultra Pro (fundas)**: www.ultrapro.com redirige a ultrapro.com, que no está permitido.
+- **Wikimedia Commons**: accesible, pero con un límite de peticiones muy estricto (unos 50 s entre consultas). Sólo se completaron 3 búsquedas (los tres Funko), sin resultados.
 
 ## Cómo completarlas
 

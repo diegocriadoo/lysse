@@ -204,14 +204,20 @@ try {
       await page.waitForTimeout(400);
     };
     const results = {};
-    for (const route of ["/", "/categoria/funko", "/producto/funko-pop-roronoa-zoro-327-one-piece-33562", "/producto/funko-pop-bulbasaur-453-pokemon-40921", "/producto/funko-pop-the-thing-1516-the-fantastic-4-first-steps-44311"]) {
+    for (const route of ["/", "/categoria/funko", "/categoria/manga", "/producto/chainsaw-man-17-38490", "/producto/funko-pop-roronoa-zoro-327-one-piece-33562", "/producto/funko-pop-bulbasaur-453-pokemon-40921", "/producto/funko-pop-the-thing-1516-the-fantastic-4-first-steps-44311"]) {
       await page.goto(BASE + route, { waitUntil: "networkidle" });
       await loadAll();
       results[route] = await imgState();
     }
     const all = Object.values(results).flat();
-    check("fotos reales cargan (portada, Funko y 3 fichas)", all.length > 0 && all.every((i) => i.ok), `${all.filter((i) => i.ok).length}/${all.length} cargadas`);
+    check("fotos reales cargan (portada, Funko, Manga y 4 fichas)", all.length > 0 && all.every((i) => i.ok), `${all.filter((i) => i.ok).length}/${all.length} cargadas`);
     check("ficha de Zoro: 2 fotos (caja y figura)", (await (async () => { await page.goto(BASE + "/producto/funko-pop-roronoa-zoro-327-one-piece-33562"); return page.locator(".gallery__thumb").count(); })()) === 2);
+    const galleryWidths = {};
+    for (const slug of ["akira-05-edicion-original-20513", "funko-pop-bulbasaur-453-pokemon-40921", "kaiju-n-8-09-35900", "funko-pop-roronoa-zoro-327-one-piece-33562"]) {
+      await page.goto(BASE + "/producto/" + slug);
+      galleryWidths[slug] = Math.round((await page.locator(".gallery__main").boundingBox()).width);
+    }
+    check("imagen principal de la ficha a tamaño completo (1, 2 o ninguna foto)", Object.values(galleryWidths).every((w) => w > 400), JSON.stringify(galleryWidths));
     check("sin peticiones de imagen fallidas", broken.length === 0, broken.join(", "));
     await page.goto(BASE + "/tienda");
     await page.locator("#results-count", { hasText: /\d+ producto/ }).waitFor();

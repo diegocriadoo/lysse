@@ -2,18 +2,24 @@
 
 Generado con `npm run fotos:informe` el 2026-10-26.
 
-**7 de 34 productos reales tienen foto.** 27 pendientes. Los 10 productos de demostración son ficticios: no deben llevar foto de un producto real, sino sustituirse por productos del catálogo de CartoonCorp.
+**13 de 34 productos reales tienen foto.** 21 pendientes. Los 10 productos de demostración son ficticios: no deben llevar foto de un producto real, sino sustituirse por productos del catálogo de CartoonCorp.
 
 ## Fotos integradas y su verificación
 
 | Archivo | Producto | Fuente | Licencia |
 |---|---|---|---|
+| `14007.webp` | Portada de Dragon Ball Ultimate nº 07/34, de Akira Toriyama (Planeta Cómic) | [Planeta Cómic](https://www.planetadelibros.com/libro-dragon-ball-ultimate-n-0734/324737) | Imagen oficial de la editorial (planetadelibros.com); uso sujeto a autorización como distribuidor |
+| `14049.webp` | Portada de My Hero Academia nº 15, de Kohei Horikoshi (Planeta Cómic) | [Planeta Cómic](https://www.planetadelibros.com/libro-my-hero-academia-n-15/279978) | Imagen oficial de la editorial (planetadelibros.com); uso sujeto a autorización como distribuidor |
+| `18599.webp` | Portada de Vinland Saga nº 01, de Makoto Yukimura (Planeta Cómic) | [Planeta Cómic](https://www.planetadelibros.com/libro-vinland-saga-n-01/162006) | Imagen oficial de la editorial (planetadelibros.com); uso sujeto a autorización como distribuidor |
 | `20513.webp` | Portada de Akira 5. Edición original, de Katsuhiro Otomo (Norma Editorial) | [Norma Editorial](https://www.normaeditorial.com/ficha/manga/katsuhiro-otomo/akira-edicion-original/akira-5-edicion-original) | Imagen oficial de la editorial (normaeditorial.com); uso sujeto a autorización como distribuidor |
 | `28454.webp` | Portada de Choujin X 1, de Sui Ishida (Norma Editorial) | [Norma Editorial](https://www.normaeditorial.com/ficha/manga/choujin-x/choujin-x-1) | Imagen oficial de la editorial (normaeditorial.com); uso sujeto a autorización como distribuidor |
 | `33562.webp` | Caja del Funko Pop! Roronoa Zoro nº 327 de One Piece | [Funko](https://funko.com/pop-roronoa-zoro/23191.html) | Imagen oficial del fabricante (funko.com); uso sujeto a autorización como distribuidor |
 | `33562__2.webp` | Figura Funko Pop! Roronoa Zoro de One Piece, vista frontal | [Funko](https://funko.com/pop-roronoa-zoro/23191.html) | Imagen oficial del fabricante (funko.com); uso sujeto a autorización como distribuidor |
 | `34316.webp` | Portada de Neon Genesis Evangelion. Edición coleccionista 7 (Norma Editorial) | [Norma Editorial](https://www.normaeditorial.com/ficha/manga/neon-genesis-evangelion-edicion-coleccionista/neon-genesis-evangelion-edicion-coleccionista-7) | Imagen oficial de la editorial (normaeditorial.com); uso sujeto a autorización como distribuidor |
+| `35900.webp` | Portada de Kaiju 8 nº 09, de Naoya Matsumoto (Planeta Cómic) | [Planeta Cómic](https://www.planetadelibros.com/libro-kaiju-8-n-09/386560) | Imagen oficial de la editorial (planetadelibros.com); uso sujeto a autorización como distribuidor |
+| `35902.webp` | Portada de Lamu nº 01/17, de Rumiko Takahashi (Planeta Cómic) | [Planeta Cómic](https://www.planetadelibros.com/libro-lamu-n-0117/376422) | Imagen oficial de la editorial (planetadelibros.com); uso sujeto a autorización como distribuidor |
 | `38490.webp` | Portada de Chainsaw Man 17, de Tatsuki Fujimoto (Norma Editorial) | [Norma Editorial](https://www.normaeditorial.com/ficha/manga/chainsaw-man/chainsaw-man-17) | Imagen oficial de la editorial (normaeditorial.com); uso sujeto a autorización como distribuidor |
+| `38836.webp` | Portada de Gintama nº 03/26, de Hideaki Sorachi (Planeta Cómic) | [Planeta Cómic](https://www.planetadelibros.com/libro-gintama-n-0326/388090) | Imagen oficial de la editorial (planetadelibros.com); uso sujeto a autorización como distribuidor |
 | `40921.webp` | Figura Funko Pop! Bulbasaur nº 453 de Pokémon | [Funko](https://funko.com/pop-bulbasaur/36237.html) | Imagen oficial del fabricante (funko.com); uso sujeto a autorización como distribuidor |
 | `44311.webp` | Caja del Funko Pop! The Thing nº 1516 de The Fantastic Four: First Steps | [Funko](https://funko.com/pop-the-thing-fantastic-four-first-steps/83585.html) | Imagen oficial del fabricante (funko.com); uso sujeto a autorización como distribuidor |
 | `44311__2.webp` | Figura Funko Pop! The Thing de The Fantastic Four: First Steps, vista frontal | [Funko](https://funko.com/pop-the-thing-fantastic-four-first-steps/83585.html) | Imagen oficial del fabricante (funko.com); uso sujeto a autorización como distribuidor |
@@ -22,10 +28,11 @@ Las tres fotos de Funko proceden de funko.com (buscador oficial; las fichas tien
 
 Las cuatro portadas de Norma Editorial proceden de la imagen principal (og:image) de la ficha oficial de cada tomo, localizada con un buscador web porque el buscador interno de Norma está vetado a robots en su robots.txt. Se verificó título, número de tomo, ISBN y precio (iguales a los observados en CartoonCorp), y se evitó «Akira 05» a color, que es otro producto distinto de «Akira 5. Edición original». Cada portada se revisó a ojo (título y número visibles).
 
+Las seis portadas de Planeta Cómic proceden de la ficha oficial de cada tomo (localizada con un buscador web; el buscador interno de Planeta también está vetado a robots). Como esas fichas incluyen portadas de otros libros recomendados, se tomó sólo la imagen de la carpeta que corresponde al identificador de la ficha y se comprobó a ojo el título y el número de tomo. La de Vinland Saga 01 lleva el logotipo antiguo «Planeta DeAgostini», pero es la imagen que publica Planeta para ese producto (ISBN 978-84-16051-81-6).
+
 ## Fuentes revisadas y no disponibles
 
 - **cartooncorp.es**: protegida por una verificación de Cloudflare que no se completa en un navegador automático (probado 30 s en Chromium con challenges.cloudflare.com permitido). No se ha intentado saltar.
-- **Planeta Cómic (6 mangas: Kaiju Nº8 09, My Hero Academia 15, Dragon Ball Ultimate 07, Vinland Saga 01, Gintama 03, Lamu 01)**: las fichas se abren y se ha localizado la portada de cada una, pero las imágenes están en `proassets.planetadelibros.com`, que no está permitido en el entorno. Es lo único que falta para completarlas.
 - **Wizards of the Coast (9 cajas de Magic)**: sus fichas sólo tienen banners promocionales, no fotos de las cajas en castellano que vende la tienda. Pendientes de fotos de CartoonCorp.
 - **Bandai / Banpresto (6 figuras, 4 Gunpla, fundas de Sabo)**: p-bandai.com y bandaispirits.co.jp no publican estos productos; las bases de datos oficiales (bandai-hobby.net, bsp-prize.jp) no están permitidas.
 - **Ultra Pro (fundas)**: www.ultrapro.com redirige a ultrapro.com, que no está permitido.
@@ -44,14 +51,14 @@ Las cuatro portadas de Norma Editorial proceden de la imagen principal (og:image
 |---|---|---|---|
 | `28454` | Choujin X 01 | ✅ 28454.webp | [ficha actual](https://cartooncorp.es/comics-manga-seinen/28454-choujin-x-01.html) |
 | `38490` | Chainsaw Man 17 | ✅ 38490.webp | [ficha actual](https://cartooncorp.es/shonen/38490-chainsaw-man-17.html) |
-| `35900` | Kaiju Nº8 09 | ⏳ pendiente | [ficha actual](https://cartooncorp.es/shonen/35900-kaiju-n%C2%BA8-09.html) |
-| `14049` | My Hero Academia 15 | ⏳ pendiente | [ficha actual](https://cartooncorp.es/shonen/14049-my-hero-academia-15.html) |
-| `14007` | Dragon Ball Ultimate Edition 07 de 34 | ⏳ pendiente | [ficha actual](https://cartooncorp.es/shonen/14007-dragon-ball-ultimate-edition-07-de-34.html) |
-| `18599` | Vinland Saga 01 | ⏳ pendiente | [ficha actual](https://cartooncorp.es/comics-manga-seinen/18599-vinland-saga-01.html) |
+| `35900` | Kaiju Nº8 09 | ✅ 35900.webp | [ficha actual](https://cartooncorp.es/shonen/35900-kaiju-n%C2%BA8-09.html) |
+| `14049` | My Hero Academia 15 | ✅ 14049.webp | [ficha actual](https://cartooncorp.es/shonen/14049-my-hero-academia-15.html) |
+| `14007` | Dragon Ball Ultimate Edition 07 de 34 | ✅ 14007.webp | [ficha actual](https://cartooncorp.es/shonen/14007-dragon-ball-ultimate-edition-07-de-34.html) |
+| `18599` | Vinland Saga 01 | ✅ 18599.webp | [ficha actual](https://cartooncorp.es/comics-manga-seinen/18599-vinland-saga-01.html) |
 | `20513` | Akira 05 Edición Original | ✅ 20513.webp | [ficha actual](https://cartooncorp.es/comics-manga-seinen/20513-akira-05-edicion-original.html) |
 | `34316` | Neon Génesis Evangelion 07 de 07 Edición Coleccionista | ✅ 34316.webp | [ficha actual](https://cartooncorp.es/shonen/34316-neon-genesis-evangelion-07-de-07-edicion-coleccionista.html) |
-| `38836` | Gintama 03 de 26 | ⏳ pendiente | [ficha actual](https://cartooncorp.es/shonen/38836-gintama-03-de-26.html) |
-| `35902` | Lamu 01 de 17 | ⏳ pendiente | [ficha actual](https://cartooncorp.es/shonen/35902-lamu-01-de-17.html) |
+| `38836` | Gintama 03 de 26 | ✅ 38836.webp | [ficha actual](https://cartooncorp.es/shonen/38836-gintama-03-de-26.html) |
+| `35902` | Lamu 01 de 17 | ✅ 35902.webp | [ficha actual](https://cartooncorp.es/shonen/35902-lamu-01-de-17.html) |
 | `47963` | Son Goku & Chichi Dragon Ball Ichibansho | ⏳ pendiente | [ficha actual](https://cartooncorp.es/figuras-dragon-ball-y-merchandising-dragon-ball/47963-son-goku-chichi-dragon-ball-ichibansho.html) |
 | `23152` | Lunch Dragon Ball Qposket Color A | ⏳ pendiente | [ficha actual](https://cartooncorp.es/figuras-dragon-ball-y-merchandising-dragon-ball/23152-lunch-dragon-ball-qposket-color-a.html) |
 | `33309` | Frieza Dragon Ball Z Match Makers | ⏳ pendiente | [ficha actual](https://cartooncorp.es/figuras-dragon-ball-y-merchandising-dragon-ball/33309-frieza-dragon-ball-z-match-makers.html) |

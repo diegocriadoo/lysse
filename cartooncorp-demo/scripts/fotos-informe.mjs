@@ -29,10 +29,11 @@ Las tres fotos de Funko proceden de funko.com (buscador oficial; las fichas tien
 
 Las cuatro portadas de Norma Editorial proceden de la imagen principal (og:image) de la ficha oficial de cada tomo, localizada con un buscador web porque el buscador interno de Norma está vetado a robots en su robots.txt. Se verificó título, número de tomo, ISBN y precio (iguales a los observados en CartoonCorp), y se evitó «Akira 05» a color, que es otro producto distinto de «Akira 5. Edición original». Cada portada se revisó a ojo (título y número visibles).
 
+Las seis portadas de Planeta Cómic proceden de la ficha oficial de cada tomo (localizada con un buscador web; el buscador interno de Planeta también está vetado a robots). Como esas fichas incluyen portadas de otros libros recomendados, se tomó sólo la imagen de la carpeta que corresponde al identificador de la ficha y se comprobó a ojo el título y el número de tomo. La de Vinland Saga 01 lleva el logotipo antiguo «Planeta DeAgostini», pero es la imagen que publica Planeta para ese producto (ISBN 978-84-16051-81-6).
+
 ## Fuentes revisadas y no disponibles
 
 - **cartooncorp.es**: protegida por una verificación de Cloudflare que no se completa en un navegador automático (probado 30 s en Chromium con challenges.cloudflare.com permitido). No se ha intentado saltar.
-- **Planeta Cómic (6 mangas: Kaiju Nº8 09, My Hero Academia 15, Dragon Ball Ultimate 07, Vinland Saga 01, Gintama 03, Lamu 01)**: las fichas se abren y se ha localizado la portada de cada una, pero las imágenes están en \`proassets.planetadelibros.com\`, que no está permitido en el entorno. Es lo único que falta para completarlas.
 - **Wizards of the Coast (9 cajas de Magic)**: sus fichas sólo tienen banners promocionales, no fotos de las cajas en castellano que vende la tienda. Pendientes de fotos de CartoonCorp.
 - **Bandai / Banpresto (6 figuras, 4 Gunpla, fundas de Sabo)**: p-bandai.com y bandaispirits.co.jp no publican estos productos; las bases de datos oficiales (bandai-hobby.net, bsp-prize.jp) no están permitidas.
 - **Ultra Pro (fundas)**: www.ultrapro.com redirige a ultrapro.com, que no está permitido.

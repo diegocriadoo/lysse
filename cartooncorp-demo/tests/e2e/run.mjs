@@ -213,7 +213,7 @@ try {
     check("fotos reales cargan (portada, Funko, Manga y 4 fichas)", all.length > 0 && all.every((i) => i.ok), `${all.filter((i) => i.ok).length}/${all.length} cargadas`);
     check("ficha de Zoro: 2 fotos (caja y figura)", (await (async () => { await page.goto(BASE + "/producto/funko-pop-roronoa-zoro-327-one-piece-33562"); return page.locator(".gallery__thumb").count(); })()) === 2);
     const galleryWidths = {};
-    for (const slug of ["akira-05-edicion-original-20513", "funko-pop-bulbasaur-453-pokemon-40921", "kaiju-n-8-09-35900", "funko-pop-roronoa-zoro-327-one-piece-33562"]) {
+    for (const slug of ["akira-05-edicion-original-20513", "funko-pop-bulbasaur-453-pokemon-40921", "kaiju-n-8-09-35900", "funko-pop-roronoa-zoro-327-one-piece-33562", "caja-de-sobres-de-juego-innistrad-remasterizada-castellano-innr-40349"]) {
       await page.goto(BASE + "/producto/" + slug);
       galleryWidths[slug] = Math.round((await page.locator(".gallery__main").boundingBox()).width);
     }
